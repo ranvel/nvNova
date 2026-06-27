@@ -1,4 +1,4 @@
-# nvALT 2
+# nvNova 
 
 A collaboration between Brett Terpstra (ttscoff) and David Halter (ElasticThreads) based on [DivineDominion's](github.com/divineDominion/nv) fork. nvALT adds a few features we'd been looking for (and let me get some coding practice).
 
