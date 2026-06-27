@@ -23,6 +23,7 @@
 #import "NotationDirectoryManager.h"
 #import "NotationFileManager.h"
 #import "NSString_NV.h"
+#import "NSString_CustomTruncation.h"
 #import "NSFileManager_NV.h"
 #import "EncodingsManager.h"
 #import "ExporterManager.h"

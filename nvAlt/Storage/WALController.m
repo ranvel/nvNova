@@ -492,8 +492,17 @@ static CFStringRef SynchronizedNoteKeyDescription(const void *value) {
 	return value ? (CFStringRef)[NSString uuidStringWithBytes:*(CFUUIDBytes*)value] : NULL;
 }
 static CFHashCode SynchronizedNoteHash(const void * o) {
-	
-	return CFHashBytes(o, sizeof(CFUUIDBytes));
+	// FNV-1a over the raw UUID bytes. Public-API replacement for the
+	// formerly-used CFHashBytes (no longer declared in CF headers). The exact
+	// value is irrelevant to a CF collection hash callback — only that equal
+	// byte sequences (see SynchronizedNoteIsEqual) produce equal hashes.
+	const unsigned char *bytes = (const unsigned char *)o;
+	CFHashCode hash = (CFHashCode)0xcbf29ce484222325ULL;
+	for (size_t i = 0; i < sizeof(CFUUIDBytes); i++) {
+		hash ^= bytes[i];
+		hash *= (CFHashCode)0x100000001b3ULL;
+	}
+	return hash;
 }
 static Boolean SynchronizedNoteIsEqual(const void *o, const void *p) {
 	

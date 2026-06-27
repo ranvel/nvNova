@@ -19,6 +19,7 @@
 #import "NSString_CustomTruncation.h"
 #import "NSString_NV.h"
 #import "GlobalPrefs.h"
+#import "BufferUtils.h"
 
 @implementation NSString (CustomTruncation)
 

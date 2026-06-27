@@ -12,6 +12,8 @@
 
 #import "EmptyView.h"
 //#import "AppController.h"
+// Defined in AppController.m; forward-declared to avoid importing the monolith.
+void outletObjectAwoke(id sender);
 
 @implementation EmptyView
 

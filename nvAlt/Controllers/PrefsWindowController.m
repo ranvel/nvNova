@@ -19,6 +19,7 @@
 #import "NSString_NV.h"
 #import "NSFileManager_NV.h"
 #import "NSBezierPath_NV.h"
+#import "BufferUtils.h"
 #import "NotationPrefs.h"
 #import "GlobalPrefs.h"
 

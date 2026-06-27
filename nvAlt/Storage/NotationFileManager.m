@@ -23,6 +23,7 @@
 #import "NoteObject.h"
 #import "GlobalPrefs.h"
 #import "NSData_transformations.h"
+#import "FSExchangeObjectsCompat.h"
 #include <sys/param.h>
 #include <sys/mount.h>
 

@@ -11,6 +11,10 @@
 #import "RBSplitViewPrivateDefines.h"
 
 //#import "AppController.h"
+// nvALT hooks outlet wiring through this global (defined in AppController.m).
+// Forward-declared here to avoid pulling the AppController monolith into this
+// vendored view.
+void outletObjectAwoke(id sender);
 
 // Please don't remove this copyright notice!
 static const unsigned char RBSplitView_Copyright[] __attribute__ ((used)) =
