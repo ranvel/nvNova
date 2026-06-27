@@ -2317,7 +2317,7 @@
 				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PFE_FILE_C_DIALECTS = "c objective-c";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = Notation_Prefix.pch;
+				GCC_PREFIX_HEADER = nvAlt/Resources/Supporting/Notation_Prefix.pch;
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -2355,7 +2355,7 @@
 					"$(PROJECT_DIR)/library/**",
 				);
 				IBC_STRIP_NIBS = NO;
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = nvAlt/Resources/Supporting/Info.plist;
 				LD_GENERATE_MAP_FILE = YES;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/openssl/1.0.2/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -2406,7 +2406,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c objective-c";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Notation_Prefix.pch;
+				GCC_PREFIX_HEADER = nvAlt/Resources/Supporting/Notation_Prefix.pch;
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -2441,7 +2441,7 @@
 					ICU/icu,
 					"$(PROJECT_DIR)/library/**",
 				);
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = nvAlt/Resources/Supporting/Info.plist;
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/openssl/1.0.2/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
