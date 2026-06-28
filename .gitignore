@@ -25,7 +25,6 @@
 *.log
 *.sql
 *.sqlite
-*.pbxproj
 *.xcworkspace
 *.xcuserdatad
 *.xcuserstate
@@ -43,16 +42,10 @@ ttscoff.*
 UserInterfaceState.xcuserstate
 .DS_Store
 build/*
-*.pbxproj
 *.xcscheme
-<<<<<<< HEAD
-=======
 
->>>>>>> another gitignore
 SimperiumConfig.h
 
-*.pbxproj
 nvalt.taskpaper
 
-*.pbxproj
-assets
+assets/*
