@@ -5,6 +5,16 @@
 > Free and open source (GPLv3), and yours to keep. No accounts. No subscription.
 
 
+## ⚠️ Heads up — don't use this (yet)
+
+If you've stumbled onto this project: welcome! ⭐ Give it a star and hit **Watch** so you can follow along — but please **do not actually use it.**
+
+This is being developed **in public, under the assumption that there are no users.** It *will* break, and it *will* eat your data. No migrations, no stability guarantees, no mercy. If you run this against anything you care about, you're going to have a bad time. 💥
+
+🙅 **Please hold off on pull requests for now.** The codebase isn't stable enough for outside contributions yet — things are shifting around too fast for PRs to land cleanly. I'll open the gates once things settle. 🙏
+
+tl;dr: **star it, watch it, but keep it far away from your real data.**
+
 
 ## Contents
 - [About](#about)
