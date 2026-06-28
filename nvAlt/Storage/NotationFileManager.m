@@ -367,8 +367,8 @@ long BlockSizeForNotation(NotationController *controller) {
 				}
 				
 				if (FSCompareFSRefs(&noteDirectoryRef, &newNotesDirectory) != noErr) {
-					NSData *aliasData = [NSData aliasDataForFSRef:&newNotesDirectory];
-					if (aliasData) [[GlobalPrefs defaultPrefs] setAliasDataForDefaultDirectory:aliasData sender:self];
+					NSString *newPath = [[NSFileManager defaultManager] pathWithFSRef:&newNotesDirectory];
+					if (newPath) [[GlobalPrefs defaultPrefs] setNotesDirectoryPath:newPath sender:self];
 					//we must quit now, as notes will very likely be re-initialized in the same place
 					goto terminate;
 				}

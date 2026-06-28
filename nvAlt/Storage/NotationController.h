@@ -91,8 +91,6 @@ typedef struct _NoteCatalogEntry {
 	NSUInteger diskUUIDIndex;
 	CFUUIDRef diskUUID;
     FSRef noteDirectoryRef, noteDatabaseRef;
-    AliasHandle aliasHandle;
-    BOOL aliasNeedsUpdating;
     OSStatus lastWriteError;
     
     WALStorageController *walWriter;
@@ -103,12 +101,10 @@ typedef struct _NoteCatalogEntry {
 }
 
 - (id)init;
-- (id)initWithAliasData:(NSData*)data error:(OSStatus*)err;
+- (id)initWithDirectoryPath:(NSString*)path error:(OSStatus*)err;
 - (id)initWithDefaultDirectoryReturningError:(OSStatus*)err;
 - (id)initWithDirectoryRef:(FSRef*)directoryRef error:(OSStatus*)err;
-- (void)setAliasNeedsUpdating:(BOOL)needsUpdate;
-- (BOOL)aliasNeedsUpdating;
-- (NSData*)aliasDataForNoteDirectory;
+- (NSString*)notesDirectoryPath;
 - (OSStatus)_readAndInitializeSerializedNotes;
 - (void)processRecoveredNotes:(NSDictionary*)dict;
 - (BOOL)initializeJournaling;

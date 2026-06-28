@@ -235,45 +235,9 @@
 	return [url absoluteString];
 }
 
-- (BOOL)fsRefAsAlias:(FSRef*)fsRef {
-    AliasHandle aliasHandle;
-    Boolean changedThrownAway;
-    
-    if (self && PtrToHand([self bytes], (Handle*)&aliasHandle, [self length]) == noErr) {
-		
-		if (FSResolveAliasWithMountFlags(NULL, aliasHandle, fsRef, &changedThrownAway, kResolveAliasFileNoUI) == noErr)
-			return YES;
-    }
-	
-    return NO;
-}
-
 + (NSData*)uncachedDataFromFile:(NSString*)filename {
-			
-	return [NSData dataWithContentsOfFile:filename options:NSUncachedRead error:NULL];
-}
 
-+ (NSData*)aliasDataForFSRef:(FSRef*)fsRef {
-    
-    FSRef userHomeFoundRef, *relativeRef = &userHomeFoundRef;
-    
-    OSErr err = FSFindFolder(kUserDomain, kCurrentUserFolderType, kCreateFolder, &userHomeFoundRef);
-    if (err != noErr) {
-		relativeRef = NULL;
-		NSLog(@"FSFindFolder error: %d", err);
-    }
-    
-    AliasHandle aliasHandle;
-    NSData *theData = nil;
-    
-    //fill handle from fsref, storing path relative to user directory
-    if (FSNewAlias(relativeRef, fsRef, &aliasHandle) == noErr && aliasHandle != NULL) {
-		HLock((Handle)aliasHandle);
-		theData = [NSData dataWithBytes:*aliasHandle length:GetHandleSize((Handle) aliasHandle)];
-		HUnlock((Handle)aliasHandle);
-    }
-    
-    return theData;
+	return [NSData dataWithContentsOfFile:filename options:NSUncachedRead error:NULL];
 }
 
 //yes, to do the same encoding detection we could use something like initWithContentsOfFile: or 

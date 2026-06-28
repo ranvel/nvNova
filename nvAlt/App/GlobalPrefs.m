@@ -38,7 +38,7 @@
 #define SEND_CALLBACKS() sendCallbacksForGlobalPrefs(self, _cmd, sender)
 
 static NSString *TriedToImportBlorKey = @"TriedToImportBlor";
-static NSString *DirectoryAliasKey = @"DirectoryAlias";
+static NSString *NotesDirectoryPathKey = @"NotesDirectoryPath";
 static NSString *AutoCompleteSearchesKey = @"AutoCompleteSearches";
 static NSString *NoteAttributesVisibleKey = @"NoteAttributesVisible";
 static NSString *TableFontSizeKey = @"TableFontPointSize";
@@ -922,66 +922,14 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2) {
 	return bookmarksController;
 }
 
-- (void)setAliasDataForDefaultDirectory:(NSData*)alias sender:(id)sender {
-    [defaults setObject:alias forKey:DirectoryAliasKey];
-	
+- (void)setNotesDirectoryPath:(NSString*)path sender:(id)sender {
+    [defaults setObject:path forKey:NotesDirectoryPathKey];
+
     SEND_CALLBACKS();
 }
 
-- (NSData*)aliasDataForDefaultDirectory {
-    return [defaults dataForKey:DirectoryAliasKey];
-}
-
-- (NSString*)displayNameForDefaultDirectoryWithFSRef:(FSRef*)fsRef {
-
-    if (!fsRef)
-	return nil;
-    
-    if (IsZeros(fsRef, sizeof(FSRef))) {
-	if (![[self aliasDataForDefaultDirectory] fsRefAsAlias:fsRef])
-	    return nil;
-    }
-    CFStringRef displayName = NULL;
-    if (LSCopyDisplayNameForRef(fsRef, &displayName) == noErr) {
-	return [(NSString*)displayName autorelease];
-    }
-    return nil;
-}
-
-- (NSString*)humanViewablePathForDefaultDirectory {
-    //resolve alias to fsref
-    FSRef targetRef;
-    if ([[self aliasDataForDefaultDirectory] fsRefAsAlias:&targetRef]) {	    
-	//follow the parent fsrefs up the tree, calling LSCopyDisplayNameForRef, hoping that the root is a drive name
-	
-	NSMutableArray *directoryNames = [NSMutableArray arrayWithCapacity:4];
-	FSRef parentRef, *currentRef = &targetRef;
-	
-	OSStatus err = noErr;
-	
-	do {
-	    
-	    if ((err = FSGetCatalogInfo(currentRef, kFSCatInfoNone, NULL, NULL, NULL, &parentRef)) == noErr) {
-		
-		CFStringRef displayName = NULL;
-		if ((err = LSCopyDisplayNameForRef(currentRef, &displayName)) == noErr) {
-		    
-		    if (displayName) {
-			[directoryNames insertObject:(id)displayName atIndex:0];
-			CFRelease(displayName);
-		    }
-		}
-		
-		currentRef = &parentRef;
-	    }
-	} while (err == noErr);
-	
-	//build new string delimited by triangles like pages in its recent items menu
-	return [directoryNames componentsJoinedByString:@" : "];
-	
-    }
-    
-    return nil;
+- (NSString*)notesDirectoryPath {
+    return [defaults stringForKey:NotesDirectoryPathKey];
 }
 
 - (void)setBlorImportAttempted:(BOOL)value {

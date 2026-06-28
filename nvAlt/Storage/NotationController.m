@@ -47,7 +47,7 @@
 
 - (id)init {
     if (self=[super init]) {
-		directoryChangesFound = notesChanged = aliasNeedsUpdating = NO;
+		directoryChangesFound = notesChanged = NO;
 		
 		allNotes = [[NSMutableArray alloc] init]; //<--the authoritative list of all memory-accessible notes
 		deletedNotes = [[NSMutableSet alloc] init];
@@ -87,27 +87,27 @@
 }
 
 
-- (id)initWithAliasData:(NSData*)data error:(OSStatus*)err {
-    OSStatus anErr = noErr;
-    
-    if (data && (anErr = PtrToHand([data bytes], (Handle*)&aliasHandle, [data length])) == noErr) {
-	
-	FSRef targetRef;
-	Boolean changed;
-	
-	if ((anErr = FSResolveAliasWithMountFlags(NULL, aliasHandle, &targetRef, &changed, 0)) == noErr) {
-	    if (self=[self initWithDirectoryRef:&targetRef error:&anErr]) {
-		aliasNeedsUpdating = changed;
-		*err = noErr;
-		
-		return self;
-	    }
+- (id)initWithDirectoryPath:(NSString*)path error:(OSStatus*)err {
+	OSStatus anErr = fnfErr;
+
+	if ([path length]) {
+		FSRef targetRef;
+		Boolean gotRef = false;
+		//bridge the stored path to the FSRef substrate (NVN-3's variable); no Alias Manager
+		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, kCFURLPOSIXPathStyle, true);
+		if (url) {
+			gotRef = CFURLGetFSRef(url, &targetRef);
+			CFRelease(url);
+		}
+		if (gotRef && (self = [self initWithDirectoryRef:&targetRef error:&anErr])) {
+			*err = noErr;
+			return self;
+		}
 	}
-    }
-    
-    *err = anErr;
-    
-    return nil;
+
+	*err = anErr;
+
+	return nil;
 }
 
 - (id)initWithDefaultDirectoryReturningError:(OSStatus*)err {
@@ -132,8 +132,6 @@
     *err = noErr;
     
     if (self=[self init]) {
-		aliasNeedsUpdating = YES; //we don't know if we have an alias yet
-		
 		noteDirectoryRef = *directoryRef;
 		
 		//check writable and readable perms, warning user if necessary
@@ -707,42 +705,9 @@ bail:
     }
 }
 
-- (NSData*)aliasDataForNoteDirectory {
-    NSData* theData = nil;
-    
-    FSRef userHomeFoundRef, *relativeRef = &userHomeFoundRef;
-    
-    if (aliasNeedsUpdating) {
-		OSErr err = FSFindFolder(kUserDomain, kCurrentUserFolderType, kCreateFolder, &userHomeFoundRef);
-		if (err != noErr) {
-			relativeRef = NULL;
-			NSLog(@"FSFindFolder error: %d", err);
-		}
-    }
-	
-    //re-fill handle from fsref if necessary, storing path relative to user directory
-    if (aliasNeedsUpdating && FSNewAlias(relativeRef, &noteDirectoryRef, &aliasHandle ) != noErr)
-		return nil;
-	
-    if (aliasHandle != NULL) {
-		aliasNeedsUpdating = NO;
-		
-		HLock((Handle)aliasHandle);
-		theData = [NSData dataWithBytes:*aliasHandle length:GetHandleSize((Handle) aliasHandle)];
-		HUnlock((Handle)aliasHandle);
-	    
-		return theData;
-    }
-    
-    return nil;
-}
-
-- (void)setAliasNeedsUpdating:(BOOL)needsUpdate {
-	aliasNeedsUpdating = needsUpdate;
-}
-
-- (BOOL)aliasNeedsUpdating {
-	return aliasNeedsUpdating;
+- (NSString*)notesDirectoryPath {
+	//derive from the live directory FSRef (FSRef substrate stays NVN-3's variable)
+	return [[NSFileManager defaultManager] pathWithFSRef:&noteDirectoryRef];
 }
 
 - (void)closeAllResources {

@@ -435,7 +435,7 @@ void outletObjectAwoke(id sender) {
 	
 	OSStatus err = noErr;
 	NotationController *newNotation = nil;
-	NSData *aliasData = [prefsController aliasDataForDefaultDirectory];
+	NSString *notesPath = [prefsController notesDirectoryPath];
 	
 	NSString *subMessage = @"";
 	
@@ -444,8 +444,8 @@ void outletObjectAwoke(id sender) {
 		goto showOpenPanel;
 	}
 	
-	if (aliasData) {
-	    newNotation = [[[NotationController alloc] initWithAliasData:aliasData error:&err] autorelease];
+	if ([notesPath length]) {
+	    newNotation = [[[NotationController alloc] initWithDirectoryPath:notesPath error:&err] autorelease];
 	    subMessage = NSLocalizedString(@"Please choose a different folder in which to store your notes.",nil);
 	} else {
 	    newNotation = [[[NotationController alloc] initWithDefaultDirectoryReturningError:&err] autorelease];
@@ -455,16 +455,8 @@ void outletObjectAwoke(id sender) {
 	if (err == kPassCanceledErr)
 		goto showOpenPanel;
 	
-	NSString *location = (aliasData ? [[NSFileManager defaultManager] pathCopiedFromAliasData:aliasData] : NSLocalizedString(@"your Application Support directory",nil));
-	if (!location) { //fscopyaliasinfo sucks
-		FSRef locationRef;
-		if ([aliasData fsRefAsAlias:&locationRef] && LSCopyDisplayNameForRef(&locationRef, (CFStringRef*)&location) == noErr) {
-			[location autorelease];
-		} else {
-			location = NSLocalizedString(@"its current location",nil);
-		}
-	}
-	
+	NSString *location = ([notesPath length] ? notesPath : NSLocalizedString(@"your Application Support directory",nil));
+
 	while (!newNotation) {
 	    location = [location stringByAbbreviatingWithTildeInPath];
 	    NSString *reason = [NSString reasonStringFromCarbonFSError:err];
@@ -479,8 +471,8 @@ void outletObjectAwoke(id sender) {
 //                [newNotation release];
 				goto terminateApp;
 			} else if ((newNotation = [[[NotationController alloc] initWithDirectoryRef:&notesDirectoryRef error:&err] autorelease])) {
-				//have to make sure alias data is saved from setNotationController
-				[newNotation setAliasNeedsUpdating:YES];
+				//persist the chosen path; sender:self is excluded from the reload callback (sync-only)
+				[prefsController setNotesDirectoryPath:location sender:self];
 				break;
 			}
 	    } else {
@@ -509,7 +501,7 @@ void outletObjectAwoke(id sender) {
 	
 	//tell us..
 	[prefsController registerWithTarget:self forChangesInSettings:
-	 @selector(setAliasDataForDefaultDirectory:sender:),  //when someone wants to load a new database
+	 @selector(setNotesDirectoryPath:sender:),  //when someone wants to load a new database
 	 @selector(setSortedTableColumnKey:reversed:sender:),  //when sorting prefs changed
 	 @selector(setNoteBodyFont:sender:),  //when to tell notationcontroller to restyle its notes
 	 @selector(setForegroundTextColor:sender:),  //ditto
@@ -577,9 +569,9 @@ terminateApp:
 		[[window undoManager] removeAllActions];
 		[notationController setUndoManager:[window undoManager]];
 		
-		if ([notationController aliasNeedsUpdating]) {
-			[prefsController setAliasDataForDefaultDirectory:[notationController aliasDataForNoteDirectory] sender:self];
-		}
+		//sync the stored path to the live notes directory; sender:self is excluded from the
+		//reload callback, so this writes defaults without re-triggering a database load
+		[prefsController setNotesDirectoryPath:[notationController notesDirectoryPath] sender:self];
 		if ([prefsController tableColumnsShowPreview] || [prefsController horizontalLayout]) {
 			[self _forceRegeneratePreviewsForTitleColumn];
 			[notesTableView setNeedsDisplay:YES];
@@ -1009,31 +1001,31 @@ terminateApp:
 }
 
 - (void)settingChangedForSelectorString:(NSString*)selectorString {
-    if ([selectorString isEqualToString:SEL_STR(setAliasDataForDefaultDirectory:sender:)]) {
+    if ([selectorString isEqualToString:SEL_STR(setNotesDirectoryPath:sender:)]) {
 		//defaults changed for the database location -- load the new one!
-		
+
 		OSStatus err = noErr;
 		NotationController *newNotation = nil;
-		NSData *newData = [prefsController aliasDataForDefaultDirectory];
-		if (newData) {
+		NSString *newPath = [prefsController notesDirectoryPath];
+		if ([newPath length]) {
 #if kUseCachesFolderForInterimNoteChanges
             if (notationController&&[notationController flushAllNoteChanges]) {
                 [notationController closeJournal];
             }
 #endif
-			if ((newNotation = [[NotationController alloc] initWithAliasData:newData error:&err])) {
+			if ((newNotation = [[NotationController alloc] initWithDirectoryPath:newPath error:&err])) {
 				[self setNotationController:newNotation];
 				[newNotation release];
-				
+
 			} else {
-				
-				//set alias data back
-				NSData *oldData = [notationController aliasDataForNoteDirectory];
-				[prefsController setAliasDataForDefaultDirectory:oldData sender:self];
-				
+
+				//set the path back to the current location (sender:self → no reload callback)
+				NSString *oldPath = [notationController notesDirectoryPath];
+				[prefsController setNotesDirectoryPath:oldPath sender:self];
+
 				//display alert with err--could not set notation directory
-				NSString *location = [[[NSFileManager defaultManager] pathCopiedFromAliasData:newData] stringByAbbreviatingWithTildeInPath];
-				NSString *oldLocation = [[[NSFileManager defaultManager] pathCopiedFromAliasData:oldData] stringByAbbreviatingWithTildeInPath];
+				NSString *location = [newPath stringByAbbreviatingWithTildeInPath];
+				NSString *oldLocation = [oldPath stringByAbbreviatingWithTildeInPath];
 				NSString *reason = [NSString reasonStringFromCarbonFSError:err];
 				NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Unable to initialize notes database in \n%@ because %@.",nil), location, reason],
 								[NSString stringWithFormat:NSLocalizedString(@"Reverting to current location of %@.",nil), oldLocation],

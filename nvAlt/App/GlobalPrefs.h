@@ -173,11 +173,8 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2);
 - (void)saveCurrentBookmarksFromSender:(id)sender;
 - (BookmarksController*)bookmarksController;
 
-- (void)setAliasDataForDefaultDirectory:(NSData*)alias sender:(id)sender;
-- (NSData*)aliasDataForDefaultDirectory;
-
-- (NSString*)displayNameForDefaultDirectoryWithFSRef:(FSRef*)fsRef;
-- (NSString*)humanViewablePathForDefaultDirectory;
+- (void)setNotesDirectoryPath:(NSString*)path sender:(id)sender;
+- (NSString*)notesDirectoryPath;
 
 - (void)setBlorImportAttempted:(BOOL)value;
 - (BOOL)triedToImportBlor;

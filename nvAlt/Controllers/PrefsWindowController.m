@@ -261,15 +261,17 @@
 - (NSMenu*)directorySelectionMenu {
     NSMenu *theMenu = [[[NSMenu alloc] initWithTitle:@"Note Directory Menu"] autorelease];
     
-    FSRef targetRef = {{0}};
-    NSString *name = [prefsController displayNameForDefaultDirectoryWithFSRef:&targetRef];
+    NSString *path = [prefsController notesDirectoryPath];
+    NSString *name = [path length] ? [[NSFileManager defaultManager] displayNameAtPath:path] : nil;
     if (!name)
 		name = NSLocalizedString(@"<Directory unknown>", nil);
-	
+
 	NSImage *iconImage = nil;
-	if (!IsZeros(&targetRef, sizeof(FSRef)) || [[prefsController aliasDataForDefaultDirectory] fsRefAsAlias:&targetRef])
-	    iconImage = [NSImage smallIconForFSRef:&targetRef];
-	
+	if ([path length]) {
+	    iconImage = [[NSWorkspace sharedWorkspace] iconForFile:path];
+	    [iconImage setSize:NSMakeSize(16.0f, 16.0f)];
+	}
+
     NSMenuItem *theMenuItem = [[[NSMenuItem alloc] initWithTitle:name action:nil keyEquivalent:@""] autorelease];
     
     if (iconImage)
@@ -289,27 +291,24 @@
 
 - (void)changeDefaultDirectory {
 	FSRef notesDirectoryRef;
-	NSData *aliasData = nil;
 	NSString *directoryPath = nil;
 
 	if ([self getNewNotesRefFromOpenPanel:&notesDirectoryRef returnedPath:&directoryPath]) {
-		
+
 		//make sure we're not choosing the same folder as what we started with, because:
-		//-[NotationController initWithAliasData:] might attempt to initialize journaling, which will already be in use
-		FSRef currentNotesDirectoryRef;
-		[[prefsController aliasDataForDefaultDirectory] fsRefAsAlias:&currentNotesDirectoryRef];
-		if (FSCompareFSRefs(&notesDirectoryRef, &currentNotesDirectoryRef) != noErr) {
-			
-			if ((aliasData = [NSData aliasDataForFSRef:&notesDirectoryRef])) {
-				[prefsController setAliasDataForDefaultDirectory:aliasData sender:self];
-				
-				//check for potential synchronization problems; (e.g., simplenote w/ dropbox or writeroom):
-				[[prefsController notationPrefs] checkForKnownRedundantSyncConduitsAtPath:directoryPath];
-			}
+		//-[NotationController initWithDirectoryPath:] might attempt to initialize journaling, which will already be in use
+		if (![directoryPath isEqualToString:[prefsController notesDirectoryPath]]) {
+
+			//sender:self (PrefsWindowController is not a registered observer) fires the
+			//callback to AppController, which reloads the database at the new location
+			[prefsController setNotesDirectoryPath:directoryPath sender:self];
+
+			//check for potential synchronization problems; (e.g., simplenote w/ dropbox or writeroom):
+			[[prefsController notationPrefs] checkForKnownRedundantSyncConduitsAtPath:directoryPath];
 		} else {
 			NSLog(@"This folder is already chosen!");
 		}
-		
+
 	}
 
 	[folderLocationsMenuButton setMenu:[self directorySelectionMenu]];
@@ -331,13 +330,10 @@
 		return NO;
     }
     
-    FSRef currentNotesDirectoryRef;
-    //resolve alias to fsref; get path from fsref
-    if ([[prefsController aliasDataForDefaultDirectory] fsRefAsAlias:&currentNotesDirectoryRef]) {
-		NSString *resolvedPath = [[NSFileManager defaultManager] pathWithFSRef:&currentNotesDirectoryRef];
-		if (resolvedPath) startingDirectory = resolvedPath;
-    }
-    
+    //use the stored notes-directory path as the panel's starting location
+    NSString *resolvedPath = [prefsController notesDirectoryPath];
+    if ([resolvedPath length]) startingDirectory = resolvedPath;
+
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setCanCreateDirectories:YES];
     [openPanel setCanChooseFiles:NO];
