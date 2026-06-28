@@ -26,7 +26,7 @@ Params: `KEY_PREFIX=NVN` · `TICKETS_DIR=docs/pmj/` · `ARCHIVE_DIR=docs/pmj/_ar
 | Key | Summary | Resolution | Ref |
 |-----|---------|-----------|-----|
 | NVN-8 | Confirm + commit HiDPI fix; resolve UI scale | Fixed | `23738eb` |
-| NVN-2 | Excise Carbon directory-persistence (Alias Manager + IconRef) → plain path/URL | Fixed | `67da593` |
+| NVN-2 | Excise Carbon directory-persistence (Alias Manager + IconRef) → plain path/URL | Fixed | `5d1e2ea` |
 
 ## Sequencing
 
