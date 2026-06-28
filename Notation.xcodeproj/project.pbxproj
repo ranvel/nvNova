@@ -225,6 +225,7 @@
 		5CF96E0A132EA29D0079B3FD /* EncodingsManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 212DCB2F0A6AE38500F74E46 /* EncodingsManager.nib */; };
 		5CF96E0B132EA29D0079B3FD /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 219195E409D3A20F00586B15 /* Preferences.xib */; };
 		5CF96E0C132EA29D0079B3FD /* NotationPrefsView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 21A2FA7A09DF64E9001AF0B5 /* NotationPrefsView.nib */; };
+		637F2C88A0E7C04D0F0D5B2E /* nvNova.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9FB19D88C325F52EE28AE704 /* nvNova.icns */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -238,7 +239,6 @@
 		934C3FB514FDA06A000D14BA /* templateclean.html in Resources */ = {isa = PBXBuildFile; fileRef = 934C3FB114FDA069000D14BA /* templateclean.html */; };
 		934C3FB914FDA74F000D14BA /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C3FB814FDA74F000D14BA /* NSFileManager+DirectoryLocations.m */; };
 		93A158BC133C304D00E1E7DA /* Markdownify.nvhelp in Resources */ = {isa = PBXBuildFile; fileRef = 93A158BB133C304D00E1E7DA /* Markdownify.nvhelp */; };
-		93A158BE133C497400E1E7DA /* Notality.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A158BD133C497400E1E7DA /* Notality.icns */; };
 		93B348281371547800658F98 /* HUDIconLock.png in Resources */ = {isa = PBXBuildFile; fileRef = 93B348241371547800658F98 /* HUDIconLock.png */; };
 		93B348291371547800658F98 /* HUDIconPrint.png in Resources */ = {isa = PBXBuildFile; fileRef = 93B348251371547800658F98 /* HUDIconPrint.png */; };
 		93B3482A1371547800658F98 /* HUDIconSave.png in Resources */ = {isa = PBXBuildFile; fileRef = 93B348261371547800658F98 /* HUDIconSave.png */; };
@@ -788,7 +788,6 @@
 		934C3FB714FDA74F000D14BA /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		934C3FB814FDA74F000D14BA /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
 		93A158BB133C304D00E1E7DA /* Markdownify.nvhelp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Markdownify.nvhelp; sourceTree = "<group>"; };
-		93A158BD133C497400E1E7DA /* Notality.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Notality.icns; sourceTree = "<group>"; };
 		93B348241371547800658F98 /* HUDIconLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconLock.png; path = nvAlt/Resources/Images/HUDIconLock.png; sourceTree = SOURCE_ROOT; };
 		93B348251371547800658F98 /* HUDIconPrint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconPrint.png; path = nvAlt/Resources/Images/HUDIconPrint.png; sourceTree = SOURCE_ROOT; };
 		93B348261371547800658F98 /* HUDIconSave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconSave.png; path = nvAlt/Resources/Images/HUDIconSave.png; sourceTree = SOURCE_ROOT; };
@@ -803,6 +802,7 @@
 		93B90E83138601C100BEC5FB /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvAlt/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
 		93B90E901386072E00BEC5FB /* TemporaryFileCachePreparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFileCachePreparer.h; sourceTree = "<group>"; };
 		93B90E911386072E00BEC5FB /* TemporaryFileCachePreparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFileCachePreparer.m; sourceTree = "<group>"; };
+		9FB19D88C325F52EE28AE704 /* nvNova.icns */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.icns; path = nvNova.icns; sourceTree = "<group>"; };
 		B683A0C716F1CDA600564A1D /* LinkBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBack@2x.tif"; path = "nvAlt/Resources/Images/LinkBack@2x.tif"; sourceTree = SOURCE_ROOT; };
 		B683A0C816F1CDA600564A1D /* LinkBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBackPressed@2x.tif"; path = "nvAlt/Resources/Images/LinkBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
 		B683A0C916F1CDA600564A1D /* SnapBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "SnapBack@2x.tif"; path = "nvAlt/Resources/Images/SnapBack@2x.tif"; sourceTree = SOURCE_ROOT; };
@@ -855,7 +855,6 @@
 		05E12165F311D7982B960C96 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				93A158BD133C497400E1E7DA /* Notality.icns */,
 				5C94376C132A0C9D00B08B80 /* greyscrollervertbottom3.tif */,
 				5C94376D132A0C9D00B08B80 /* greyscrollervertfill3.tif */,
 				5C94376E132A0C9D00B08B80 /* greyscrollerverttop3.tif */,
@@ -882,8 +881,8 @@
 				5C4B353A1307220E00014119 /* TransparentScrollerSlotVerticalFill.tif */,
 				21BD2F3510DAF61700BA3DF6 /* SplitViewDimple.tif */,
 				5C5713F01309A42600961090 /* SplitViewDimple2.tif */,
+				9FB19D88C325F52EE28AE704 /* nvNova.icns */,
 			);
-			name = Images;
 			path = Images;
 			sourceTree = "<group>";
 		};
@@ -910,7 +909,6 @@
 				5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */,
 				5CE6624913185202002039D0 /* NSTextFinder.h */,
 			);
-			name = Text;
 			path = Text;
 			sourceTree = "<group>";
 		};
@@ -951,7 +949,6 @@
 				934C3FB114FDA069000D14BA /* templateclean.html */,
 				5C49E364131C5CC500696B68 /* Credits.html */,
 			);
-			name = Web;
 			path = Web;
 			sourceTree = "<group>";
 		};
@@ -1114,7 +1111,6 @@
 				210A10660B66720F005BE981 /* BookmarksTable.h */,
 				210A10670B66720F005BE981 /* BookmarksTable.m */,
 			);
-			name = Tables;
 			path = Tables;
 			sourceTree = "<group>";
 		};
@@ -1192,7 +1188,6 @@
 			children = (
 				57F27F7A11973A7F00C63ACF /* Notation.sdef */,
 			);
-			name = Interface;
 			path = Interface;
 			sourceTree = "<group>";
 		};
@@ -1212,7 +1207,6 @@
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				5C4479DF17020153000AA45A /* nvaDevConfig.h */,
 			);
-			name = App;
 			path = App;
 			sourceTree = "<group>";
 		};
@@ -1222,7 +1216,6 @@
 				5CA10F39131C2A3F00DE1F91 /* MAAttachedWindow.h */,
 				5CA10F3A131C2A3F00DE1F91 /* MAAttachedWindow.m */,
 			);
-			name = Windows;
 			path = Windows;
 			sourceTree = "<group>";
 		};
@@ -1244,7 +1237,6 @@
 				21BD2ED010DAF31500BA3DF6 /* LinearDividerShader.h */,
 				21BD2ECF10DAF31500BA3DF6 /* LinearDividerShader.m */,
 			);
-			name = Views;
 			path = Views;
 			sourceTree = "<group>";
 		};
@@ -1258,7 +1250,6 @@
 				21B64A2412E61FA700D87EFC /* LabelColumnCell.h */,
 				21B64A2512E61FA700D87EFC /* LabelColumnCell.m */,
 			);
-			name = Cells;
 			path = Cells;
 			sourceTree = "<group>";
 		};
@@ -1312,7 +1303,6 @@
 				A9BDA9CFF53E0128C673C6BA /* Vendor */,
 				940CF0C9EFF1F37403B0AE44 /* Resources */,
 			);
-			name = nvAlt;
 			path = nvAlt;
 			sourceTree = "<group>";
 		};
@@ -1330,7 +1320,6 @@
 				21FF94F60B5AD23B00DB6A2F /* ExporterManager.h */,
 				21FF94F50B5AD23B00DB6A2F /* ExporterManager.m */,
 			);
-			name = ImportExport;
 			path = ImportExport;
 			sourceTree = "<group>";
 		};
@@ -1346,7 +1335,6 @@
 				21C737930B50C73E0048C08A /* MultiplePageView.h */,
 				21C737940B50C73E0048C08A /* MultiplePageView.m */,
 			);
-			name = Editors;
 			path = Editors;
 			sourceTree = "<group>";
 		};
@@ -1379,7 +1367,6 @@
 				211345AA0B35D8540081B064 /* broken_md5.h */,
 				214495040ADC7F4F00E2A2B6 /* SFPasswordAssistantInspectorController.h */,
 			);
-			name = Security;
 			path = Security;
 			sourceTree = "<group>";
 		};
@@ -1404,7 +1391,6 @@
 				05E12165F311D7982B960C96 /* Images */,
 				2D4732F4ABD76C250441694F /* Interface */,
 			);
-			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -1415,7 +1401,6 @@
 				5C367F3C1DA2C2B20043C8EC /* libssl.a */,
 				5C367EE81DA2C06F0043C8EC /* libcrypto.a */,
 			);
-			name = Vendor;
 			path = Vendor;
 			sourceTree = "<group>";
 		};
@@ -1437,7 +1422,6 @@
 				5CA08C1E13301D5E004E3250 /* ETContentView.h */,
 				5CA08C1F13301D5E004E3250 /* ETContentView.m */,
 			);
-			name = Scrollers;
 			path = Scrollers;
 			sourceTree = "<group>";
 		};
@@ -1451,7 +1435,6 @@
 				212C6950110E1940004DD82C /* TitlebarButton.h */,
 				212C6951110E1940004DD82C /* TitlebarButton.m */,
 			);
-			name = Buttons;
 			path = Buttons;
 			sourceTree = "<group>";
 		};
@@ -1475,7 +1458,6 @@
 				213FAD510B3C6B52004C74BD /* FSExchangeObjectsCompat.h */,
 				213FAD520B3C6B52004C74BD /* FSExchangeObjectsCompat.c */,
 			);
-			name = Storage;
 			path = Storage;
 			sourceTree = "<group>";
 		};
@@ -1490,7 +1472,6 @@
 				21395BB30B7FDB85007BCFAA /* Notation.freqorder */,
 				21395BC60B7FDD35007BCFAA /* Notation.launchorder */,
 			);
-			name = Supporting;
 			path = Supporting;
 			sourceTree = "<group>";
 		};
@@ -1512,7 +1493,6 @@
 				212DCA450A6AD28700F74E46 /* EncodingsManager.h */,
 				212DCA460A6AD28700F74E46 /* EncodingsManager.m */,
 			);
-			name = Controllers;
 			path = Controllers;
 			sourceTree = "<group>";
 		};
@@ -1532,7 +1512,6 @@
 				5C9C7732131DA04200FB2652 /* WordCountToken.h */,
 				5C9C7733131DA04300FB2652 /* WordCountToken.m */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -1551,7 +1530,6 @@
 				21AD284E110BE99B00B7A985 /* SyncSessionController.h */,
 				21AD284F110BE99B00B7A985 /* SyncSessionController.m */,
 			);
-			name = Sync;
 			path = Sync;
 			sourceTree = "<group>";
 		};
@@ -1583,7 +1561,6 @@
 				2114C23B095883A600614E74 /* NSData_transformations.h */,
 				2114C23C095883A600614E74 /* NSData_transformations.m */,
 			);
-			name = Categories;
 			path = Categories;
 			sourceTree = "<group>";
 		};
@@ -1618,12 +1595,6 @@
 			attributes = {
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = elasticthreads;
-				TargetAttributes = {
-					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = 47TRS7H4BH;
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = 212B842709780B5000F3597F /* Build configuration list for PBXProject "Notation" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -1753,7 +1724,6 @@
 				5CF96E0B132EA29D0079B3FD /* Preferences.xib in Resources */,
 				5CF96E0C132EA29D0079B3FD /* NotationPrefsView.nib in Resources */,
 				93A158BC133C304D00E1E7DA /* Markdownify.nvhelp in Resources */,
-				93A158BE133C497400E1E7DA /* Notality.icns in Resources */,
 				5C2CC18A134989D7006FFE56 /* nvMenuDark.png in Resources */,
 				93B348281371547800658F98 /* HUDIconLock.png in Resources */,
 				93B348291371547800658F98 /* HUDIconPrint.png in Resources */,
@@ -1790,6 +1760,7 @@
 				B683A0DC16F1CDA600564A1D /* TBRolloverBG@2x.png in Resources */,
 				B683A0DD16F1CDA600564A1D /* TBSynchronizing@2x.png in Resources */,
 				B683A0DE16F1CDA600564A1D /* TBSynchronizingWhite@2x.png in Resources */,
+				637F2C88A0E7C04D0F0D5B2E /* nvNova.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2269,27 +2240,30 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = x86_64;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = F252L9GUBW;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/nvAlt/**",
 					"$(SRCROOT)/nvAlt/Vendor/library",
 				);
+				INFOPLIST_KEY_CFBundleDisplayName = nvNova;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/nvAlt/Vendor",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.elasticthreads.nv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranvel.nvNova;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = x86_64;
 			};
 			name = Development;
@@ -2475,27 +2449,30 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = x86_64;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = F252L9GUBW;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/nvAlt/**",
 					"$(SRCROOT)/nvAlt/Vendor/library",
 				);
+				INFOPLIST_KEY_CFBundleDisplayName = nvNova;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/nvAlt/Vendor",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = net.elasticthreads.nv;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranvel.nvNova;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = x86_64;
 			};
 			name = ForBuilding;
