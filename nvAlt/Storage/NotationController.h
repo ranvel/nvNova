@@ -70,9 +70,6 @@ typedef struct _NoteCatalogEntry {
 	
 	NSMutableSet *deletedNotes;
     
-	int volumeSupportsExchangeObjects;
-    FSCatalogInfo *fsCatInfoArray;
-    HFSUniStr255 *HFSUniNameArray;
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
 	FNSubscriptionUPP subscriptionCallback;
@@ -90,7 +87,7 @@ typedef struct _NoteCatalogEntry {
 	struct statfs *statfsInfo;
 	NSUInteger diskUUIDIndex;
 	CFUUIDRef diskUUID;
-    FSRef noteDirectoryRef, noteDatabaseRef;
+    FSRef noteDirectoryRef;
     OSStatus lastWriteError;
     
     WALStorageController *walWriter;

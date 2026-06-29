@@ -27,7 +27,6 @@
 	NSStringEncoding currentEncoding;
 	NoteObject *note;
 	NSData *noteData;
-	FSRef fsRef;
 }
 
 + (EncodingsManager *)sharedManager;

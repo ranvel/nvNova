@@ -25,8 +25,6 @@
 #import "DeletionManager.h"
 #import "NSCollection_utils.h"
 
-#define kMaxFileIteratorCount 100
-
 @implementation NotationController (NotationDirectoryManager)
 
 
@@ -251,97 +249,112 @@ void NotesDirFNSubscriptionProc(FNMessage message, OptionBits flags, void * refc
     return NO;
 }
 
+//bridge a URL resource date (NSDate) into the UTCDateTime the model + on-disk serialization still use (NVN-3 §4b
+//keeps UTCDateTime as the stored type; only the source and the comparison change). file-local to this translation unit.
+static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
+	if (!outDateTime) return;
+	bzero(outDateTime, sizeof(UTCDateTime));
+	if (date) (void)UCConvertCFAbsoluteTimeToUTCDateTime((CFAbsoluteTime)[date timeIntervalSinceReferenceDate], outDateTime);
+}
+
 //scour the notes directory for fresh meat
 - (BOOL)_readFilesInDirectory {
-    
-    OSStatus status = noErr;
-    FSIterator dirIterator;
-    ItemCount totalObjects = 0, dirObjectCount = 0;
-    unsigned int i = 0, catIndex = 0;
-    
-    //something like 16 VM pages used here?
-    if (!fsCatInfoArray) fsCatInfoArray = (FSCatalogInfo *)calloc(kMaxFileIteratorCount, sizeof(FSCatalogInfo));
-    if (!HFSUniNameArray) HFSUniNameArray = (HFSUniStr255 *)calloc(kMaxFileIteratorCount, sizeof(HFSUniStr255));
-	
-    if ((status = FSOpenIterator(&noteDirectoryRef, kFSIterateFlat, &dirIterator)) == noErr) {
-		//catEntriesCount = 0;
-		
-        do {
-            // Grab a batch of source files to process from the source directory
-            status = FSGetCatalogInfoBulk(dirIterator, kMaxFileIteratorCount, &dirObjectCount, NULL,
-										  kFSCatInfoNodeFlags | kFSCatInfoFinderInfo | kFSCatInfoContentMod | 
-										  kFSCatInfoAttrMod | kFSCatInfoDataSizes | kFSCatInfoNodeID,
-										  fsCatInfoArray, NULL, NULL, HFSUniNameArray);
-			
-            if ((status == errFSNoMoreItems || status == noErr) && dirObjectCount) {
-                status = noErr;
-				
-				totalObjects += dirObjectCount;
-				if (totalObjects > totalCatEntriesCount) {
-					unsigned int oldCatEntriesCount = totalCatEntriesCount;
-					
-					totalCatEntriesCount = totalObjects;
-					catalogEntries = (NoteCatalogEntry *)realloc(catalogEntries, totalObjects * sizeof(NoteCatalogEntry));
-					sortedCatalogEntries = (NoteCatalogEntry **)realloc(sortedCatalogEntries, totalObjects * sizeof(NoteCatalogEntry*));
-					
-					//clear unused memory to make filename and filenameChars null
-					
-					size_t newSpace = (totalCatEntriesCount - oldCatEntriesCount) * sizeof(NoteCatalogEntry);
-					bzero(catalogEntries + oldCatEntriesCount, newSpace);
-				}
-				
-				for (i = 0; i < dirObjectCount; i++) {
-					// Only read files, not directories
-					if (!(fsCatInfoArray[i].nodeFlags & kFSNodeIsDirectoryMask)) { 
-						//filter these only for files that will be added
-						//that way we can catch changes in files whose format is still being lazily updated
-						
-						NoteCatalogEntry *entry = &catalogEntries[catIndex];
-						HFSUniStr255 *filename = &HFSUniNameArray[i];
-						
-						entry->fileType = ((FileInfo *)fsCatInfoArray[i].finderInfo)->fileType;
-						entry->logicalSize = (UInt32)(fsCatInfoArray[i].dataLogicalSize & 0xFFFFFFFF);
-						entry->nodeID = (UInt32)fsCatInfoArray[i].nodeID;
-						entry->lastModified = fsCatInfoArray[i].contentModDate;
-						entry->lastAttrModified = fsCatInfoArray[i].attributeModDate;
 
-						
-						if (filename->length > entry->filenameCharCount) {
-							entry->filenameCharCount = filename->length;
-							entry->filenameChars = (UniChar*)realloc(entry->filenameChars, entry->filenameCharCount * sizeof(UniChar));
-						}
-						
-						memcpy(entry->filenameChars, filename->unicode, filename->length * sizeof(UniChar));
-						
-						if (!entry->filename)
-							entry->filename = CFStringCreateMutableWithExternalCharactersNoCopy(NULL, entry->filenameChars, filename->length, entry->filenameCharCount, kCFAllocatorNull);
-						else
-							CFStringSetExternalCharactersNoCopy(entry->filename, entry->filenameChars, filename->length, entry->filenameCharCount);
-						
-						// mipe: Normalize the filename to make sure that it will be found regardless of international characters
-						CFStringNormalize(entry->filename, kCFStringNormalizationFormC);
+	NSURL *dirURL = [self notesDirectoryURL];
+	if (!dirURL) {
+		NSLog(@"_readFilesInDirectory: no notes directory URL");
+		return NO;
+	}
 
-						catIndex++;
-                    }
-                }
-				
-				catEntriesCount = catIndex;
-            }
-            
-        } while (status == noErr);
-		
-		FSCloseIterator(dirIterator);
-		
-		for (i=0; i<catEntriesCount; i++) {
-			sortedCatalogEntries[i] = &catalogEntries[i];
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+	NSArray *keys = [NSArray arrayWithObjects:NSURLIsDirectoryKey, NSURLContentModificationDateKey,
+					 NSURLAttributeModificationDateKey, NSURLFileSizeKey, NSURLNameKey, nil];
+	NSError *error = nil;
+	//shallow enumeration (the FSIterate was kFSIterateFlat); dotfile/system-file filtering stays in -catalogEntryAllowed:
+	NSArray *fileURLs = [fileMan contentsOfDirectoryAtURL:dirURL includingPropertiesForKeys:keys options:0 error:&error];
+	if (!fileURLs) {
+		NSLog(@"Error reading notes directory %@: %@", [dirURL path], error);
+		return NO;
+	}
+
+	unsigned int catIndex = 0;
+	NSUInteger fileCount = [fileURLs count];
+
+	//the catalog-entry buffers persist across syncs (their per-entry filenameChars buffers are reused/grown); grow to fit
+	if (fileCount > totalCatEntriesCount) {
+		unsigned int oldCatEntriesCount = (unsigned int)totalCatEntriesCount;
+		totalCatEntriesCount = fileCount;
+		catalogEntries = (NoteCatalogEntry *)realloc(catalogEntries, totalCatEntriesCount * sizeof(NoteCatalogEntry));
+		sortedCatalogEntries = (NoteCatalogEntry **)realloc(sortedCatalogEntries, totalCatEntriesCount * sizeof(NoteCatalogEntry*));
+
+		//clear new space so filename and filenameChars start NULL
+		bzero(catalogEntries + oldCatEntriesCount, (totalCatEntriesCount - oldCatEntriesCount) * sizeof(NoteCatalogEntry));
+	}
+
+	for (NSURL *fileURL in fileURLs) {
+		// Only read files, not directories
+		NSNumber *isDir = nil;
+		[fileURL getResourceValue:&isDir forKey:NSURLIsDirectoryKey error:NULL];
+		if ([isDir boolValue]) continue;
+
+		NoteCatalogEntry *entry = &catalogEntries[catIndex];
+
+		NSDate *contentMod = nil, *attrMod = nil;
+		NSNumber *fileSize = nil;
+		NSString *name = nil;
+		[fileURL getResourceValue:&contentMod forKey:NSURLContentModificationDateKey error:NULL];
+		[fileURL getResourceValue:&attrMod forKey:NSURLAttributeModificationDateKey error:NULL];
+		[fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL];
+		[fileURL getResourceValue:&name forKey:NSURLNameKey error:NULL];
+		if (!name) name = [fileURL lastPathComponent];
+
+		//HFS type codes are effectively obsolete on modern volumes; -catalogEntryAllowed: falls back to the path extension
+		entry->fileType = 0;
+		entry->logicalSize = (UInt32)([fileSize unsignedLongLongValue] & 0xFFFFFFFF);
+
+		//inode/CNID has no direct NSURL resource key; NSFileSystemFileNumber is the inode used for note<->file matching
+		NSDictionary *attrs = [fileMan attributesOfItemAtPath:[fileURL path] error:NULL];
+		entry->nodeID = (UInt32)[[attrs objectForKey:NSFileSystemFileNumber] unsignedLongLongValue];
+
+		UTCDateTimeFromNSDate(contentMod, &entry->lastModified);
+		UTCDateTimeFromNSDate(attrMod, &entry->lastAttrModified);
+
+		//store the name into the entry's reused external-character buffer, mirroring the old FSGetCatalogInfoBulk path
+		CFIndex nameLen = CFStringGetLength((CFStringRef)name);
+		if ((UniCharCount)nameLen > entry->filenameCharCount) {
+			entry->filenameCharCount = (UniCharCount)nameLen;
+			entry->filenameChars = (UniChar*)realloc(entry->filenameChars, entry->filenameCharCount * sizeof(UniChar));
 		}
-		
+		CFStringGetCharacters((CFStringRef)name, CFRangeMake(0, nameLen), entry->filenameChars);
+
+		if (!entry->filename)
+			entry->filename = CFStringCreateMutableWithExternalCharactersNoCopy(NULL, entry->filenameChars, nameLen, entry->filenameCharCount, kCFAllocatorNull);
+		else
+			CFStringSetExternalCharactersNoCopy(entry->filename, entry->filenameChars, nameLen, entry->filenameCharCount);
+
+		// mipe: Normalize the filename to make sure that it will be found regardless of international characters
+		CFStringNormalize(entry->filename, kCFStringNormalizationFormC);
+
+		catIndex++;
+	}
+
+	catEntriesCount = catIndex;
+
+	for (catIndex = 0; catIndex < catEntriesCount; catIndex++)
+		sortedCatalogEntries[catIndex] = &catalogEntries[catIndex];
+
+	return YES;
+}
+
+//NVN-3 §4b: the old code compared the whole UTCDateTime struct bitwise (including the sub-second fraction), which
+//cannot survive re-sourcing dates from NSDate. Compare as CFAbsoluteTime with a 1-second tolerance instead: this
+//preserves HFS+ 1s semantics, absorbs APFS-nanosecond float noise, and keeps the safe failure mode -- if the dates
+//can't be compared we report "changed", triggering a spurious reload rather than masking a real on-disk change.
+static BOOL UTCDateTimesDifferBeyondTolerance(UTCDateTime *a, UTCDateTime *b) {
+	CFAbsoluteTime ta = 0, tb = 0;
+	if (UCConvertUTCDateTimeToCFAbsoluteTime(a, &ta) != noErr || UCConvertUTCDateTimeToCFAbsoluteTime(b, &tb) != noErr)
 		return YES;
-    }
-    
-    NSLog(@"Error opening FSIterator: %d", status);
-    
-    return NO;
+	return fabs(ta - tb) >= 1.0;
 }
 
 - (BOOL)modifyNoteIfNecessary:(NoteObject*)aNoteObject usingCatalogEntry:(NoteCatalogEntry*)catEntry {
@@ -356,8 +369,8 @@ void NotesDirFNSubscriptionProc(FNMessage message, OptionBits flags, void * refc
 	updateForVerifiedExistingNote(deletionManager, aNoteObject);
 	
 	if (fileSizeOfNote(aNoteObject) != catEntry->logicalSize ||
-		*(int64_t*)&lastReadDate != *(int64_t*)&(catEntry->lastModified) ||
-		*(int64_t*)lastAttrModDate != *(int64_t*)&(catEntry->lastAttrModified)) {
+		UTCDateTimesDifferBeyondTolerance(&lastReadDate, &(catEntry->lastModified)) ||
+		UTCDateTimesDifferBeyondTolerance(lastAttrModDate, &(catEntry->lastAttrModified))) {
 
 		//assume the file on disk was modified by someone other than us
 				

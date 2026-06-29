@@ -23,7 +23,6 @@
 #import "NoteObject.h"
 #import "GlobalPrefs.h"
 #import "NSData_transformations.h"
-#import "FSExchangeObjectsCompat.h"
 #include <sys/param.h>
 #include <sys/mount.h>
 
@@ -34,7 +33,6 @@ NSString *NotesDatabaseFileName = @"Notes & Settings";
 
 @implementation NotationController (NotationFileManager)
 
-static BOOL VolumeSupportsExchangeObjects(NotationController *controller);
 static struct statfs *StatFSVolumeInfo(NotationController *controller);
 
 OSStatus CreateDirectoryIfNotPresent(FSRef *parentRef, CFStringRef subDirectoryName, FSRef *childRef) {
@@ -51,27 +49,6 @@ OSStatus CreateDirectoryIfNotPresent(FSRef *parentRef, CFStringRef subDirectoryN
     
     return noErr;
 }
-
-OSStatus CreateTemporaryFile(FSRef *parentRef, FSRef *childTempRef) {
-    UniChar chars[256];
-    long nameLength = 0;
-    OSStatus result = noErr;
-    
-    do {
-		CFStringRef filename = CreateRandomizedFileName();
-		nameLength = CFStringGetLength(filename);
-		result = FSRefMakeInDirectoryWithString(parentRef, childTempRef, filename, chars);
-		CFRelease(filename);
-		
-    } while (result == noErr);
-    
-    if (result == fnfErr) {
-		result = FSCreateFileUnicode(parentRef, nameLength, chars, kFSCatInfoNone, NULL, childTempRef, NULL);
-    }
-    
-    return result;
-}
-
 
 /*
  Read the UUID from a mounted volume, by calling getattrlist().
@@ -170,19 +147,6 @@ CFUUIDRef CopySyntheticUUIDForVolumeCreationDate(FSRef *fsRef) {
 	return NULL;
 }
 
-static BOOL VolumeSupportsExchangeObjects(NotationController *controller) {
-	
-	if (controller->volumeSupportsExchangeObjects == -1) {
-		/* get source volume's path */
-		struct statfs * sfsb = StatFSVolumeInfo(controller);
-		if (sfsb) {
-			/* query getattrlist to see if that volume supports FSExchangeObjects */
-			controller->volumeSupportsExchangeObjects = ( 0 != (volumeCapabilities(sfsb->f_mntonname) & VOL_CAP_INT_EXCHANGEDATA));
-		}
-	}
-	return controller->volumeSupportsExchangeObjects;
-}
-
 - (void)purgeOldPerDiskInfoFromNotes {
 	//here's where notes' PerDiskInfo arrays would have older times removed, depending on -[DiskUUIDEntry lastAccessed]
 	//each note will use RemovePerDiskInfoWithTableIndex
@@ -259,16 +223,17 @@ long BlockSizeForNotation(NotationController *controller) {
     return controller->blockSize;
 }
 
-- (OSStatus)refreshFileRefIfNecessary:(FSRef *)childRef withName:(NSString *)filename charsBuffer:(UniChar*)charsBuffer {
-	BOOL isOwned = NO;
-	if (IsZeros(childRef, sizeof(FSRef)) || [self fileInNotesDirectory:childRef isOwnedByUs:&isOwned hasCatalogInfo:NULL] != noErr || !isOwned) {
-		OSStatus err = noErr;
-		if ((err = FSRefMakeInDirectoryWithString(&noteDirectoryRef, childRef, (CFStringRef)filename, charsBuffer)) != noErr) {
-			NSLog(@"Could not get an fsref for file with name %@: %d\n", filename, err);
-			return err;
-		}
-    }
-	return noErr;
+//the notes directory as a file-URL, derived from the live directory FSRef (which stays NVN-2's bridge seam).
+//every file-I/O primitive below works in URL-land relative to this; the single FSRef->URL conversion lives here.
+- (NSURL*)notesDirectoryURL {
+	NSString *dirPath = [self notesDirectoryPath];
+	return dirPath ? [NSURL fileURLWithPath:dirPath isDirectory:YES] : nil;
+}
+
+- (NSURL*)notesDirectoryFileURLForFilename:(NSString*)filename {
+	if (![filename length]) return nil;
+	NSURL *dirURL = [self notesDirectoryURL];
+	return dirURL ? [dirURL URLByAppendingPathComponent:filename] : nil;
 }
 
 
@@ -279,27 +244,22 @@ long BlockSizeForNotation(NotationController *controller) {
 	return (BOOL)isInTrash;
 }
 
-- (BOOL)notesDirectoryContainsFile:(NSString*)filename returningFSRef:(FSRef*)childRef {
-	UniChar chars[256];
-	if (!filename) return NO;
-	
-	return FSRefMakeInDirectoryWithString(&noteDirectoryRef, childRef, (CFStringRef)filename, chars) == noErr;
+- (BOOL)notesDirectoryContainsFile:(NSString*)filename {
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	return fileURL && [[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]];
 }
 
 - (OSStatus)renameAndForgetNoteDatabaseFile:(NSString*)newfilename {
-	//this method does not move the note database file; for now it is used in cases of upgrading incompatible files
-	
-	UniChar chars[256];
-    OSStatus err = noErr;	
-	CFRange range = {0, CFStringGetLength((CFStringRef)newfilename)};
-    CFStringGetCharacters((CFStringRef)newfilename, range, chars);
-    
-    if ((err = FSRenameUnicode(&noteDatabaseRef, range.length, chars, kTextEncodingDefaultFormat, NULL)) != noErr) {
-		NSLog(@"Error renaming notes database file to %@: %d", newfilename, err);
-		return err;
+	//used when upgrading an incompatible database: move the current DB file aside under a new name
+	NSURL *dbURL = [self notesDirectoryFileURLForFilename:NotesDatabaseFileName];
+	NSURL *newURL = [self notesDirectoryFileURLForFilename:newfilename];
+	if (!dbURL || !newURL) return fnfErr;
+
+	NSError *error = nil;
+	if (![[NSFileManager defaultManager] moveItemAtURL:dbURL toURL:newURL error:&error]) {
+		NSLog(@"Error renaming notes database file to %@: %@", newfilename, error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
     }
-	//reset the FSRef to ensure it doesn't point to the renamed file
-	bzero(&noteDatabaseRef, sizeof(FSRef));
 	return noErr;
 }
 
@@ -453,159 +413,188 @@ terminate:
     return [uniqueFilename stringByAppendingPathExtension:extension];
 }
 
-- (OSStatus)noteFileRenamed:(FSRef*)childRef fromName:(NSString*)oldName toName:(NSString*)newName {
+- (OSStatus)noteFileRenamedFromName:(NSString*)oldName toName:(NSString*)newName {
     if (![self currentNoteStorageFormat])
 		return noErr;
-    
-    UniChar chars[256];
-    
-    OSStatus err = [self refreshFileRefIfNecessary:childRef withName:oldName charsBuffer:chars];
-	if (noErr != err) return err;
-    
-    CFRange range = {0, CFStringGetLength((CFStringRef)newName)};
-    CFStringGetCharacters((CFStringRef)newName, range, chars);
-    
-    if ((err = FSRenameUnicode(childRef, range.length, chars, kTextEncodingDefaultFormat, childRef)) != noErr) {
-		NSLog(@"Error renaming file %@ to %@: %d", oldName, newName, err);
-		return err;
+
+	NSURL *oldURL = [self notesDirectoryFileURLForFilename:oldName];
+	NSURL *newURL = [self notesDirectoryFileURLForFilename:newName];
+	if (!oldURL || !newURL) return fnfErr;
+
+	//mirrors the old FSRenameUnicode contract: a missing source file is a failure (the caller reverts the in-memory name)
+	NSError *error = nil;
+	if (![[NSFileManager defaultManager] moveItemAtURL:oldURL toURL:newURL error:&error]) {
+		NSLog(@"Error renaming file %@ to %@: %@", oldName, newName, error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
     }
-    
+
     return noErr;
 }
 
-- (OSStatus)fileInNotesDirectory:(FSRef*)childRef isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info {
-    FSRef parentRef;
-    FSCatalogInfoBitmap whichInfo = kFSCatInfoNone;
-    
-    if (owned) *owned = NO;
-    
-    if (info) {
-		whichInfo = kFSCatInfoContentMod | kFSCatInfoCreateDate | kFSCatInfoAttrMod | kFSCatInfoNodeID | kFSCatInfoDataSizes;
-		bzero(info, sizeof(FSCatalogInfo));
-    }
-    
-    OSStatus err = noErr;
-    
-    if ((err = FSGetCatalogInfo(childRef, whichInfo, info, NULL, NULL, &parentRef)) != noErr)
-	return err;
-    
-    if (owned) *owned = (FSCompareFSRefs(&parentRef, &noteDirectoryRef) == noErr);
-    
-    return noErr;
+//bridge a URL resource date (NSDate) into the UTCDateTime the model + on-disk serialization still use.
+//NVN-3 deliberately keeps UTCDateTime as the stored type (NSCoding compat); only the *source* and the
+//*comparison* change. UTCDateTime/UCConvert* excision is NVN-5.
+static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
+	if (!outDateTime) return;
+	bzero(outDateTime, sizeof(UTCDateTime));
+	if (date) (void)UCConvertCFAbsoluteTimeToUTCDateTime((CFAbsoluteTime)[date timeIntervalSinceReferenceDate], outDateTime);
 }
 
-- (OSStatus)deleteFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename {
-    UniChar chars[256];
-    OSStatus err = [self refreshFileRefIfNecessary:childRef withName:filename charsBuffer:chars];
-    if (noErr != err) return err;
+- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info {
+	if (owned) *owned = NO;
+	if (info) bzero(info, sizeof(FSCatalogInfo));
 
-	if ((err = FSDeleteObject(childRef)) != noErr) {
-		NSLog(@"Error deleting file: %d", err);
-		return err;
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!fileURL) return fnfErr;
+
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+	BOOL exists = [fileMan fileExistsAtPath:[fileURL path]];
+	//ownership: by construction the URL resolves inside the notes directory, so "owned" reduces to "actually present"
+	//(createFileIfNotPresentInNotesDirectory: works by name; a missing file here means it was moved out from under us)
+	if (owned) *owned = exists;
+	if (!exists) return fnfErr;
+
+	if (info) {
+		NSDate *contentMod = nil, *attrMod = nil, *created = nil;
+		NSNumber *fileSize = nil;
+		[fileURL getResourceValue:&contentMod forKey:NSURLContentModificationDateKey error:NULL];
+		[fileURL getResourceValue:&attrMod forKey:NSURLAttributeModificationDateKey error:NULL];
+		[fileURL getResourceValue:&created forKey:NSURLCreationDateKey error:NULL];
+		[fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL];
+
+		UTCDateTimeFromNSDate(contentMod, &info->contentModDate);
+		UTCDateTimeFromNSDate(attrMod, &info->attributeModDate);
+		UTCDateTimeFromNSDate(created, &info->createDate);
+		info->dataLogicalSize = (UInt64)[fileSize unsignedLongLongValue];
+
+		//inode/CNID has no direct NSURL resource key; NSFileSystemFileNumber is the inode used for note<->file matching
+		NSDictionary *attrs = [fileMan attributesOfItemAtPath:[fileURL path] error:NULL];
+		info->nodeID = (UInt32)[[attrs objectForKey:NSFileSystemFileNumber] unsignedLongLongValue];
 	}
-    
+
+	return noErr;
+}
+
+- (OSStatus)deleteFileInNotesDirectory:(NSString*)filename {
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!fileURL) return fnfErr;
+
+	NSError *error = nil;
+	if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
+		//preserve the fnfErr signal: -removeFileFromDirectory falls back to trashing only on errors OTHER than not-found
+		if ([[error domain] isEqualToString:NSCocoaErrorDomain] && [error code] == NSFileNoSuchFileError)
+			return fnfErr;
+		NSLog(@"Error deleting file %@: %@", filename, error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
+	}
+
     return noErr;
 }
 
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename {
-    return [self dataFromFileInNotesDirectory:childRef forFilename:filename fileSize:0];
-}
+- (NSMutableData*)dataFromFileInNotesDirectory:(NSString*)filename {
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!fileURL) return nil;
 
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forCatalogEntry:(NoteCatalogEntry*)catEntry {
-    return [self dataFromFileInNotesDirectory:childRef forFilename:(NSString*)catEntry->filename fileSize:catEntry->logicalSize];
-}
-
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename fileSize:(UInt64)givenFileSize {
-	
-    UInt64 fileSize = givenFileSize;
-    char *notesDataPtr = NULL;
-    
-	UniChar chars[256];
-	OSStatus err = [self refreshFileRefIfNecessary:childRef withName:filename charsBuffer:chars];
-	if (noErr != err) return nil;
-	
-    if ((err = FSRefReadData(childRef, BlockSizeForNotation(self), &fileSize, (void**)&notesDataPtr, noCacheMask)) != noErr) {
-		NSLog(@"%@: error %d", NSStringFromSelector(_cmd), err);
+	//+[NSMutableData dataWithContentsOfURL:...] returns a mutable instance (callers mutate it in place: decryption, -updateFromData:)
+	NSError *error = nil;
+	NSMutableData *data = [NSMutableData dataWithContentsOfURL:fileURL options:0 error:&error];
+	if (!data) {
+		NSLog(@"%@: error reading %@: %@", NSStringFromSelector(_cmd), filename, error);
 		return nil;
-	}    
-    if (!notesDataPtr)
-		return nil;
-    
-    return [[[NSMutableData alloc] initWithBytesNoCopy:notesDataPtr length:fileSize freeWhenDone:YES] autorelease];
+	}
+	return data;
 }
 
-- (OSStatus)createFileIfNotPresentInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename fileWasCreated:(BOOL*)created {
-	
-	return FSCreateFileIfNotPresentInDirectory(&noteDirectoryRef, childRef, (CFStringRef)filename, (Boolean*)created);
+- (NSMutableData*)dataFromFileInNotesDirectoryForCatalogEntry:(NoteCatalogEntry*)catEntry {
+    return [self dataFromFileInNotesDirectory:(NSString*)catEntry->filename];
 }
 
-- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename destinationRef:(FSRef*)destRef {
-	return [self storeDataAtomicallyInNotesDirectory:data withName:filename destinationRef:destRef verifyWithSelector:NULL verificationDelegate:nil];
+- (OSStatus)createFileIfNotPresentInNotesDirectory:(NSString*)filename fileWasCreated:(BOOL*)created {
+	if (created) *created = NO;
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!fileURL) return fnfErr;
+
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+	if ([fileMan fileExistsAtPath:[fileURL path]])
+		return noErr;
+
+	//createFileAtPath: would TRUNCATE an existing file, so the existence guard above is load-bearing, not just an optimization
+	if (![fileMan createFileAtPath:[fileURL path] contents:[NSData data] attributes:nil]) {
+		NSLog(@"Error creating file %@", filename);
+		return kFileStorageErr;
+	}
+	if (created) *created = YES;
+	return noErr;
 }
 
-//either name or destRef must be valid; destRef is declared invalid by filling the struct with 0
+- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename {
+	return [self storeDataAtomicallyInNotesDirectory:data withName:filename verifyWithSelector:NULL verificationDelegate:nil];
+}
 
-- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename destinationRef:(FSRef*)destRef 
+//The headline of NVN-3: replaces the hand-rolled FSExchangeObjectsEmulate swap (which ran on 100% of saves
+//because APFS lacks exchangedata(2)) with -[NSFileManager replaceItemAtURL:...], the documented replacefile(2)
+//successor to FSExchangeObjects. Chosen over plain NSDataWritingAtomic because it preserves the destination's
+//mode/ACL/xattrs (the whole DB blob is rewritten on every save under SingleDatabaseFormat). The replacement temp
+//lives in NSItemReplacementDirectory on the same volume so the swap stays intra-volume and atomic.
+//Crash-safety contract preserved: the destination ends up either old-good or new-good, never empty.
+
+- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename
 							 verifyWithSelector:(SEL)verificationSel verificationDelegate:(id)verifyDelegate {
-    OSStatus err = noErr;
-    	
-	FSRef tempFileRef;
-    if ((err = CreateTemporaryFile(&noteDirectoryRef, &tempFileRef)) != noErr) {
-		NSLog(@"error creating temporary file: %d", err);
-		return err;
-    }
-    
-    //now write to temporary file and swap
-    if ((err = FSRefWriteData(&tempFileRef, BlockSizeForNotation(self), [data length], [data bytes], pleaseCacheMask, false)) != noErr) {
-		NSLog(@"error writing to temporary file: %d", err);
-		
-		return err;
-    }
-	
-	//before we try to swap the data contents of this temp file with the (possibly even soon-to-be-created) Notes & Settings file,
-	//try to read it back and see if it can be decrypted and decoded:
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+	NSURL *notesDirURL = [self notesDirectoryURL];
+	NSURL *destURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!notesDirURL || !destURL) return fnfErr;
+
+	NSError *error = nil;
+
+	//obtain a temporary directory on the same volume as the notes directory (keeps the later replace/move intra-volume)
+	NSURL *tempDirURL = [fileMan URLForDirectory:NSItemReplacementDirectory inDomain:NSUserDomainMask
+							   appropriateForURL:notesDirURL create:YES error:&error];
+	if (!tempDirURL) {
+		NSLog(@"error creating temporary directory for %@: %@", filename, error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
+	}
+	NSURL *tempURL = [tempDirURL URLByAppendingPathComponent:filename];
+
+	//write the new contents into the temp file
+	if (![data writeToURL:tempURL options:0 error:&error]) {
+		NSLog(@"error writing to temporary file for %@: %@", filename, error);
+		[fileMan removeItemAtURL:tempDirURL error:NULL];
+		return error ? (OSStatus)[error code] : kFileStorageErr;
+	}
+
+	//before swapping the temp into place, give the delegate a chance to read it back and confirm it decrypts/decodes
 	if (verifyDelegate && verificationSel) {
-		if (noErr != (err = [[verifyDelegate performSelector:verificationSel withObject:[NSValue valueWithPointer:&tempFileRef] withObject:filename] intValue])) {
+		OSStatus verr = (OSStatus)[[verifyDelegate performSelector:verificationSel withObject:tempURL withObject:filename] intValue];
+		if (noErr != verr) {
 			NSLog(@"couldn't verify written notes, so not continuing to save");
-			(void)FSDeleteObject(&tempFileRef);
-			return err;
+			[fileMan removeItemAtURL:tempDirURL error:NULL];
+			return verr;
 		}
 	}
-    
-	//don't try to make a new fsref if the file is still inside notes folder, but perhaps under a different name
-	BOOL isOwned = NO;
-	if (IsZeros(destRef,sizeof(FSRef)) || [self fileInNotesDirectory:destRef isOwnedByUs:&isOwned hasCatalogInfo:NULL] != noErr || !isOwned) {
-		
-		if ((err = [self createFileIfNotPresentInNotesDirectory:destRef forFilename:filename fileWasCreated:nil]) != noErr) {
-			NSLog(@"error creating or getting fsref for file %@: %d", filename, err);
-			return err;
-		}
-    }
-    //if destRef is not zeros, just assume that it exists and retry if it doesn't
-	FSRef newSourceRef, newDestRef;
-	
-	if (VolumeSupportsExchangeObjects(self) != 1) {
-		//NSLog(@"emulating fsexchange objects");
-		if ((err = FSExchangeObjectsEmulate(&tempFileRef, destRef, &newSourceRef, &newDestRef)) == noErr) {
-			memcpy(&tempFileRef, &newSourceRef, sizeof(FSRef));
-			memcpy(destRef, &newDestRef, sizeof(FSRef));
+
+	if ([fileMan fileExistsAtPath:[destURL path]]) {
+		//atomic, metadata-preserving swap of an existing destination
+		NSURL *resultingURL = nil;
+		if (![fileMan replaceItemAtURL:destURL withItemAtURL:tempURL backupItemName:nil
+							   options:0 resultingItemURL:&resultingURL error:&error]) {
+			NSLog(@"error replacing destination file %@: %@", filename, error);
+			[fileMan removeItemAtURL:tempDirURL error:NULL];
+			return error ? (OSStatus)[error code] : kFileStorageErr;
 		}
 	} else {
-		err = FSExchangeObjects(&tempFileRef, destRef);
+		//destination doesn't exist yet (first save / new note): an intra-volume move is itself atomic
+		if (![fileMan moveItemAtURL:tempURL toURL:destURL error:&error]) {
+			NSLog(@"error moving temporary file into place for %@: %@", filename, error);
+			[fileMan removeItemAtURL:tempDirURL error:NULL];
+			return error ? (OSStatus)[error code] : kFileStorageErr;
+		}
 	}
-		
-    if (err != noErr) {
-		NSLog(@"error exchanging contents of temporary file with destination file %@: %d",filename, err);
-		return err;
-    }
-    
-    if ((err = FSDeleteObject(&tempFileRef)) != noErr) {
-		NSLog(@"Error deleting temporary file: %d; moving to trash", err);
-		if ((err = [self moveFileToTrash:&tempFileRef forFilename:nil]) != noErr)
-			NSLog(@"Error moving file to trash: %d\n", err);
-    }
-    
-    return noErr;
+
+	//clean up the (now-empty, or replace-consumed) temporary directory; cosmetic, so don't fail the save on it
+	[fileMan removeItemAtURL:tempDirURL error:NULL];
+
+	return noErr;
 }
 
 
@@ -642,67 +631,20 @@ terminate:
 	return FSFindFolder(volume, kTrashFolderType, kCreateFolder, trashRef);
 }
 
-- (OSStatus)moveFileToTrash:(FSRef *)childRef forFilename:(NSString*)filename {
-	UniChar chars[256];
-    
-	OSStatus err = [self refreshFileRefIfNecessary:childRef withName:filename charsBuffer:chars];
-	if (noErr != err) return err;
-		
-	FSRef folder;
-	if ([NotationController trashFolderRef:&folder forChild:childRef] != noErr)
-		return err;
-	
-	err = FSMoveObject(childRef, &folder, NULL);
-	if (err == dupFNErr) {
-		// try to rename the duplicate file in the trash
-		
-		HFSUniStr255 name;
-		
-		err = FSGetCatalogInfo(childRef, kFSCatInfoNone, NULL, &name, NULL, NULL);
-		if (err == noErr) {
-			UInt16 origLen = name.length;
-			if (origLen > 245)
-				origLen = 245;
-			
-			FSRef duplicateFile;
-			err = FSMakeFSRefUnicode(&folder, name.length, name.unicode, kTextEncodingUnknown, &duplicateFile);
-			int i = 1, j;
-			while (1) {
-				i++;
-				// attempt to create new unique name
-				HFSUniStr255 newName = name;
-				char num[16];
-				int numLen;
-				
-				numLen = sprintf(num, "%d", i);
-				newName.unicode[origLen] = ' ';
-				for (j=0; j < numLen; j++)
-					newName.unicode[origLen + j + 1] = num[j];
-				newName.length = origLen + numLen + 1;
-				
-				err = FSRenameUnicode(&duplicateFile, newName.length, newName.unicode, kTextEncodingUnknown, NULL);
-				if (err != dupFNErr)
-					break;
-			}    
-			if (err == noErr)
-				err = FSMoveObject(childRef, &folder, NULL);    
-		}
+- (OSStatus)moveFileToTrashForFilename:(NSString*)filename {
+	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
+	if (!fileURL) return fnfErr;
+
+	//-[NSFileManager trashItemAtURL:...] is the modern successor to the FSFindFolder + FSMoveObject trash dance,
+	//and it resolves in-Trash name collisions itself. Being NSError-based, it structurally cannot report success
+	//while having moved nothing -- which is exactly NVN-4's silent-success bug (there's no stale OSStatus to return).
+	NSError *error = nil;
+	if (![[NSFileManager defaultManager] trashItemAtURL:fileURL resultingItemURL:NULL error:&error]) {
+		NSLog(@"Error moving %@ to trash: %@", filename, error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
 	}
-	
-	if (err == noErr) {
-		FSCatalogInfo catInfo;
-		
-		CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
-		err = UCConvertCFAbsoluteTimeToUTCDateTime(now, &catInfo.contentModDate);
-		if (err == noErr)
-			err = FSSetCatalogInfo(&noteDirectoryRef, kFSCatInfoContentMod, &catInfo);
-		if (err) {
-			NSLog(@"couldn't touch modification date of file's parent folder: error %d", err);
-			err = noErr;
-		}
-	}
-    
-    return err;
+
+	return noErr;
 }
 
 @end

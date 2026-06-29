@@ -1054,10 +1054,12 @@ NSMutableDictionary *ServiceAccountDictInit(NotationPrefs *prefs, NSString* serv
 	if ([filename characterAtIndex:0] == '.') {
 		return NO;
 	}
-	if ([filename isEqualToString:NotesDatabaseFileName]) {
+	//case-insensitive to match the app's case-insensitive note-identity policy (NVN-3 §4a): on a case-insensitive
+	//volume a lowercase variant of these system files must still be filtered out of the user's note list
+	if ([filename caseInsensitiveCompare:NotesDatabaseFileName] == NSOrderedSame) {
 		return NO;
 	}
-	if ([filename isEqualToString:@"Interim Note-Changes"]) {
+	if ([filename caseInsensitiveCompare:@"Interim Note-Changes"] == NSOrderedSame) {
 		return NO;
 	}
 	

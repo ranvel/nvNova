@@ -62,8 +62,6 @@
 		lastWordInFilterStr = 0;
 		selectedNoteIndex = NSNotFound;
 		
-		fsCatInfoArray = NULL;
-		HFSUniNameArray = NULL;
 		catalogEntries = NULL;
 		sortedCatalogEntries = NULL;
 		catEntriesCount = totalCatEntriesCount = 0;
@@ -72,10 +70,8 @@
 		subscriptionCallback = NewFNSubscriptionUPP(NotesDirFNSubscriptionProc);
 		bzero(&noteDirSubscription, sizeof(FNSubscriptionRef));
 #endif
-		bzero(&noteDatabaseRef, sizeof(FSRef));
 		bzero(&noteDirectoryRef, sizeof(FSRef));
-		volumeSupportsExchangeObjects = -1;
-		
+
 		lastLayoutStyleGenerated = -1;
 		lastCheckedDateInHours = hoursFromAbsoluteTime(CFAbsoluteTimeGetCurrent());
 		blockSize = 0;
@@ -233,25 +229,21 @@
 
 //used to ensure a newly-written Notes & Settings file is valid before finalizing the save
 //read the file back from disk, deserialize it, decrypt and decompress it, and compare the notes roughly to our current notes
-- (NSNumber*)verifyDataAtTemporaryFSRef:(NSValue*)fsRefValue withFinalName:(NSString*)filename {
-	
+- (NSNumber*)verifyDataAtTemporaryURL:(NSURL*)tempURL withFinalName:(NSString*)filename {
+
 	NSDate *date = [NSDate date];
-	
+
 	NSAssert([filename isEqualToString:NotesDatabaseFileName], @"attempting to verify something other than the database");
-	
-	FSRef *notesFileRef = [fsRefValue pointerValue];
-	UInt64 fileSize = 0;
-	char *notesData = NULL;
+
 	OSStatus err = noErr, result = noErr;
-	if ((err = FSRefReadData(notesFileRef, BlockSizeForNotation(self), &fileSize, (void**)&notesData, forceReadMask)) != noErr)
-		return [NSNumber numberWithInt:err];
-	
+	NSData *archivedNotation = [NSData dataWithContentsOfURL:tempURL options:0 error:NULL];
+	UInt64 fileSize = [archivedNotation length];
+
 	FrozenNotation *frozenNotation = nil;
 	if (!fileSize) {
 		result = eofErr;
 		goto returnResult;
 	}
-	NSData *archivedNotation = [[[NSData alloc] initWithBytesNoCopy:notesData length:fileSize freeWhenDone:NO] autorelease];
 	@try {
 		frozenNotation = [NSKeyedUnarchiver unarchiveObjectWithData:archivedNotation];
 	} @catch (NSException *e) {
@@ -282,7 +274,6 @@
 	
 	NSLog(@"verified %lu notes in %g s", [notesToVerify count], (float)[[NSDate date] timeIntervalSinceDate:date]);
 returnResult:
-	if (notesData) free(notesData);
 	return [NSNumber numberWithInt:result];
 }
 
@@ -290,31 +281,29 @@ returnResult:
 - (OSStatus)_readAndInitializeSerializedNotes {
 
     OSStatus err = noErr;
-	if ((err = [self createFileIfNotPresentInNotesDirectory:&noteDatabaseRef forFilename:NotesDatabaseFileName fileWasCreated:nil]) != noErr)
+	if ((err = [self createFileIfNotPresentInNotesDirectory:NotesDatabaseFileName fileWasCreated:nil]) != noErr)
 		return err;
-	
-	UInt64 fileSize = 0;
-	char *notesData = NULL;
-	if ((err = FSRefReadData(&noteDatabaseRef, BlockSizeForNotation(self), &fileSize, (void**)&notesData, noCacheMask)) != noErr)
-		return err;
-	
+
+	NSData *archivedNotation = [self dataFromFileInNotesDirectory:NotesDatabaseFileName];
+	if (!archivedNotation) {
+		//the DB file exists (just ensured above) but could not be read -- treat as an error, NOT as empty:
+		//proceeding as empty would let a later flush overwrite the user's good notes with nothing
+		NSLog(@"could not read notes database file");
+		return kCoderErr;
+	}
+	UInt64 fileSize = [archivedNotation length];
+
 	FrozenNotation *frozenNotation = nil;
-	
+
 	if (fileSize > 0) {
-		NSData *archivedNotation = [[NSData alloc] initWithBytesNoCopy:notesData length:fileSize freeWhenDone:NO];
 		@try {
 			frozenNotation = [NSKeyedUnarchiver unarchiveObjectWithData:archivedNotation];
 		} @catch (NSException *e) {
 			NSLog(@"Error unarchiving notes and preferences from data (%@, %@)", [e name], [e reason]);
-			
-			if (notesData)
-				free(notesData);
-			
+
 			//perhaps this shouldn't be an error, but the user should instead have the option of overwriting the DB with a new one?
 			return kCoderErr;
 		}
-	
-		[archivedNotation autorelease];
 	}
 	
 	
@@ -351,10 +340,7 @@ returnResult:
 	[prefsController setNotationPrefs:notationPrefs sender:self];
 	
 	[self makeForegroundTextColorMatchGlobalPrefs];
-	
-	if(notesData)
-	    free(notesData);
-	
+
 	return noErr;
 }
 
@@ -578,8 +564,8 @@ bail:
 		}
 		
 		//we should have all journal records on disk by now
-		if ([self storeDataAtomicallyInNotesDirectory:serializedData withName:NotesDatabaseFileName destinationRef:&noteDatabaseRef 
-								   verifyWithSelector:@selector(verifyDataAtTemporaryFSRef:withFinalName:) verificationDelegate:self] != noErr)
+		if ([self storeDataAtomicallyInNotesDirectory:serializedData withName:NotesDatabaseFileName
+								   verifyWithSelector:@selector(verifyDataAtTemporaryURL:withFinalName:) verificationDelegate:self] != noErr)
 			return NO;
 		
 		[notationPrefs setPreferencesAreStored];
@@ -1567,10 +1553,6 @@ bail:
 #if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5
     DisposeFNSubscriptionUPP(subscriptionCallback);
 #endif
-	if (fsCatInfoArray)
-		free(fsCatInfoArray);
-	if (HFSUniNameArray)
-		free(HFSUniNameArray);
     if (catalogEntries)
 		free(catalogEntries);
     if (sortedCatalogEntries)

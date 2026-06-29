@@ -60,9 +60,6 @@ typedef struct _NoteFilterContext {
 	//for storing in write-ahead-log
 	unsigned int logSequenceNumber;
 	
-	//not determined until it's time to read to or write from a text file
-	FSRef *noteFileRef;
-
 	//the first for syncing w/ NV server, as the ID cannot be encrypted
 	CFUUIDBytes uniqueNoteIDBytes;
 	
@@ -172,6 +169,7 @@ NSInteger compareFileSize(id *a, id *b);
 - (void)registerModificationWithOwnedServices;
 
 - (OSStatus)writeCurrentFileEncodingToFSRef:(FSRef*)fsRef;
+- (OSStatus)writeCurrentFileEncodingToPath:(NSString*)path;
 - (void)_setFileEncoding:(NSStringEncoding)encoding;
 - (BOOL)setFileEncodingAndReinterpret:(NSStringEncoding)encoding;
 - (BOOL)upgradeToUTF8IfUsingSystemEncoding;

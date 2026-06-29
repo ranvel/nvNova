@@ -18,7 +18,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "NotationController.h"
-#include "FSExchangeObjectsCompat.h"
 #import "BufferUtils.h"
 
 extern NSString *NotesDatabaseFileName;
@@ -34,7 +33,6 @@ typedef union VolumeUUID {
 
 @interface NotationController (NotationFileManager)
 
-OSStatus CreateTemporaryFile(FSRef *parentRef, FSRef *childTempRef);
 OSStatus CreateDirectoryIfNotPresent(FSRef *parentRef, CFStringRef subDirectoryName, FSRef *childRef);
 CFUUIDRef CopyHFSVolumeUUIDForMount(const char *mntonname);
 long BlockSizeForNotation(NotationController *controller);
@@ -45,8 +43,9 @@ NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 
 - (BOOL)notesDirectoryIsTrashed;
 
-- (BOOL)notesDirectoryContainsFile:(NSString*)filename returningFSRef:(FSRef*)childRef;
-- (OSStatus)refreshFileRefIfNecessary:(FSRef *)childRef withName:(NSString *)filename charsBuffer:(UniChar*)charsBuffer;
+- (NSURL*)notesDirectoryURL;
+- (NSURL*)notesDirectoryFileURLForFilename:(NSString*)filename;
+- (BOOL)notesDirectoryContainsFile:(NSString*)filename;
 
 - (OSStatus)renameAndForgetNoteDatabaseFile:(NSString*)newfilename;
 - (BOOL)removeSpuriousDatabaseFileNotes;
@@ -55,22 +54,21 @@ NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 
 + (OSStatus)getDefaultNotesDirectoryRef:(FSRef*)notesDir;
 
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename;
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forCatalogEntry:(NoteCatalogEntry*)catEntry;
-- (NSMutableData*)dataFromFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename fileSize:(UInt64)givenFileSize;
-- (OSStatus)noteFileRenamed:(FSRef*)childRef fromName:(NSString*)oldName toName:(NSString*)newName;
+- (NSMutableData*)dataFromFileInNotesDirectory:(NSString*)filename;
+- (NSMutableData*)dataFromFileInNotesDirectoryForCatalogEntry:(NoteCatalogEntry*)catEntry;
+- (OSStatus)noteFileRenamedFromName:(NSString*)oldName toName:(NSString*)newName;
 - (NSString*)uniqueFilenameForTitle:(NSString*)title fromNote:(NoteObject*)note;
-- (OSStatus)fileInNotesDirectory:(FSRef*)childRef isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info;
-- (OSStatus)deleteFileInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename;
-- (OSStatus)createFileIfNotPresentInNotesDirectory:(FSRef*)childRef forFilename:(NSString*)filename fileWasCreated:(BOOL*)created;
-- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename destinationRef:(FSRef*)destRef;
-- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename destinationRef:(FSRef*)destRef 
+- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info;
+- (OSStatus)deleteFileInNotesDirectory:(NSString*)filename;
+- (OSStatus)createFileIfNotPresentInNotesDirectory:(NSString*)filename fileWasCreated:(BOOL*)created;
+- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename;
+- (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename
 							 verifyWithSelector:(SEL)verifySel verificationDelegate:(id)verifyDelegate;
+- (OSStatus)moveFileToTrashForFilename:(NSString*)filename;
 + (OSStatus)trashFolderRef:(FSRef*)trashRef forChild:(FSRef*)childRef;
-- (OSStatus)moveFileToTrash:(FSRef *)childRef forFilename:(NSString*)filename;
 - (void)notifyOfChangedTrash;
 @end
 
 @interface NSObject (NotationFileManagerDelegate)
-- (NSNumber*)verifyDataAtTemporaryFSRef:(NSValue*)fsRefValue withFinalName:(NSString*)filename;
+- (NSNumber*)verifyDataAtTemporaryURL:(NSURL*)tempURL withFinalName:(NSString*)filename;
 @end
