@@ -324,7 +324,7 @@ void RemovePerDiskInfoWithTableIndex(UInt32 diskIndex, PerDiskInfo **perDiskGrou
 	}
 }
 
-unsigned int SetPerDiskInfoWithTableIndex(UTCDateTime *dateTime, UInt32 *nodeID, UInt32 diskIndex, PerDiskInfo **perDiskGroups, unsigned int *groupCount) {
+unsigned int SetPerDiskInfoWithTableIndex(CFAbsoluteTime *dateTime, UInt32 *nodeID, UInt32 diskIndex, PerDiskInfo **perDiskGroups, unsigned int *groupCount) {
 	//if an entry for this diskIndex already exists, then just update it in place
 	//if an entry does not exist, then resize the buffer and add one at the end
 	//if one of dateTime or nodeID is NULL, then do not set it
@@ -336,7 +336,7 @@ unsigned int SetPerDiskInfoWithTableIndex(UTCDateTime *dateTime, UInt32 *nodeID,
 	PerDiskInfo *groups = *perDiskGroups;
 	for (i=0; i<count; i++) {
 		//use this slot if the diskIndex matches OR it's the first one listed and its attrTime and nodeID haven't been touched
-		if (groups[i].diskIDIndex == diskIndex || (!i && groups[i].nodeID == 0U && UTCDateTimeIsEmpty(groups[i].attrTime))) {
+		if (groups[i].diskIDIndex == diskIndex || (!i && groups[i].nodeID == 0U && NVAbsTimeIsEmpty(groups[i].attrTime))) {
 			if (dateTime) groups[i].attrTime = *dateTime;
 			if (nodeID) groups[i].nodeID = *nodeID;
 			groups[i].diskIDIndex = diskIndex;
@@ -351,7 +351,7 @@ unsigned int SetPerDiskInfoWithTableIndex(UTCDateTime *dateTime, UInt32 *nodeID,
 	//items not currently being set are initialized to a known value, so that they can be initialized later by attrsModifiedDateOfNote and fileNodeIDOfNote
 	//although those functions do not initialize these to anything particularly useful, anyway
 	groups = *perDiskGroups;
-	groups[count].attrTime = dateTime ? *dateTime : (UTCDateTime){0, 0, 0};
+	groups[count].attrTime = dateTime ? *dateTime : 0.0;
 	groups[count].nodeID = nodeID ? *nodeID : 0;
 	groups[count].diskIDIndex = diskIndex;
 	
@@ -370,25 +370,50 @@ void CopyPerDiskInfoGroupsToOrder(PerDiskInfo **flippedGroups, unsigned int *exi
 	ResizeArray(flippedGroups, count, existingCount);
 	PerDiskInfo *newGroups = *flippedGroups;
 		
-	//does this need to flip the entire struct, too?
+	//attrTime is now a CFAbsoluteTime (double); swap it as a single 64-bit quantity (NVN-5)
 	if (toHostOrder) {
 		for (i=0; i<count; i++) {
 			PerDiskInfo group = perDiskGroups[i];
-			newGroups[i].attrTime.highSeconds = CFSwapInt16BigToHost(group.attrTime.highSeconds);
-			newGroups[i].attrTime.lowSeconds = CFSwapInt32BigToHost(group.attrTime.lowSeconds);
-			newGroups[i].attrTime.fraction = CFSwapInt16BigToHost(group.attrTime.fraction);
+			CFSwappedFloat64 swapped;
+			memcpy(&swapped, &group.attrTime, sizeof(swapped));
+			newGroups[i].attrTime = CFConvertFloat64SwappedToHost(swapped);
 			newGroups[i].nodeID = CFSwapInt32BigToHost(group.nodeID);
 			newGroups[i].diskIDIndex = CFSwapInt32BigToHost(group.diskIDIndex);
 		}
 	} else {
 		for (i=0; i<count; i++) {
 			PerDiskInfo group = perDiskGroups[i];
-			newGroups[i].attrTime.highSeconds = CFSwapInt16HostToBig(group.attrTime.highSeconds);
-			newGroups[i].attrTime.lowSeconds = CFSwapInt32HostToBig(group.attrTime.lowSeconds);
-			newGroups[i].attrTime.fraction = CFSwapInt16HostToBig(group.attrTime.fraction);
+			CFSwappedFloat64 swapped = CFConvertFloat64HostToSwapped(group.attrTime);
+			memcpy(&newGroups[i].attrTime, &swapped, sizeof(swapped));
 			newGroups[i].nodeID = CFSwapInt32HostToBig(group.nodeID);
 			newGroups[i].diskIDIndex = CFSwapInt32HostToBig(group.diskIDIndex);
 		}
+	}
+}
+
+//NVN-5: one-time decode of the legacy on-disk PerDiskInfo layout written before this ticket —
+//{UInt32 diskIDIndex; UInt32 nodeID; UTCDateTime attrTime}, all fields big-endian, attrTime's three
+//sub-fields swapped individually as the old CopyPerDiskInfoGroupsToOrder did. Produces host-order
+//PerDiskInfo with attrTime as CFAbsoluteTime.
+void CopyLegacyPerDiskInfoGroups(PerDiskInfo **outGroups, unsigned int *existingCount, const void *legacyBuffer, size_t bufferSize) {
+	#pragma pack(push, 2)
+	typedef struct { UInt32 diskIDIndex; UInt32 nodeID; UInt16 highSeconds; UInt32 lowSeconds; UInt16 fraction; } LegacyPerDiskInfo;
+	#pragma pack(pop)
+
+	NSUInteger i, count = bufferSize / sizeof(LegacyPerDiskInfo);
+	const LegacyPerDiskInfo *legacy = (const LegacyPerDiskInfo *)legacyBuffer;
+
+	ResizeArray(outGroups, count, existingCount);
+	PerDiskInfo *newGroups = *outGroups;
+
+	for (i=0; i<count; i++) {
+		UInt16 hi = CFSwapInt16BigToHost(legacy[i].highSeconds);
+		UInt32 lo = CFSwapInt32BigToHost(legacy[i].lowSeconds);
+		UInt16 fr = CFSwapInt16BigToHost(legacy[i].fraction);
+		UInt64 secs = ((UInt64)hi << 32) | (UInt64)lo;
+		newGroups[i].attrTime = (CFAbsoluteTime)secs + (CFAbsoluteTime)fr / 65536.0 - kCFAbsoluteTimeIntervalSince1904;
+		newGroups[i].nodeID = CFSwapInt32BigToHost(legacy[i].nodeID);
+		newGroups[i].diskIDIndex = CFSwapInt32BigToHost(legacy[i].diskIDIndex);
 	}
 }
 

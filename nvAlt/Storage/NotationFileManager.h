@@ -30,6 +30,16 @@ typedef union VolumeUUID {
 	} v;
 } VolumeUUID;
 
+//NVN-5: CFAbsoluteTime-based replacement for the Carbon FSCatalogInfo that
+//-fileInNotesDirectory:...hasCatalogInfo: used to hand back (UTCDateTime excision).
+typedef struct {
+	CFAbsoluteTime contentModDate;
+	CFAbsoluteTime attributeModDate;
+	CFAbsoluteTime createDate;
+	UInt64 dataLogicalSize;
+	UInt32 nodeID;
+} NoteFileInfo;
+
 
 @interface NotationController (NotationFileManager)
 
@@ -58,7 +68,7 @@ NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 - (NSMutableData*)dataFromFileInNotesDirectoryForCatalogEntry:(NoteCatalogEntry*)catEntry;
 - (OSStatus)noteFileRenamedFromName:(NSString*)oldName toName:(NSString*)newName;
 - (NSString*)uniqueFilenameForTitle:(NSString*)title fromNote:(NoteObject*)note;
-- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info;
+- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(NoteFileInfo *)info;
 - (OSStatus)deleteFileInNotesDirectory:(NSString*)filename;
 - (OSStatus)createFileIfNotPresentInNotesDirectory:(NSString*)filename fileWasCreated:(BOOL*)created;
 - (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename;

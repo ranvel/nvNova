@@ -55,7 +55,7 @@ typedef NSRange NSRange32;
 
 @implementation NoteObject
 
-static void setAttrModifiedDate(NoteObject *note, UTCDateTime *dateTime);
+static void setAttrModifiedDate(NoteObject *note, CFAbsoluteTime *dateTime);
 static void setCatalogNodeID(NoteObject *note, UInt32 cnid);
 
 - (id)init {
@@ -119,7 +119,7 @@ static void setCatalogNodeID(NoteObject *note, UInt32 cnid);
 	}
 }
 
-static void setAttrModifiedDate(NoteObject *note, UTCDateTime *dateTime) {
+static void setAttrModifiedDate(NoteObject *note, CFAbsoluteTime *dateTime) {
 	unsigned int idx = SetPerDiskInfoWithTableIndex(dateTime, NULL, (UInt32)diskUUIDIndexForNotation(note->delegate),
 													&(note->perDiskInfoGroups), &(note->perDiskInfoGroupCount));
 	note->attrsModifiedDate = &(note->perDiskInfoGroups[idx].attrTime);
@@ -130,7 +130,7 @@ static void setCatalogNodeID(NoteObject *note, UInt32 cnid) {
 	note->nodeID = cnid;
 }
 
-UTCDateTime *attrsModifiedDateOfNote(NoteObject *note) {
+CFAbsoluteTime *attrsModifiedDateOfNote(NoteObject *note) {
 	//once unarchived, the disk UUID index won't change, so this pointer will always reflect the current attr mod time
 	if (!note->attrsModifiedDate) {
 		//init from delegate based on disk table index
@@ -138,7 +138,7 @@ UTCDateTime *attrsModifiedDateOfNote(NoteObject *note) {
 		
 		for (i=0; i<note->perDiskInfoGroupCount; i++) {
 			//check if this date has actually been initialized; this entry could be here only because setCatalogNodeID was called
-			if (note->perDiskInfoGroups[i].diskIDIndex == tableIndex && !UTCDateTimeIsEmpty(note->perDiskInfoGroups[i].attrTime)) {
+			if (note->perDiskInfoGroups[i].diskIDIndex == tableIndex && !NVAbsTimeIsEmpty(note->perDiskInfoGroups[i].attrTime)) {
 				note->attrsModifiedDate = &(note->perDiskInfoGroups[i].attrTime);
 				goto giveDate;
 			}
@@ -335,13 +335,25 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 			currentFormatID = [decoder decodeInt32ForKey:VAR_STR(currentFormatID)];
 			logicalSize = [decoder decodeInt32ForKey:VAR_STR(logicalSize)];
 			
-			int64_t fileModifiedDate64 = [decoder decodeInt64ForKey:VAR_STR(fileModifiedDate)];
-			memcpy(&fileModifiedDate, &fileModifiedDate64, sizeof(int64_t));
-						
+			//NVN-5: fileModifiedDate is now a CFAbsoluteTime. read the new double key if present;
+			//otherwise migrate the legacy Carbon UTCDateTime, which was archived as an int64 of the
+			//packed 8-byte struct (key presence is the version — there is no separate format field).
+			if ([decoder containsValueForKey:@"fileModifiedDateAbsolute"]) {
+				fileModifiedDate = [decoder decodeDoubleForKey:@"fileModifiedDateAbsolute"];
+			} else {
+				fileModifiedDate = NVAbsTimeFromLegacyBits([decoder decodeInt64ForKey:VAR_STR(fileModifiedDate)]);
+			}
+
 			NSUInteger decodedPerDiskByteCount = 0;
-			const uint8_t *decodedPerDiskBytes = [decoder decodeBytesForKey:VAR_STR(perDiskInfoGroups) returnedLength:&decodedPerDiskByteCount];
-			if (decodedPerDiskBytes && decodedPerDiskByteCount) {
-				CopyPerDiskInfoGroupsToOrder(&perDiskInfoGroups, &perDiskInfoGroupCount, (PerDiskInfo *)decodedPerDiskBytes, decodedPerDiskByteCount, 1);
+			if ([decoder containsValueForKey:@"perDiskInfoGroups2"]) {
+				const uint8_t *decodedPerDiskBytes = [decoder decodeBytesForKey:@"perDiskInfoGroups2" returnedLength:&decodedPerDiskByteCount];
+				if (decodedPerDiskBytes && decodedPerDiskByteCount)
+					CopyPerDiskInfoGroupsToOrder(&perDiskInfoGroups, &perDiskInfoGroupCount, (PerDiskInfo *)decodedPerDiskBytes, decodedPerDiskByteCount, 1);
+			} else {
+				//legacy blob: old PerDiskInfo layout with a big-endian UTCDateTime attrTime
+				const uint8_t *decodedPerDiskBytes = [decoder decodeBytesForKey:VAR_STR(perDiskInfoGroups) returnedLength:&decodedPerDiskByteCount];
+				if (decodedPerDiskBytes && decodedPerDiskByteCount)
+					CopyLegacyPerDiskInfoGroups(&perDiskInfoGroups, &perDiskInfoGroupCount, decodedPerDiskBytes, decodedPerDiskByteCount);
 			}
 			
 			fileEncoding = [decoder decodeInt32ForKey:VAR_STR(fileEncoding)];
@@ -357,62 +369,6 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 			contentString = [[NSMutableAttributedString alloc] initWithAttributedString: [decoder decodeObjectForKey:VAR_STR(contentString)]];
 			filename = [[decoder decodeObjectForKey:VAR_STR(filename)] retain];
 			
-		} else {
-            NSRange32 range32;
-			unsigned int serverModifiedTime = 0;
-			float scrolledProportion = 0.0;
-            #if __LP64__
-            unsigned long longTemp;
-            #endif
-#if DECODE_INDIVIDUALLY
-			[decoder decodeValueOfObjCType:@encode(CFAbsoluteTime) at:&modifiedDate];
-			[decoder decodeValueOfObjCType:@encode(CFAbsoluteTime) at:&createdDate];
-            #if __LP64__
-			[decoder decodeValueOfObjCType:"{_NSRange=II}" at:&range32];
-            #else
-            [decoder decodeValueOfObjCType:@encode(NSRange) at:&range32];
-            #endif
-			[decoder decodeValueOfObjCType:@encode(float) at:&scrolledProportion];
-			
-			[decoder decodeValueOfObjCType:@encode(unsigned int) at:&logSequenceNumber];
-			
-			[decoder decodeValueOfObjCType:@encode(int) at:&currentFormatID];
-            #if __LP64__
-            [decoder decodeValueOfObjCType:"L" at:&longTemp];
-            nodeID = (UInt32)longTemp;
-            #else
-			[decoder decodeValueOfObjCType:@encode(UInt32) at:&nodeID];
-            #endif
-			[decoder decodeValueOfObjCType:@encode(UInt16) at:&fileModifiedDate.highSeconds];
-            #if __LP64__
-			[decoder decodeValueOfObjCType:"L" at:&longTemp];
-            fileModifiedDate.lowSeconds = (UInt32)longTemp;
-            #else
-            [decoder decodeValueOfObjCType:@encode(UInt32) at:&fileModifiedDate.lowSeconds];
-            #endif
-			[decoder decodeValueOfObjCType:@encode(UInt16) at:&fileModifiedDate.fraction];	
-            
-            #if __LP64__
-            [decoder decodeValueOfObjCType:"I" at:&fileEncoding];
-            #else
-            [decoder decodeValueOfObjCType:@encode(NSStringEncoding) at:&fileEncoding];
-            #endif
-			
-			[decoder decodeValueOfObjCType:@encode(CFUUIDBytes) at:&uniqueNoteIDBytes];
-			[decoder decodeValueOfObjCType:@encode(unsigned int) at:&serverModifiedTime];
-			
-			titleString = [[decoder decodeObject] retain];
-			labelString = [[decoder decodeObject] retain];
-			contentString = [[[decoder decodeObject] mutableCopy] retain];
-			filename = [[decoder decodeObject] retain];
-#else 
-			[decoder decodeValuesOfObjCTypes: "dd{NSRange=ii}fIiI{UTCDateTime=SIS}I[16C]I@@@@", &modifiedDate, &createdDate, &range32, 
-				&scrolledProportion, &logSequenceNumber, &currentFormatID, &nodeID, &fileModifiedDate, &fileEncoding, &uniqueNoteIDBytes, 
-				&serverModifiedTime, &titleString, &labelString, &contentString, &filename];
-#endif
-            selectedRange.location = range32.location;
-            selectedRange.length = range32.length;
-			contentsWere7Bit = (*(unsigned int*)&scrolledProportion) != 0; //hacko wacko
 		}
 	
 		//re-created at runtime to save space
@@ -447,10 +403,11 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 		uint8_t *flippedPerDiskInfoGroups = calloc(perDiskInfoGroupCount, sizeof(PerDiskInfo));
 		CopyPerDiskInfoGroupsToOrder((PerDiskInfo**)&flippedPerDiskInfoGroups, &perDiskInfoGroupCount, perDiskInfoGroups, perDiskInfoGroupCount * sizeof(PerDiskInfo), 0);
 		
-		[coder encodeBytes:flippedPerDiskInfoGroups length:perDiskInfoGroupCount * sizeof(PerDiskInfo) forKey:VAR_STR(perDiskInfoGroups)];
+		//NVN-5: new key for the CFAbsoluteTime-attrTime PerDiskInfo layout (legacy fallback in -initWithCoder:)
+		[coder encodeBytes:flippedPerDiskInfoGroups length:perDiskInfoGroupCount * sizeof(PerDiskInfo) forKey:@"perDiskInfoGroups2"];
 		free(flippedPerDiskInfoGroups);
-		
-		[coder encodeInt64:*(int64_t*)&fileModifiedDate forKey:VAR_STR(fileModifiedDate)];
+
+		[coder encodeDouble:fileModifiedDate forKey:@"fileModifiedDateAbsolute"];
         
 		[coder encodeInt32:fileEncoding forKey:VAR_STR(fileEncoding)];
 		
@@ -462,41 +419,6 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 		[coder encodeObject:contentString forKey:VAR_STR(contentString)];
 		[coder encodeObject:filename forKey:VAR_STR(filename)];
 		
-	} else {
-// 64bit encoding would break 32bit reading - keyed archives should be used
-#if !__LP64__
-		unsigned int serverModifiedTime = 0;
-		float scrolledProportion = 0.0;
-		*(unsigned int*)&scrolledProportion = (unsigned int)contentsWere7Bit;
-#if DECODE_INDIVIDUALLY
-		[coder encodeValueOfObjCType:@encode(CFAbsoluteTime) at:&modifiedDate];
-		[coder encodeValueOfObjCType:@encode(CFAbsoluteTime) at:&createdDate];
-        [coder encodeValueOfObjCType:@encode(NSRange) at:&selectedRange];
-		[coder encodeValueOfObjCType:@encode(float) at:&scrolledProportion];
-		
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&logSequenceNumber];
-		
-		[coder encodeValueOfObjCType:@encode(int) at:&currentFormatID];
-		[coder encodeValueOfObjCType:@encode(UInt32) at:&nodeID];
-		[coder encodeValueOfObjCType:@encode(UInt16) at:&fileModifiedDate.highSeconds];
-		[coder encodeValueOfObjCType:@encode(UInt32) at:&fileModifiedDate.lowSeconds];
-		[coder encodeValueOfObjCType:@encode(UInt16) at:&fileModifiedDate.fraction];
-		[coder encodeValueOfObjCType:@encode(NSStringEncoding) at:&fileEncoding];
-		
-		[coder encodeValueOfObjCType:@encode(CFUUIDBytes) at:&uniqueNoteIDBytes];
-		[coder encodeValueOfObjCType:@encode(unsigned int) at:&serverModifiedTime];
-		
-		[coder encodeObject:titleString];
-		[coder encodeObject:labelString];
-		[coder encodeObject:contentString];
-		[coder encodeObject:filename];
-		
-#else
-		[coder encodeValuesOfObjCTypes: "dd{NSRange=ii}fIiI{UTCDateTime=SIS}I[16C]I@@@@", &modifiedDate, &createdDate, &range32, 
-			&scrolledProportion, &logSequenceNumber, &currentFormatID, &nodeID, &fileModifiedDate, &fileEncoding, &uniqueNoteIDBytes, 
-			&serverModifiedTime, &titleString, &labelString, &contentString, &filename];
-#endif
-#endif // !__LP64__
 	}
 }
 
@@ -533,7 +455,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 		
 		createdDate = modifiedDate = CFAbsoluteTimeGetCurrent();
 		dateCreatedString = [dateModifiedString = [[NSString relativeDateStringWithAbsoluteTime:modifiedDate] retain] retain];
-		UCConvertCFAbsoluteTimeToUTCDateTime(modifiedDate, &fileModifiedDate);
+		fileModifiedDate = modifiedDate;
 		
 		if (delegate)
 			[self updateTablePreviewString];
@@ -1139,22 +1061,14 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
     }
     
 	//createFileIfNotPresentInNotesDirectory: works by name, so if this file is not owned by us at this point, it was a race with moving it
-    FSCatalogInfo info;
+    NoteFileInfo info;
     if ([delegate fileInNotesDirectory:filename isOwnedByUs:&fileIsOwned hasCatalogInfo:&info] != noErr)
 		return NO;
-    
-    CFAbsoluteTime timeOnDisk, lastTime;
-    OSStatus err = noErr;
-    if ((err = (UCConvertUTCDateTimeToCFAbsoluteTime(&fileModifiedDate, &lastTime) == noErr)) &&
-		(err = (UCConvertUTCDateTimeToCFAbsoluteTime(&info.contentModDate, &timeOnDisk) == noErr))) {
-		
-		if (lastTime > timeOnDisk) {
-			NSLog(@"writing note %@, because it was modified", titleString);
-			return [self writeUsingCurrentFileFormat];
-		}
-    } else {
-		NSLog(@"Could not convert dates: %d", err);
-		return NO;
+
+    //NVN-5: dates are CFAbsoluteTime now — compare the in-memory mod date against the on-disk one directly
+    if (fileModifiedDate > info.contentModDate) {
+		NSLog(@"writing note %@, because it was modified", titleString);
+		return [self writeUsingCurrentFileFormat];
     }
     
     return YES;
@@ -1321,7 +1235,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 
 	//regardless of whether the dates were set, the file mod date could still have changed; re-read it
 	OSStatus err = noErr;
-	FSCatalogInfo catInfo;
+	NoteFileInfo catInfo;
 	if ((err = [delegate fileInNotesDirectory:filename isOwnedByUs:NULL hasCatalogInfo:&catInfo]) != noErr) {
 		NSLog(@"Unable to get new modification date of file %@: %d", filename, err);
 		return err;
@@ -1382,8 +1296,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 				//in case this note isn't otherwise modified before that happens.
 				//a side effect is that if the user switches to an RTF or HTML format,
 				//this note will be written immediately instead of lazily upon the next modification
-				if (UCConvertCFAbsoluteTimeToUTCDateTime(CFAbsoluteTimeGetCurrent(), &fileModifiedDate) != noErr)
-					NSLog(@"%@: can't set file modification date from current date", NSStringFromSelector(_cmd));
+				fileModifiedDate = CFAbsoluteTimeGetCurrent();
 			}
 		}
 		//make note dirty to ensure these changes are saved
@@ -1434,7 +1347,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
     }
 	
     if ([self updateFromData:data inFormat:currentFormatID]) {
-		FSCatalogInfo info;
+		NoteFileInfo info;
 		if ([delegate fileInNotesDirectory:filename isOwnedByUs:NULL hasCatalogInfo:&info] == noErr) {
 			fileModifiedDate = info.contentModDate;
 			setAttrModifiedDate(self, &info.attributeModDate);
@@ -1484,20 +1397,17 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 		}
 	}
 	
-	OSStatus err = noErr;
-	CFAbsoluteTime aModDate, aCreateDate;
-	if (noErr == (err = UCConvertUTCDateTimeToCFAbsoluteTime(&fileModifiedDate, &aModDate))) {
-		[self setDateModified:aModDate];
-	}
-	
+	//NVN-5: fileModifiedDate is a CFAbsoluteTime now — set the modification date directly
+	[self setDateModified:fileModifiedDate];
+
 	if (createdDate == 0.0 || didRestoreLabels) {
 		//when reading files from disk for the first time, grab their creation date
 		//or if this file has just been altered, grab its newly-changed modification dates
-		
-		FSCatalogInfo info;
+
+		NoteFileInfo info;
 		if ([delegate fileInNotesDirectory:filename isOwnedByUs:NULL hasCatalogInfo:&info] == noErr) {
-			if (createdDate == 0.0 && UCConvertUTCDateTimeToCFAbsoluteTime(&info.createDate, &aCreateDate) == noErr) {
-				[self setDateAdded:aCreateDate];
+			if (createdDate == 0.0) {
+				[self setDateAdded:info.createDate];
 			}
 			if (didRestoreLabels) {
 				fileModifiedDate = info.contentModDate;
@@ -1646,8 +1556,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 			//only set if we're not currently synchronizing to avoid re-reading old data
 			//this will be updated again when writing to a file, but for now we have the newest version
 			//we must do this to allow new notes to be written when switching formats, and for encodingmanager checks
-			if (UCConvertCFAbsoluteTimeToUTCDateTime(modifiedDate, &fileModifiedDate) != noErr)
-				NSLog(@"Unable to set file modification date from current date");
+			fileModifiedDate = modifiedDate;
 		}
 	}
 	if (updateFile && updateTime) {

@@ -249,12 +249,10 @@ void NotesDirFNSubscriptionProc(FNMessage message, OptionBits flags, void * refc
     return NO;
 }
 
-//bridge a URL resource date (NSDate) into the UTCDateTime the model + on-disk serialization still use (NVN-3 §4b
-//keeps UTCDateTime as the stored type; only the source and the comparison change). file-local to this translation unit.
-static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
-	if (!outDateTime) return;
-	bzero(outDateTime, sizeof(UTCDateTime));
-	if (date) (void)UCConvertCFAbsoluteTimeToUTCDateTime((CFAbsoluteTime)[date timeIntervalSinceReferenceDate], outDateTime);
+//NVN-5: NSDate's reference-date interval IS a CFAbsoluteTime; store it directly. An unset date maps to 0.0.
+//(the NVN-3 UTCDateTimeFromNSDate/UCConvert shim is gone now that the catalog entry stores CFAbsoluteTime.)
+static inline CFAbsoluteTime AbsTimeFromResourceDate(NSDate *date) {
+	return date ? (CFAbsoluteTime)[date timeIntervalSinceReferenceDate] : 0.0;
 }
 
 //scour the notes directory for fresh meat
@@ -316,8 +314,8 @@ static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
 		NSDictionary *attrs = [fileMan attributesOfItemAtPath:[fileURL path] error:NULL];
 		entry->nodeID = (UInt32)[[attrs objectForKey:NSFileSystemFileNumber] unsignedLongLongValue];
 
-		UTCDateTimeFromNSDate(contentMod, &entry->lastModified);
-		UTCDateTimeFromNSDate(attrMod, &entry->lastAttrModified);
+		entry->lastModified = AbsTimeFromResourceDate(contentMod);
+		entry->lastAttrModified = AbsTimeFromResourceDate(attrMod);
 
 		//store the name into the entry's reused external-character buffer, mirroring the old FSGetCatalogInfoBulk path
 		CFIndex nameLen = CFStringGetLength((CFStringRef)name);
@@ -346,31 +344,25 @@ static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
 	return YES;
 }
 
-//NVN-3 §4b: the old code compared the whole UTCDateTime struct bitwise (including the sub-second fraction), which
-//cannot survive re-sourcing dates from NSDate. Compare as CFAbsoluteTime with a 1-second tolerance instead: this
-//preserves HFS+ 1s semantics, absorbs APFS-nanosecond float noise, and keeps the safe failure mode -- if the dates
-//can't be compared we report "changed", triggering a spurious reload rather than masking a real on-disk change.
-static BOOL UTCDateTimesDifferBeyondTolerance(UTCDateTime *a, UTCDateTime *b) {
-	CFAbsoluteTime ta = 0, tb = 0;
-	if (UCConvertUTCDateTimeToCFAbsoluteTime(a, &ta) != noErr || UCConvertUTCDateTimeToCFAbsoluteTime(b, &tb) != noErr)
-		return YES;
-	return fabs(ta - tb) >= 1.0;
+//NVN-3 §4b / NVN-5: compare modification times as CFAbsoluteTime with a 1-second tolerance. This preserves HFS+
+//1s semantics and absorbs APFS-nanosecond float noise; sub-second differences are intentionally treated as equal
+//(the old bitwise UTCDateTime compare couldn't survive re-sourcing dates from NSDate).
+static BOOL AbsTimesDifferBeyondTolerance(CFAbsoluteTime a, CFAbsoluteTime b) {
+	return fabs(a - b) >= 1.0;
 }
 
 - (BOOL)modifyNoteIfNecessary:(NoteObject*)aNoteObject usingCatalogEntry:(NoteCatalogEntry*)catEntry {
 	//check dates
-	UTCDateTime lastReadDate = fileModifiedDateOfNote(aNoteObject);
-	UTCDateTime *lastAttrModDate = attrsModifiedDateOfNote(aNoteObject);
+	CFAbsoluteTime lastReadDate = fileModifiedDateOfNote(aNoteObject);
+	CFAbsoluteTime *lastAttrModDate = attrsModifiedDateOfNote(aNoteObject);
 	
 	//should we always update the note's stored inode here regardless?
-//	NSLog(@"content mod: %d,%d,%d, attr mod: %d,%d,%d", catEntry->lastModified.highSeconds,catEntry->lastModified.lowSeconds,catEntry->lastModified.fraction,
-//		  catEntry->lastAttrModified.highSeconds,catEntry->lastAttrModified.lowSeconds,catEntry->lastAttrModified.fraction);
-	
+
 	updateForVerifiedExistingNote(deletionManager, aNoteObject);
 	
 	if (fileSizeOfNote(aNoteObject) != catEntry->logicalSize ||
-		UTCDateTimesDifferBeyondTolerance(&lastReadDate, &(catEntry->lastModified)) ||
-		UTCDateTimesDifferBeyondTolerance(lastAttrModDate, &(catEntry->lastAttrModified))) {
+		AbsTimesDifferBeyondTolerance(lastReadDate, catEntry->lastModified) ||
+		AbsTimesDifferBeyondTolerance(*lastAttrModDate, catEntry->lastAttrModified)) {
 
 		//assume the file on disk was modified by someone other than us
 				

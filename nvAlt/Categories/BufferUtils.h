@@ -21,20 +21,37 @@
 
 #define ResizeArray(__DirectBuffer, __objCount, __bufObjCount)	_ResizeBuffer((void***)(__DirectBuffer), (__objCount), (__bufObjCount), sizeof(typeof(**(__DirectBuffer))))
 
-#define UTCDateTimeIsEmpty(__UTCDT) (*(int64_t*)&((__UTCDT)) == 0LL)
+//an unset CFAbsoluteTime is stored as 0.0 (NVN-5: replaced the bitwise UTCDateTime zero-check)
+#define NVAbsTimeIsEmpty(__DT) ((__DT) == 0.0)
+
+//NVN-5: the on-disk format predating this ticket stored file/attr modification times as a Carbon
+//UTCDateTime struct {UInt16 highSeconds; UInt32 lowSeconds; UInt16 fraction}, packed to 8 bytes.
+//runtime now uses CFAbsoluteTime everywhere; this reinterprets a legacy archived 8-byte value
+//(seconds since 1904-01-01 + a 1/65536-second fraction) as CFAbsoluteTime, with no Carbon dependency
+//(kCFAbsoluteTimeIntervalSince1904 is CoreFoundation). used only on the legacy-archive decode path.
+#pragma pack(push, 2)
+typedef struct { UInt16 highSeconds; UInt32 lowSeconds; UInt16 fraction; } NVLegacyUTCDateTime;
+#pragma pack(pop)
+
+static inline CFAbsoluteTime NVAbsTimeFromLegacyBits(int64_t raw) {
+	NVLegacyUTCDateTime u;
+	memcpy(&u, &raw, sizeof(u));
+	UInt64 secs = ((UInt64)u.highSeconds << 32) | (UInt64)u.lowSeconds;
+	return (CFAbsoluteTime)secs + (CFAbsoluteTime)u.fraction / 65536.0 - kCFAbsoluteTimeIntervalSince1904;
+}
 
 typedef struct _PerDiskInfo {
-	
+
 	//index in a table of disk UUIDs; should be the disk from which this time was gathered
 	//the disk UUIDs table is tracked separately in FrozenNotation; it should only ever be appended-to
 	UInt32 diskIDIndex;
-	
+
 	//catalog node ID of a file
 	UInt32 nodeID;
-	
+
 	//the attribute modification time of a file
-	UTCDateTime attrTime;
-	
+	CFAbsoluteTime attrTime;
+
 } PerDiskInfo;
 
 char *replaceString(char *oldString, const char *newString);
@@ -52,8 +69,10 @@ NSInteger genericSortContextLast(void* one, void* two, int (*context) (void*, vo
 void QuickSortBuffer(void **buffer, unsigned int objCount, int (*compar)(const void *, const void *));
 
 void RemovePerDiskInfoWithTableIndex(UInt32 diskIndex, PerDiskInfo **perDiskGroups, unsigned int *groupCount);
-unsigned int SetPerDiskInfoWithTableIndex(UTCDateTime *dateTime, UInt32 *nodeID, UInt32 diskIndex, PerDiskInfo **perDiskGroups, unsigned int *groupCount);
+unsigned int SetPerDiskInfoWithTableIndex(CFAbsoluteTime *dateTime, UInt32 *nodeID, UInt32 diskIndex, PerDiskInfo **perDiskGroups, unsigned int *groupCount);
 void CopyPerDiskInfoGroupsToOrder(PerDiskInfo **flippedGroups, unsigned int *existingCount, PerDiskInfo *perDiskGroups, size_t bufferSize, int toHostOrder);
+//NVN-5: one-time decode of the legacy on-disk PerDiskInfo layout (big-endian, UTCDateTime attrTime) → host-order CFAbsoluteTime
+void CopyLegacyPerDiskInfoGroups(PerDiskInfo **outGroups, unsigned int *existingCount, const void *legacyBuffer, size_t bufferSize);
 
 CFStringRef CreateRandomizedFileName();
 OSStatus FSCreateFileIfNotPresentInDirectory(FSRef *directoryRef, FSRef *childRef, CFStringRef filename, Boolean *created);

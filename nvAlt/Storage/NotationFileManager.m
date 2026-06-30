@@ -431,18 +431,15 @@ terminate:
     return noErr;
 }
 
-//bridge a URL resource date (NSDate) into the UTCDateTime the model + on-disk serialization still use.
-//NVN-3 deliberately keeps UTCDateTime as the stored type (NSCoding compat); only the *source* and the
-//*comparison* change. UTCDateTime/UCConvert* excision is NVN-5.
-static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
-	if (!outDateTime) return;
-	bzero(outDateTime, sizeof(UTCDateTime));
-	if (date) (void)UCConvertCFAbsoluteTimeToUTCDateTime((CFAbsoluteTime)[date timeIntervalSinceReferenceDate], outDateTime);
+//NVN-5: an unset resource date maps to 0.0; NSDate's reference-date interval IS a CFAbsoluteTime,
+//so this is a plain read with no Carbon conversion (the old UTCDateTimeFromNSDate/UCConvert shim is gone).
+static inline CFAbsoluteTime AbsTimeFromResourceDate(NSDate *date) {
+	return date ? (CFAbsoluteTime)[date timeIntervalSinceReferenceDate] : 0.0;
 }
 
-- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(FSCatalogInfo *)info {
+- (OSStatus)fileInNotesDirectory:(NSString*)filename isOwnedByUs:(BOOL*)owned hasCatalogInfo:(NoteFileInfo *)info {
 	if (owned) *owned = NO;
-	if (info) bzero(info, sizeof(FSCatalogInfo));
+	if (info) bzero(info, sizeof(NoteFileInfo));
 
 	NSURL *fileURL = [self notesDirectoryFileURLForFilename:filename];
 	if (!fileURL) return fnfErr;
@@ -462,9 +459,9 @@ static void UTCDateTimeFromNSDate(NSDate *date, UTCDateTime *outDateTime) {
 		[fileURL getResourceValue:&created forKey:NSURLCreationDateKey error:NULL];
 		[fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL];
 
-		UTCDateTimeFromNSDate(contentMod, &info->contentModDate);
-		UTCDateTimeFromNSDate(attrMod, &info->attributeModDate);
-		UTCDateTimeFromNSDate(created, &info->createDate);
+		info->contentModDate = AbsTimeFromResourceDate(contentMod);
+		info->attributeModDate = AbsTimeFromResourceDate(attrMod);
+		info->createDate = AbsTimeFromResourceDate(created);
 		info->dataLogicalSize = (UInt64)[fileSize unsignedLongLongValue];
 
 		//inode/CNID has no direct NSURL resource key; NSFileSystemFileNumber is the inode used for note<->file matching

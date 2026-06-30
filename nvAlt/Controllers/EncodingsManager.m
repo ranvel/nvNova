@@ -241,7 +241,7 @@ static const NSStringEncoding AllowedEncodings[] = {
 }
 
 - (BOOL)shouldUpdateNoteFromDisk {
-	FSCatalogInfo info;
+	NoteFileInfo info;
 	OSStatus err = noErr;
 	if ((err = [[note delegate] fileInNotesDirectory:filenameOfNote(note) isOwnedByUs:NULL hasCatalogInfo:&info]) != noErr) {
 		NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Error: the modification date of the file quotemark%@quotemark could not be determined because %@",nil), 
@@ -250,29 +250,20 @@ static const NSStringEncoding AllowedEncodings[] = {
 		return NO;
 	}
 	
-	UTCDateTime fileModifiedDate = fileModifiedDateOfNote(note);
-	CFAbsoluteTime timeOnDisk, lastTime;
-    if ((err = (UCConvertUTCDateTimeToCFAbsoluteTime(&fileModifiedDate, &lastTime) == noErr)) &&
-		(err = (UCConvertUTCDateTimeToCFAbsoluteTime(&info.contentModDate, &timeOnDisk) == noErr))) {
-		
-		if (lastTime > timeOnDisk) {
-			int result = NSRunCriticalAlertPanel([NSString stringWithFormat:NSLocalizedString(@"The note quotemark%@quotemark is newer than its file on disk.",nil), titleOfNote(note)], 
-												 NSLocalizedString(@"If you update this note with re-interpreted data from the file, you may overwrite your changes.",nil), 
-												 NSLocalizedString(@"Don't Update", @"don't update the note from its file on disk"), 
-												 NSLocalizedString(@"Overwrite Note", @"...from file on disk"), NULL);
-			if (result == NSAlertDefaultReturn) {
-				NSLog(@"not updating");
-				return NO;
-			} else {
-				NSLog(@"user wants to update");
-			}
+	//NVN-5: mod dates are CFAbsoluteTime now — compare the in-memory note date against the on-disk one directly
+	CFAbsoluteTime lastTime = fileModifiedDateOfNote(note);
+	if (lastTime > info.contentModDate) {
+		int result = NSRunCriticalAlertPanel([NSString stringWithFormat:NSLocalizedString(@"The note quotemark%@quotemark is newer than its file on disk.",nil), titleOfNote(note)],
+											 NSLocalizedString(@"If you update this note with re-interpreted data from the file, you may overwrite your changes.",nil),
+											 NSLocalizedString(@"Don't Update", @"don't update the note from its file on disk"),
+											 NSLocalizedString(@"Overwrite Note", @"...from file on disk"), NULL);
+		if (result == NSAlertDefaultReturn) {
+			NSLog(@"not updating");
+			return NO;
+		} else {
+			NSLog(@"user wants to update");
 		}
-    } else {
-		NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Error: the modification date of the file quotemark%@quotemark could not be compared because %@",nil), 
-			filenameOfNote(note), [NSString reasonStringFromCarbonFSError:err]], NSLocalizedString(@"This may be due to an error in the program or operating system.",nil), 
-						NSLocalizedString(@"OK",nil), NULL, NULL);
-		return NO;
-    }
+	}
 	
 	return YES;
 }
