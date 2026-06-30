@@ -238,10 +238,14 @@ long BlockSizeForNotation(NotationController *controller) {
 
 
 - (BOOL)notesDirectoryIsTrashed {
-	Boolean isInTrash = false;	
-	if (FSDetermineIfRefIsEnclosedByFolder(0, kTrashFolderType, &noteDirectoryRef, &isInTrash) != noErr)
-		isInTrash = false;
-	return (BOOL)isInTrash;
+	//NVN-5: NSURLIsInTrashKey replaces Carbon FSDetermineIfRefIsEnclosedByFolder(kTrashFolderType)
+	NSURL *dirURL = [self notesDirectoryURL];
+	if (!dirURL) return NO;
+
+	NSNumber *inTrash = nil;
+	if ([dirURL getResourceValue:&inTrash forKey:NSURLIsInTrashKey error:NULL])
+		return [inTrash boolValue];
+	return NO;
 }
 
 - (BOOL)notesDirectoryContainsFile:(NSString*)filename {

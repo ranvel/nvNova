@@ -517,18 +517,11 @@ BOOL IsHardLineBreakUnichar(unichar uchar, NSString *str, unsigned charIndex) {
 }
 
 - (BOOL)UTIOfFileConformsToType:(NSString*)type {
-	
-	CFStringRef fileUTI = NULL;
-	FSRef fileRef;
-	if (FSPathMakeRef((const UInt8 *)[self fileSystemRepresentation], &fileRef, NULL) == noErr) {
-		if (LSCopyItemAttribute(&fileRef, kLSRolesAll, kLSItemContentType, (CFTypeRef*)&fileUTI) == noErr) {
-			if (fileUTI) {
-				BOOL conforms = UTTypeConformsTo(fileUTI, (CFStringRef)type);
-				CFRelease(fileUTI);
-				return conforms;
-			}
-		}
-	}
+	//NVN-5: read the file's UTI via NSURL resource key instead of FSPathMakeRef + LSCopyItemAttribute(FSRef)
+	NSURL *fileURL = [NSURL fileURLWithPath:self];
+	NSString *fileUTI = nil;
+	if ([fileURL getResourceValue:&fileUTI forKey:NSURLTypeIdentifierKey error:NULL] && fileUTI)
+		return (BOOL)UTTypeConformsTo((CFStringRef)fileUTI, (CFStringRef)type);
 	return NO;
 }
 

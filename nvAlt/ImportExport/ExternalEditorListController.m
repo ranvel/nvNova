@@ -104,9 +104,12 @@ NSString *ExternalEditorsChangedNotification = @"ExternalEditorsChanged";
 
 - (NSImage*)iconImage {
 	if (!iconImg) {
-		FSRef appRef;
-		if (CFURLGetFSRef((CFURLRef)[self resolvedURL], &appRef))
-			iconImg = [[NSImage smallIconForFSRef:&appRef] retain];
+		//NVN-5: NSWorkspace gives the app icon from a path — no FSRef/IconRef round-trip
+		NSString *appPath = [[self resolvedURL] path];
+		if (appPath) {
+			iconImg = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] retain];
+			[iconImg setSize:NSMakeSize(16.0f, 16.0f)];
+		}
 	}
 	return iconImg;
 }

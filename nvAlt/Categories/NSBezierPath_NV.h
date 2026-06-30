@@ -28,6 +28,4 @@
 @end
 
 @interface NSImage (NV)
-
-+ (NSImage*)smallIconForFSRef:(FSRef*)fsRef;
 @end
