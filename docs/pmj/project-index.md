@@ -12,13 +12,14 @@ Params: `KEY_PREFIX=NVN` · `TICKETS_DIR=docs/pmj/` · `ARCHIVE_DIR=docs/pmj/_ar
 | Key | Summary | Status | Pri |
 |-----|---------|--------|-----|
 | NVN-1 | Stand up PMJ tracker for nvNova | Implementing | 2 |
-| NVN-3 | Excise Carbon file-I/O substrate (FSRef) → NSFileManager atomic | Backlog | 1 |
-| NVN-4 | Fix `moveFileToTrash:` silent success on trash-resolution failure | Backlog | 2 |
-| NVN-5 | Excise Carbon stragglers (FSFindFolder, UTCDateTime, LSCopy…, residual IconRef) | Backlog | 3 |
+| NVN-3 | Excise Carbon file-I/O substrate (FSRef) → NSFileManager atomic | DAT | 1 |
+| NVN-4 | Fix `moveFileToTrash:` silent success on trash-resolution failure | DAT | 2 |
+| NVN-5 | Excise Carbon stragglers (FSFindFolder, UTCDateTime, LSCopy…, residual IconRef) | Solutioning | 3 |
 | NVN-6 | Native arm64 — re-vendor deps (multimarkdown; crypto per NVN-11), flip ARCHS | Backlog | 1 |
 | NVN-7 | P0 — make accidental note deletion harder | Parked | 2 |
 | NVN-10 | Excise Carbon directory watching (FNNotify) → FSEvents + GCD | Backlog | 1 |
 | NVN-11 | Crypto layer arm64 viability — relink OpenSSL vs. CommonCrypto | Backlog | 1 |
+| NVN-12 | Filesystem-acceptability gate at folder select — allowlist APFS/HFS+/ZFS, bounce exFAT | Backlog | 1 |
 | NVN-9 | Regenerate @2x Retina asset variants | Backlog | 4 |
 
 ## Done ✅
@@ -33,11 +34,18 @@ Params: `KEY_PREFIX=NVN` · `TICKETS_DIR=docs/pmj/` · `ARCHIVE_DIR=docs/pmj/_ar
 **The gate (R):** no UI or feature work until the base layer is proven
 replaceable. The base-layer spine is **P1**, all on the known-good x86_64 build:
 
-- **NVN-2** (directory persistence → plain path/URL), **NVN-3** (file-I/O
-	substrate → NSFileManager atomic), and **NVN-10** (directory watching →
-	FSEvents) run in parallel — one variable at a time within each.
+- **NVN-2** (directory persistence → plain path/URL) is **done ✅**, clearing the
+	first variable. **NVN-3** (file-I/O substrate → NSFileManager atomic) and
+	**NVN-10** (directory watching → FSEvents) are the active parallel spine — one
+	variable at a time within each.
 - **NVN-11** (crypto: relink OpenSSL vs. re-home to CommonCrypto) runs parallel
 	as recon-first; its answer **sizes the crypto half of NVN-6**.
+- **NVN-12** (filesystem-acceptability gate at folder select) is the guardrail
+	spun out of NVN-3 §4b — allowlist APFS/HFS+/ZFS, bounce exFAT & network volumes
+	before the path is persisted. Touches UI, but granted a **justified gate
+	exemption (R)**: the no-UI rule is about spending time wisely, not an anti-UI
+	principle — and since NVN-12 must land *before* any real UI work can proceed,
+	doing it now is the time-wise move. Parallel-eligible, doesn't block NVN-3.
 
 Then **NVN-6** (the arm64 flip — the Rosetta exit) once the spine validates on
 x86_64. **NVN-5** stragglers clean up around the spine (`FNNotify` moved to
