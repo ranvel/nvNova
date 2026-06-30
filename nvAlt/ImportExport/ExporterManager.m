@@ -73,10 +73,9 @@ void(^exportHandler)(NSInteger) =^(NSInteger returnCode) {
 			}
 		}
 		
-		FSRef directoryRef;
-		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)directory, kCFURLPOSIXPathStyle, true);
-		[(id)url autorelease];
-		if (!url || !CFURLGetFSRef(url, &directoryRef)) {
+		//NVN-5: the export target is an NSURL now (was an FSRef via CFURLGetFSRef)
+		NSURL *directoryURL = [directory length] ? [NSURL fileURLWithPath:directory isDirectory:YES] : nil;
+		if (!directoryURL || ![[NSFileManager defaultManager] fileExistsAtPath:directory]) {
 			NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"The notes couldn't be exported because the directory quotemark%@quotemark couldn't be accessed.",nil),
 				[directory stringByAbbreviatingWithTildeInPath]], @"", NSLocalizedString(@"OK",nil), nil, nil);
 			return;
@@ -88,7 +87,7 @@ void(^exportHandler)(NSInteger) =^(NSInteger returnCode) {
 			BOOL lastNote = i != [notes count] - 1;
 			NoteObject *note = [notes objectAtIndex:i];
 			
-			OSStatus err = [note exportToDirectoryRef:&directoryRef withFilename:filename usingFormat:storageFormat overwrite:overwriteNotes];
+			OSStatus err = [note exportToDirectoryURL:directoryURL withFilename:filename usingFormat:storageFormat overwrite:overwriteNotes];
 			
 			if (err == dupFNErr) {
 				//ask about overwriting
@@ -99,7 +98,7 @@ void(^exportHandler)(NSInteger) =^(NSInteger returnCode) {
 										 NSLocalizedString(@"Replace",nil), NSLocalizedString(@"Don't Replace",nil), lastNote ? NSLocalizedString(@"Replace All",nil) : nil, nil);
 				if (result == NSAlertDefaultReturn || result == NSAlertOtherReturn) {
 					if (result == NSAlertOtherReturn) overwriteNotes = YES;
-					err = [note exportToDirectoryRef:&directoryRef withFilename:filename usingFormat:storageFormat overwrite:YES];
+					err = [note exportToDirectoryURL:directoryURL withFilename:filename usingFormat:storageFormat overwrite:YES];
 				} else continue;
 			}
 			
@@ -115,9 +114,10 @@ void(^exportHandler)(NSInteger) =^(NSInteger returnCode) {
 				}
 			}
 		}
-		
-		FNNotify(&directoryRef, kFNDirectoryModifiedMessage, kFNNoImplicitAllSubscription);
-		
+
+		//NVN-5: dropped the Carbon FNNotify Finder nudge after export (consumed the removed FSRef);
+		//the atomic NSData write already surfaces the new files to the Finder.
+
 		[notes release];
 	}
 }

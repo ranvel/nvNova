@@ -43,7 +43,6 @@ typedef struct {
 
 @interface NotationController (NotationFileManager)
 
-OSStatus CreateDirectoryIfNotPresent(FSRef *parentRef, CFStringRef subDirectoryName, FSRef *childRef);
 CFUUIDRef CopyHFSVolumeUUIDForMount(const char *mntonname);
 long BlockSizeForNotation(NotationController *controller);
 NSUInteger diskUUIDIndexForNotation(NotationController *controller);
@@ -62,7 +61,7 @@ NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 
 - (void)relocateNotesDirectory;
 
-+ (OSStatus)getDefaultNotesDirectoryRef:(FSRef*)notesDir;
++ (OSStatus)getDefaultNotesDirectoryPath:(NSString**)outPath;
 
 - (NSMutableData*)dataFromFileInNotesDirectory:(NSString*)filename;
 - (NSMutableData*)dataFromFileInNotesDirectoryForCatalogEntry:(NoteCatalogEntry*)catEntry;
@@ -75,7 +74,6 @@ NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 - (OSStatus)storeDataAtomicallyInNotesDirectory:(NSData*)data withName:(NSString*)filename
 							 verifyWithSelector:(SEL)verifySel verificationDelegate:(id)verifyDelegate;
 - (OSStatus)moveFileToTrashForFilename:(NSString*)filename;
-+ (OSStatus)trashFolderRef:(FSRef*)trashRef forChild:(FSRef*)childRef;
 - (void)notifyOfChangedTrash;
 @end
 

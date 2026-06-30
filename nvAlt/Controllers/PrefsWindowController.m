@@ -290,10 +290,9 @@
 }
 
 - (void)changeDefaultDirectory {
-	FSRef notesDirectoryRef;
 	NSString *directoryPath = nil;
 
-	if ([self getNewNotesRefFromOpenPanel:&notesDirectoryRef returnedPath:&directoryPath]) {
+	if ([self getNewNotesPathFromOpenPanel:&directoryPath]) {
 
 		//make sure we're not choosing the same folder as what we started with, because:
 		//-[NotationController initWithDirectoryPath:] might attempt to initialize journaling, which will already be in use
@@ -322,17 +321,11 @@
 	[[NSApp delegate] updateRTL];
 }
 
-- (BOOL)getNewNotesRefFromOpenPanel:(FSRef*)notesDirectoryRef returnedPath:(NSString**)path {
-    NSString *startingDirectory = nil;
-	
-    if (!notesDirectoryRef) {
-		NSLog(@"notesDirectoryRef is NULL!");
-		return NO;
-    }
-    
+//NVN-5: returns the chosen folder as a path only (the FSRef out-param is gone; callers pass the path
+//to -[NotationController initWithDirectoryPath:])
+- (BOOL)getNewNotesPathFromOpenPanel:(NSString**)path {
     //use the stored notes-directory path as the panel's starting location
-    NSString *resolvedPath = [prefsController notesDirectoryPath];
-    if ([resolvedPath length]) startingDirectory = resolvedPath;
+    NSString *startingDirectory = [prefsController notesDirectoryPath];
 
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setCanCreateDirectories:YES];
@@ -344,26 +337,20 @@
     [openPanel setTitle:NSLocalizedString(@"Select a folder",@"title of open panel for selecting a notes folder")];
     [openPanel setPrompt:NSLocalizedString(@"Select", @"title of open panel button to select a folder")];
     [openPanel setMessage:NSLocalizedString(@"Select the folder that Notational Velocity should use for reading and storing notes.",nil)];
-    [openPanel setDirectoryURL:[NSURL fileURLWithPath:startingDirectory]];
+    if ([startingDirectory length]) [openPanel setDirectoryURL:[NSURL fileURLWithPath:startingDirectory]];
     [openPanel setAllowedFileTypes:nil];
     if ([openPanel runModal]==NSFileHandlingPanelOKButton) {
-        
-		CFStringRef filename = (CFStringRef)[[openPanel URL]path];
-		if (!filename)
+
+		NSString *chosen = [[openPanel URL] path];
+		if (![chosen length])
 			return NO;
-		
+
 		if (path)
-			*path = [[[[openPanel URL]path] copy] autorelease];
-		
-		//yes, I know that navigation services uses uses FSRefs, but NSSavePanel saves us much more work
-		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, filename, kCFURLPOSIXPathStyle, true);
-		[(id)url autorelease];
-		if (!url || !CFURLGetFSRef(url, notesDirectoryRef))
-			return NO;
-		
+			*path = [[chosen copy] autorelease];
+
 		return YES;
     }
-    
+
     return NO;
 }
 

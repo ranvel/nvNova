@@ -464,13 +464,12 @@ void outletObjectAwoke(id sender) {
 	    if (NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Unable to initialize notes database in \n%@ because %@.",nil), location, reason],
 							subMessage, NSLocalizedString(@"Choose another folder",nil),NSLocalizedString(@"Quit",nil),NULL) == NSAlertDefaultReturn) {
 			//show nsopenpanel, defaulting to current default notes dir
-			FSRef notesDirectoryRef;
 		showOpenPanel:
-			if (![prefsWindowController getNewNotesRefFromOpenPanel:&notesDirectoryRef returnedPath:&location]) {
-				//they cancelled the open panel, or it was unable to get the path/FSRef of the file
+			if (![prefsWindowController getNewNotesPathFromOpenPanel:&location]) {
+				//they cancelled the open panel, or it was unable to get the path of the file
 //                [newNotation release];
 				goto terminateApp;
-			} else if ((newNotation = [[[NotationController alloc] initWithDirectoryRef:&notesDirectoryRef error:&err] autorelease])) {
+			} else if ((newNotation = [[[NotationController alloc] initWithDirectoryPath:location error:&err] autorelease])) {
 				//persist the chosen path; sender:self is excluded from the reload callback (sync-only)
 				[prefsController setNotesDirectoryPath:location sender:self];
 				break;

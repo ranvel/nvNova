@@ -1248,22 +1248,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	return noErr;
 }
 
-- (OSStatus)writeCurrentFileEncodingToFSRef:(FSRef*)fsRef {
-	NSAssert(fsRef, @"cannot write file encoding to a NULL FSRef");
-	//this is not the note's own fsRef; it could be anywhere
-	
-	NSMutableData *pathData = [NSMutableData dataWithLength:4 * 1024];
-	OSStatus err = noErr;
-	if ((err = FSRefMakePath(fsRef, [pathData mutableBytes], [pathData length])) == noErr) {
-		[[NSFileManager defaultManager] setTextEncodingAttribute:fileEncoding atFSPath:[pathData bytes]];
-	} else {
-		NSLog(@"%@: error getting path from FSRef: %d (IsZeros: %d)", NSStringFromSelector(_cmd), err, IsZeros(fsRef, sizeof(fsRef)));
-	}
-	return err;
-}
-
-//path-based counterpart used for notes-directory files now that the per-note FSRef cache is gone (NVN-3).
-//the FSRef variant above is retained for -exportToDirectoryRef:, which writes to an arbitrary save-panel directory.
+//NVN-5: the FSRef variant is gone (its only caller, -exportToDirectoryURL:, now writes by path)
 - (OSStatus)writeCurrentFileEncodingToPath:(NSString*)path {
 	if (![path length]) return fnfErr;
 	[[NSFileManager defaultManager] setTextEncodingAttribute:fileEncoding atFSPath:[path fileSystemRepresentation]];
@@ -1437,7 +1422,7 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	    break;
 	case PlainTextFormat:
 		//try to merge/re-match attributes?
-	    if ((stringFromData = [NSMutableString newShortLivedStringFromData:data ofGuessedEncoding:&fileEncoding withPath:[[self noteFilePath] fileSystemRepresentation] orWithFSRef:NULL])) {
+	    if ((stringFromData = [NSMutableString newShortLivedStringFromData:data ofGuessedEncoding:&fileEncoding withPath:[[self noteFilePath] fileSystemRepresentation]])) {
 			attributedStringFromData = [[NSMutableAttributedString alloc] initWithString:stringFromData 
 																			  attributes:[[GlobalPrefs defaultPrefs] noteBodyAttributes]];
 			[stringFromData release];
@@ -1575,8 +1560,8 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	//so expect the delegate to know to schedule the same update itself
 }
 
-- (OSStatus)exportToDirectoryRef:(FSRef*)directoryRef withFilename:(NSString*)userFilename usingFormat:(int)storageFormat overwrite:(BOOL)overwrite {
-	
+- (OSStatus)exportToDirectoryURL:(NSURL*)directoryURL withFilename:(NSString*)userFilename usingFormat:(int)storageFormat overwrite:(BOOL)overwrite {
+
 	NSData *formattedData = nil;
 	NSError *error = nil;
 	
@@ -1623,36 +1608,34 @@ force_inline id unifiedCellForNote(NotesTableView *tv, NoteObject *note, NSInteg
 	NSString *newfilename = userFilename ? userFilename : [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:newextension];
 	//one last replacing, though if the unique file-naming method worked this should be unnecessary
 	newfilename = [newfilename stringByReplacingOccurrencesOfString:@":" withString:@"/"];
-	
-	BOOL fileWasCreated = NO;
-	
-	FSRef fileRef;
-	OSStatus err = FSCreateFileIfNotPresentInDirectory(directoryRef, &fileRef, (CFStringRef)newfilename, (Boolean*)&fileWasCreated);
-	if (err != noErr) {
-		NSLog(@"FSCreateFileIfNotPresentInDirectory: %d", err);
-		return err;
-	}
-	if (!fileWasCreated && !overwrite) {
+
+	//NVN-5: URL-native export (replaces FSCreateFileIfNotPresentInDirectory + FSRefWriteData + FSSetCatalogInfo)
+	NSURL *fileURL = [directoryURL URLByAppendingPathComponent:newfilename];
+	NSString *filePath = [fileURL path];
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+
+	if (!overwrite && [fileMan fileExistsAtPath:filePath]) {
 		NSLog(@"File already existed!");
 		return dupFNErr;
 	}
-	//yes, the file is probably not on the same volume as our notes directory
-	if ((err = FSRefWriteData(&fileRef, BlockSizeForNotation(delegate), [formattedData length], [formattedData bytes], 0, true)) != noErr) {
-		NSLog(@"error writing to temporary file: %d", err);
-		return err;
-    }
-	if (PlainTextFormat == storageFormat) {
-		(void)[self writeCurrentFileEncodingToFSRef:&fileRef];
+
+	NSError *writeError = nil;
+	if (![formattedData writeToURL:fileURL options:NSDataWritingAtomic error:&writeError]) {
+		NSLog(@"error writing exported note to %@: %@", filePath, writeError);
+		return writeError ? (OSStatus)[writeError code] : kFileStorageErr;
 	}
-	NSFileManager *fileMan = [NSFileManager defaultManager];
-	[fileMan setTags:[self orderedLabelTitles] atFSPath:[[fileMan pathWithFSRef:&fileRef] fileSystemRepresentation]];
-	
+
+	if (PlainTextFormat == storageFormat)
+		(void)[self writeCurrentFileEncodingToPath:filePath];
+
+	[fileMan setTags:[self orderedLabelTitles] atFSPath:[filePath fileSystemRepresentation]];
+
 	//also export the note's modification and creation dates
-	FSCatalogInfo catInfo;
-	UCConvertCFAbsoluteTimeToUTCDateTime(createdDate, &catInfo.createDate);
-	UCConvertCFAbsoluteTimeToUTCDateTime(modifiedDate, &catInfo.contentModDate);
-	FSSetCatalogInfo(&fileRef, kFSCatInfoCreateDate | kFSCatInfoContentMod, &catInfo);
-			
+	NSDictionary *dateAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSDate dateWithTimeIntervalSinceReferenceDate:createdDate], NSFileCreationDate,
+		[NSDate dateWithTimeIntervalSinceReferenceDate:modifiedDate], NSFileModificationDate, nil];
+	[fileMan setAttributes:dateAttrs ofItemAtPath:filePath error:NULL];
+
 	return noErr;
 }
 

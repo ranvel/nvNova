@@ -35,21 +35,6 @@ NSString *NotesDatabaseFileName = @"Notes & Settings";
 
 static struct statfs *StatFSVolumeInfo(NotationController *controller);
 
-OSStatus CreateDirectoryIfNotPresent(FSRef *parentRef, CFStringRef subDirectoryName, FSRef *childRef) {
-    UniChar chars[256];
-    
-    OSStatus result;
-    if ((result = FSRefMakeInDirectoryWithString(parentRef, childRef, subDirectoryName, chars))) {
-		if (result == fnfErr) {
-			result = FSCreateDirectoryUnicode (parentRef, CFStringGetLength(subDirectoryName),
-											   chars, kFSCatInfoNone, NULL, childRef, NULL, NULL);
-		}
-		return result;
-    }
-    
-    return noErr;
-}
-
 /*
  Read the UUID from a mounted volume, by calling getattrlist().
  Assumes the path is the mount point of an HFS volume.
@@ -124,27 +109,28 @@ CFUUIDRef CopyHFSVolumeUUIDForMount(const char *mntonname) {
 	return CFUUIDCreateFromUUIDBytes(NULL, uuidBytes);
 }
 
-CFUUIDRef CopySyntheticUUIDForVolumeCreationDate(FSRef *fsRef) {
-	
-	FSCatalogInfo fileInfo;
-	if (FSGetCatalogInfo(fsRef, kFSCatInfoVolume, &fileInfo, NULL, NULL, NULL) == noErr) {
-		
-		FSVolumeInfo volInfo;
-		OSStatus err = FSGetVolumeInfo(fileInfo.volume, 0, NULL, kFSVolInfoCreateDate, &volInfo, NULL, NULL);
-		if (err == noErr) {
-			volInfo.createDate.highSeconds = CFSwapInt16HostToBig(volInfo.createDate.highSeconds);
-			volInfo.createDate.lowSeconds = CFSwapInt32HostToBig(volInfo.createDate.lowSeconds);
-			volInfo.createDate.fraction = CFSwapInt16HostToBig(volInfo.createDate.fraction);
+//NVN-5: synthesize a stable per-volume UUID from the volume's creation date via NSURL resource keys
+//(was Carbon FSGetCatalogInfo + FSGetVolumeInfo over a UTCDateTime). This is the last-resort fallback
+//when neither the HFS volume UUID nor the FSEvents device UUID is available; a given volume still maps
+//to a stable UUID, though it differs from the pre-NVN-5 Carbon value (a synthetic-fallback disk re-reads
+//its per-disk attr times once after upgrade — see recon §2.7).
+static CFUUIDRef CopySyntheticUUIDForVolumeURL(NSURL *dirURL) {
+	if (!dirURL) return NULL;
 
-			CFUUIDBytes uuidBytes;
-			uuid_create_md5_from_name((void*)&uuidBytes, (void*)&volInfo.createDate, sizeof(UTCDateTime));
-			
-			return CFUUIDCreateFromUUIDBytes(NULL, uuidBytes);
-		} else {
-			NSLog(@"can't even get the volume creation date -- what are you trying to do to me?");
-		}
+	NSURL *volURL = nil;
+	if (![dirURL getResourceValue:&volURL forKey:NSURLVolumeURLKey error:NULL] || !volURL)
+		volURL = dirURL;
+
+	NSDate *created = nil;
+	if (![volURL getResourceValue:&created forKey:NSURLVolumeCreationDateKey error:NULL] || !created) {
+		NSLog(@"can't get the volume creation date for %@", [dirURL path]);
+		return NULL;
 	}
-	return NULL;
+
+	CFAbsoluteTime createAbs = [created timeIntervalSinceReferenceDate];
+	CFUUIDBytes uuidBytes;
+	uuid_create_md5_from_name((void*)&uuidBytes, (void*)&createAbs, sizeof(createAbs));
+	return CFUUIDCreateFromUUIDBytes(NULL, uuidBytes);
 }
 
 - (void)purgeOldPerDiskInfoFromNotes {
@@ -180,7 +166,7 @@ CFUUIDRef CopySyntheticUUIDForVolumeCreationDate(FSRef *fsRef) {
 		
 		if (!diskUUID) {
 			//all other checks failed; just use the volume's creation date
-			diskUUID = CopySyntheticUUIDForVolumeCreationDate(&noteDirectoryRef);
+			diskUUID = CopySyntheticUUIDForVolumeURL([self notesDirectoryURL]);
 		}
 		diskUUIDIndex = [notationPrefs tableIndexOfDiskUUID:diskUUID];
 	}
@@ -188,20 +174,16 @@ CFUUIDRef CopySyntheticUUIDForVolumeCreationDate(FSRef *fsRef) {
 
 static struct statfs *StatFSVolumeInfo(NotationController *controller) {
 	if (!controller->statfsInfo) {
-		OSStatus err = noErr;
-		const UInt32 maxPathSize = 4 * 1024;
-		UInt8 *convertedPath = (UInt8*)malloc(maxPathSize * sizeof(UInt8));
-		
-		if ((err = FSRefMakePath(&(controller->noteDirectoryRef), convertedPath, maxPathSize)) == noErr) {
-			
+		//NVN-5: derive the C path from the stored notes-directory path (was FSRefMakePath on the FSRef);
+		//the statfs() filesystem-acceptability logic itself is NVN-12's concern, untouched here.
+		const char *path = [controller->notesDirectoryPath fileSystemRepresentation];
+		if (path) {
 			controller->statfsInfo = calloc(1, sizeof(struct statfs));
-			
-			if (statfs((char*)convertedPath, controller->statfsInfo))
+
+			if (statfs(path, controller->statfsInfo))
 				NSLog(@"statfs: error %d\n", errno);
 		} else
-			NSLog(@"FSRefMakePath: error %d\n", err);
-		
-		free(convertedPath);
+			NSLog(@"StatFSVolumeInfo: no notes directory path");
 	}
 	return controller->statfsInfo;
 }
@@ -310,38 +292,31 @@ long BlockSizeForNotation(NotationController *controller) {
 		
 		if ([openPanel runModal] == NSOKButton) {
             
-			CFStringRef filename = (CFStringRef)[[openPanel URL]path];
-			if (filename) {
-				
-				FSRef newParentRef;
-				CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, filename, kCFURLPOSIXPathStyle, true);
-				[(id)url autorelease];
-				if (!url || !CFURLGetFSRef(url, &newParentRef)) {
-					NSRunAlertPanel(NSLocalizedString(@"Unable to create an FSRef from the chosen directory.",nil), 
-									NSLocalizedString(@"Your notes were not moved.",nil), NSLocalizedString(@"OK",nil), NULL, NULL);
+			NSURL *destParentURL = [openPanel URL];
+			if (destParentURL) {
+
+				//NVN-5: NSFileManager move replaces the Carbon FSMoveObject/FSCompareFSRefs dance.
+				//the notes directory is moved into the chosen parent folder, keeping its name.
+				NSString *srcPath = [self notesDirectoryPath];
+				NSURL *srcURL = [NSURL fileURLWithPath:srcPath isDirectory:YES];
+				NSURL *destURL = [destParentURL URLByAppendingPathComponent:[srcURL lastPathComponent] isDirectory:YES];
+
+				if ([[destURL path] isEqualToString:srcPath]) {
+					//chose the notes directory's current location; nothing to move
+					[[NSWorkspace sharedWorkspace] selectFile:srcPath inFileViewerRootedAtPath:nil];
+					break;
+				}
+
+				NSError *moveErr = nil;
+				if (![[NSFileManager defaultManager] moveItemAtURL:srcURL toURL:destURL error:&moveErr]) {
+					NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Couldn't move notes into the chosen folder because %@",nil),
+						[moveErr localizedDescription]], NSLocalizedString(@"Your notes were not moved.",nil), NSLocalizedString(@"OK",nil), NULL, NULL);
 					continue;
 				}
-				
-				FSRef newNotesDirectory;
-				OSErr err = FSMoveObject(&noteDirectoryRef,  &newParentRef, &newNotesDirectory);
-				if (err != noErr) {
-					NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Couldn't move notes into the chosen folder because %@",nil), 
-						[NSString reasonStringFromCarbonFSError:err]], NSLocalizedString(@"Your notes were not moved.",nil), NSLocalizedString(@"OK",nil), NULL, NULL);
-					continue;
-				}
-				
-				if (FSCompareFSRefs(&noteDirectoryRef, &newNotesDirectory) != noErr) {
-					NSString *newPath = [[NSFileManager defaultManager] pathWithFSRef:&newNotesDirectory];
-					if (newPath) [[GlobalPrefs defaultPrefs] setNotesDirectoryPath:newPath sender:self];
-					//we must quit now, as notes will very likely be re-initialized in the same place
-					goto terminate;
-				}
-				
-				//directory move successful! //show the user where new notes are
-				NSString *newNotesPath = [[NSFileManager defaultManager] pathWithFSRef:&newNotesDirectory];
-				if (newNotesPath) [[NSWorkspace sharedWorkspace] selectFile:newNotesPath inFileViewerRootedAtPath:nil];
-				
-				break;
+
+				if ([destURL path]) [[GlobalPrefs defaultPrefs] setNotesDirectoryPath:[destURL path] sender:self];
+				//we must quit now, as notes will very likely be re-initialized in the same place
+				goto terminate;
 			} else {
 				goto terminate;
 			}
@@ -353,21 +328,27 @@ terminate:
 	}
 }
 
-+ (OSStatus)getDefaultNotesDirectoryRef:(FSRef*)notesDir {
-    FSRef appSupportFoundRef;
-    
-    OSErr err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kCreateFolder, &appSupportFoundRef);
-    if (err != noErr) {
-	NSLog(@"Unable to locate or create an Application Support directory: %d", err);
-	return err;
-    } else {
-	//now try to get Notational Database directory
-	if ((err = CreateDirectoryIfNotPresent(&appSupportFoundRef, (CFStringRef)@"Notational Data", notesDir)) != noErr) {
-	    
-	    return err;
++ (OSStatus)getDefaultNotesDirectoryPath:(NSString**)outPath {
+	//NVN-5: ~/Library/Application Support/Notational Data via NSFileManager
+	//(was Carbon FSFindFolder(kApplicationSupportFolderType) + FSCreateDirectoryUnicode)
+	if (outPath) *outPath = nil;
+
+	NSFileManager *fileMan = [NSFileManager defaultManager];
+	NSURL *appSupportURL = [[fileMan URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] firstObject];
+	if (!appSupportURL) {
+		NSLog(@"Unable to locate an Application Support directory");
+		return fnfErr;
 	}
-    }
-    return noErr;
+
+	NSURL *notesURL = [appSupportURL URLByAppendingPathComponent:@"Notational Data" isDirectory:YES];
+	NSError *error = nil;
+	if (![fileMan createDirectoryAtURL:notesURL withIntermediateDirectories:YES attributes:nil error:&error]) {
+		NSLog(@"Unable to create the Notational Data directory: %@", error);
+		return error ? (OSStatus)[error code] : kFileStorageErr;
+	}
+
+	if (outPath) *outPath = [notesURL path];
+	return noErr;
 }
 
 //whenever a note uses this method to change its filename, we will have to re-establish all the links to it
@@ -600,36 +581,15 @@ static inline CFAbsoluteTime AbsTimeFromResourceDate(NSDate *date) {
 
 
 - (void)notifyOfChangedTrash {
-	FSRef folder;
-	
-	OSStatus err = [NotationController trashFolderRef:&folder forChild:&noteDirectoryRef];
-	
-	if (err == noErr)
-		FNNotify(&folder, kFNDirectoryModifiedMessage, kNilOptions);
-	 else
-		NSLog(@"notifyOfChangedTrash: error getting trash: %d", err);
-	
-	 NSString *sillyDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[(NSString*)CreateRandomizedFileName() autorelease]];
-//	 [[NSFileManager defaultManager] createDirectoryAtPath:sillyDirectory attributes:nil];
-    
+	//NVN-5: dropped the Carbon half (trashFolderRef → FSFindFolder/FSGetCatalogInfo + FNNotify on the
+	//trash folder) that consumed the FSRef substrate. The NSWorkspace recycle below already nudges the
+	//Finder to refresh its Trash; -moveFileToTrashForFilename: (NVN-4) drives the actual trashing.
+	NSString *sillyDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:[(NSString*)CreateRandomizedFileName() autorelease]];
+
     [[NSFileManager defaultManager]createFolderAtPath:sillyDirectory];
 	 NSInteger tag = 0;
-	 [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:NSTemporaryDirectory() destination:@"" 
+	 [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:NSTemporaryDirectory() destination:@""
 												   files:[NSArray arrayWithObject:[sillyDirectory lastPathComponent]] tag:&tag];
-}
-
-+ (OSStatus)trashFolderRef:(FSRef*)trashRef forChild:(FSRef*)childRef {
-    FSVolumeRefNum volume = kOnAppropriateDisk;
-    FSCatalogInfo info;
-    // get the volume the file resides on and use this as the base for finding the trash folder
-    // since each volume will contain its own trash folder...
-    
-    if (FSGetCatalogInfo(childRef, kFSCatInfoVolume, &info, NULL, NULL, NULL) == noErr)
-		volume = info.volume;
-    // go ahead and find the trash folder on that volume.
-    // the trash folder for the current user may not yet exist on that volume, so ask to automatically create it
-
-	return FSFindFolder(volume, kTrashFolderType, kCreateFolder, trashRef);
 }
 
 - (OSStatus)moveFileToTrashForFilename:(NSString*)filename {

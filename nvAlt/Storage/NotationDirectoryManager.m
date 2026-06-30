@@ -121,8 +121,8 @@ void FSEventsCallback(ConstFSEventStreamRef stream, void* info, size_t num_event
 		[self _destroyDirEventStream];
 	}
 	
-	NSString *path = [[NSFileManager defaultManager] pathWithFSRef:&noteDirectoryRef];
-	
+	NSString *path = [self notesDirectoryPath];	//NVN-5: stored path (was derived from the FSRef)
+
 	FSEventStreamContext context = { 0, self, CFRetain, CFRelease, CFCopyDescription };
 	
 	noteDirEventStreamRef = FSEventStreamCreate(NULL, &FSEventsCallback, &context, (CFArrayRef)[NSArray arrayWithObject:path], kFSEventStreamEventIdSinceNow, 

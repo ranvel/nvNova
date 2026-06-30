@@ -260,18 +260,6 @@ errorReturn:
 	return [self stringWithFileSystemRepresentation:path length:strlen(path)];
 }
 
-- (NSString*)pathWithFSRef:(FSRef*)fsRef {
-	NSString *path = nil;
-	
-	const UInt32 maxPathSize = 4 * 1024;
-	UInt8 *convertedPath = (UInt8*)malloc(maxPathSize * sizeof(UInt8));
-	if (FSRefMakePath(fsRef, convertedPath, maxPathSize) == noErr) {
-		path = [self stringWithFileSystemRepresentation:(char*)convertedPath length:strlen((char*)convertedPath)];
-	}
-	free(convertedPath);
-	
-	return path;
-}
 
 - (BOOL)createFolderAtPath:(NSString *)path{
     return [self createFolderAtPath:path withAttributes:nil];

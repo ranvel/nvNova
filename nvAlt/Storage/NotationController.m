@@ -70,8 +70,6 @@
 		subscriptionCallback = NewFNSubscriptionUPP(NotesDirFNSubscriptionProc);
 		bzero(&noteDirSubscription, sizeof(FNSubscriptionRef));
 #endif
-		bzero(&noteDirectoryRef, sizeof(FSRef));
-
 		lastLayoutStyleGenerated = -1;
 		lastCheckedDateInHours = hoursFromAbsoluteTime(CFAbsoluteTimeGetCurrent());
 		blockSize = 0;
@@ -83,62 +81,28 @@
 }
 
 
+//NVN-5: the notes directory is now held as a plain path (the FSRef substrate is gone). This is the
+//sole designated initializer; initWithDirectoryRef:/getDefaultNotesDirectoryRef: have been retired.
 - (id)initWithDirectoryPath:(NSString*)path error:(OSStatus*)err {
-	OSStatus anErr = fnfErr;
+	*err = noErr;
 
-	if ([path length]) {
-		FSRef targetRef;
-		Boolean gotRef = false;
-		//bridge the stored path to the FSRef substrate (NVN-3's variable); no Alias Manager
-		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, kCFURLPOSIXPathStyle, true);
-		if (url) {
-			gotRef = CFURLGetFSRef(url, &targetRef);
-			CFRelease(url);
-		}
-		if (gotRef && (self = [self initWithDirectoryRef:&targetRef error:&anErr])) {
-			*err = noErr;
-			return self;
-		}
+	if (![path length]) {
+		*err = fnfErr;
+		return nil;
 	}
 
-	*err = anErr;
+	if (self=[self init]) {
+		notesDirectoryPath = [path copy];
 
-	return nil;
-}
-
-- (id)initWithDefaultDirectoryReturningError:(OSStatus*)err {
-    FSRef targetRef;
-    
-    OSStatus anErr = noErr;
-    if ((anErr = [NotationController getDefaultNotesDirectoryRef:&targetRef]) == noErr) {
-		
-		if (self=[self initWithDirectoryRef:&targetRef error:&anErr]) {
-			*err = noErr;
-			return self;
-		}
-    }
-    
-    *err = anErr;
-    
-    return nil;
-}
-
-- (id)initWithDirectoryRef:(FSRef*)directoryRef error:(OSStatus*)err {
-    
-    *err = noErr;
-    
-    if (self=[self init]) {
-		noteDirectoryRef = *directoryRef;
-		
 		//check writable and readable perms, warning user if necessary
-		
+
 		//first read cache file
 		OSStatus anErr = noErr;
 		if ((anErr = [self _readAndInitializeSerializedNotes]) != noErr) {
 			*err = anErr;
 			return nil;
 		}
-		
+
 		//set up the directory subscription, if necessary
 		//and sync based on notes in directory and their mod. dates
 		[self databaseSettingsChangedFromOldFormat:[notationPrefs notesStorageFormat]];
@@ -146,13 +110,23 @@
 			*err = kJournalingError;
 			return nil;
 		}
-		
+
 		[self upgradeDatabaseIfNecessary];
-		
+
 		[self updateTitlePrefixConnections];
-    }
-    
-    return self;
+	}
+
+	return self;
+}
+
+- (id)initWithDefaultDirectoryReturningError:(OSStatus*)err {
+	NSString *defaultPath = nil;
+	OSStatus anErr = [NotationController getDefaultNotesDirectoryPath:&defaultPath];
+	if (anErr == noErr && [defaultPath length])
+		return [self initWithDirectoryPath:defaultPath error:err];
+
+	*err = anErr;
+	return nil;
 }
 
 - (id)delegate {
@@ -356,12 +330,7 @@ returnResult:
 #if kUseCachesFolderForInterimNoteChanges
     cPath=[self createCachesFolder];
 #else
-    CFURLRef myURLRef=CFURLCreateFromFSRef(kCFAllocatorDefault, &noteDirectoryRef);
-    if (myURLRef!=NULL)        {
-        cPath =[NSString stringWithString:[(NSURL *) myURLRef path]];
-        CFRelease(myURLRef);
-    }
-//    if ((err = FSRefMakePath(&noteDirectoryRef, convertedPath, maxPathSize)) == noErr) {
+    cPath = [self notesDirectoryPath];	//NVN-5: stored path directly (was derived from the FSRef)
 #endif
     
     if (cPath!=nil) {
@@ -668,8 +637,8 @@ bail:
 			//loose-coupling? what?
 			[[[unwrittenNotes copy] autorelease] makeObjectsPerformSelector:@selector(writeUsingCurrentFileFormatIfNecessary)];
 			
-			//this always seems to call ourselves
-			FNNotify(&noteDirectoryRef, kFNDirectoryModifiedMessage, kFNNoImplicitAllSubscription);
+			//NVN-5: dropped the Carbon FNNotify Finder nudge (consumed the FSRef substrate); the
+			//FSEvents-based directory-change mechanism is NVN-10's scope.
 		}
 		if (walWriter) {
 			//append unwrittenNotes to journal, if one exists
@@ -692,8 +661,8 @@ bail:
 }
 
 - (NSString*)notesDirectoryPath {
-	//derive from the live directory FSRef (FSRef substrate stays NVN-3's variable)
-	return [[NSFileManager defaultManager] pathWithFSRef:&noteDirectoryRef];
+	//NVN-5: the resolved notes-directory location is now stored directly as a path
+	return notesDirectoryPath;
 }
 
 - (void)closeAllResources {
@@ -710,7 +679,7 @@ bail:
 - (void)checkIfNotationIsTrashed {
 	if ([self notesDirectoryIsTrashed]) {
 		
-		NSString *trashLocation = [[[NSFileManager defaultManager] pathWithFSRef:&noteDirectoryRef] stringByAbbreviatingWithTildeInPath];
+		NSString *trashLocation = [[self notesDirectoryPath] stringByAbbreviatingWithTildeInPath];
 		if (!trashLocation) trashLocation = @"unknown";
 		NSInteger result = NSRunCriticalAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Your notes directory (%@) appears to be in the Trash.",nil), trashLocation], 
 											 NSLocalizedString(@"If you empty the Trash now, you could lose your notes. Relocate the notes to a less volatile folder?",nil),
@@ -1569,7 +1538,8 @@ bail:
 	[deletedNotes release];
 	[notationPrefs release];
 	[unwrittenNotes release];
-    
+	[notesDirectoryPath release];
+
     [super dealloc];
 }
 

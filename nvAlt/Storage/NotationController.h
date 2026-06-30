@@ -87,7 +87,7 @@ typedef struct _NoteCatalogEntry {
 	struct statfs *statfsInfo;
 	NSUInteger diskUUIDIndex;
 	CFUUIDRef diskUUID;
-    FSRef noteDirectoryRef;
+    NSString *notesDirectoryPath;
     OSStatus lastWriteError;
     
     WALStorageController *walWriter;
@@ -99,8 +99,8 @@ typedef struct _NoteCatalogEntry {
 
 - (id)init;
 - (id)initWithDirectoryPath:(NSString*)path error:(OSStatus*)err;
+//NVN-5: the FSRef-based initWithDirectoryRef: is gone; callers pass a path/URL
 - (id)initWithDefaultDirectoryReturningError:(OSStatus*)err;
-- (id)initWithDirectoryRef:(FSRef*)directoryRef error:(OSStatus*)err;
 - (NSString*)notesDirectoryPath;
 - (OSStatus)_readAndInitializeSerializedNotes;
 - (void)processRecoveredNotes:(NSDictionary*)dict;
