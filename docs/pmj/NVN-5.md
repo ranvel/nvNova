@@ -1,7 +1,7 @@
 ---
 key: NVN-5
 summary: Excise remaining Carbon surface — full UTCDateTime excision, FSFindFolder, IconRef, noteDirectoryRef substrate, NVN-3 deferrals
-status: Implementing
+status: DAT
 resolution:
 priority: 3
 fixVersion:
@@ -158,7 +158,52 @@ once their consumers are URL-native.
 Acceptance = the `## DAT (R)` checklist.
 
 ## Implementation
-(pending)
+Done (Cici). Branch `nvn-5-excise-carbon`, four commits off `a2c046a`:
+
+- `676481b` — **UTCDateTime → CFAbsoluteTime + archive migration.** Struct members
+	(`NoteObject.fileModifiedDate`/`attrsModifiedDate`, `NoteCatalogEntry.{lastModified,
+	lastAttrModified}`, `PerDiskInfo.attrTime`) and all ~15 `UCConvert*` sites become
+	plain `CFAbsoluteTime`. Keyed archive writes new keys `fileModifiedDateAbsolute`
+	(double) + `perDiskInfoGroups2`; decode falls back to the legacy keys and converts
+	once via a pure-C epoch helper (`NVAbsTimeFromLegacyBits` / `CopyLegacyPerDiskInfoGroups`,
+	`kCFAbsoluteTimeIntervalSince1904` — CoreFoundation, not Carbon). `FSCatalogInfo`
+	date-carrier → `NoteFileInfo` (CFAbsoluteTime). NVN-3 shims retired. Dead non-keyed
+	NSCoding branch removed. `sizeof(PerDiskInfo)` stays 16; `COMPILE_ASSERT` holds.
+- `6fac22a` — **peripherals.** IconRef → `-[NSWorkspace iconForFile:]` (deleted
+	`+smallIconForFSRef:`); `-UTIOfFileConformsToType:` → `NSURLTypeIdentifierKey`;
+	`-notesDirectoryIsTrashed` → `NSURLIsInTrashKey`.
+- `1e8a091` — **FSRef substrate.** `FSRef noteDirectoryRef` → `NSString
+	*notesDirectoryPath`; `initWithDirectoryPath:` is the sole initializer;
+	`getDefaultNotesDirectoryRef:` → `+getDefaultNotesDirectoryPath:` (NSFileManager);
+	`exportToDirectoryRef:` → `exportToDirectoryURL:` (NSData/NSFileManager);
+	`relocateNotesDirectory` → `moveItemAtURL:`; synthetic disk UUID via
+	`NSURLVolumeCreationDateKey`. Deleted the callerless BufferUtils FSRef primitives,
+	`CreateDirectoryIfNotPresent`, `pathWithFSRef:`, `writeCurrentFileEncodingToFSRef:`,
+	the `orWithFSRef:` param, and `trashFolderRef:forChild:`.
+
+**Verification (static; project doesn't build by design):** the live tree links zero
+Carbon File Manager / Alias / Icon / UTCUtils symbols (grep sweep clean — only comments
+and one log-string literal remain).
+
+**Recon corrections found during implementation:**
+- `-UTIOfFileConformsToType:` was **not** dead — `AlienNoteImporter.m:422` calls it. It
+	was a live `FSPathMakeRef`+`LSCopyItemAttribute` blocker, so it was **ported**, not deleted.
+- DiskUUID audit (recon §2.7): `diskIDIndex` **is** read for behavior — it indexes
+	`PerDiskInfo` for the per-disk attr-mod time used in change-detection (non-SingleDatabase
+	format). So the synthetic-UUID fallback was **de-Carboned**, not removed. Its UUID value
+	now differs from the pre-NVN-5 Carbon one, so a synthetic-fallback disk re-reads its
+	per-disk attr times once after upgrade (rare path; HFS/FSEvents UUIDs are used first).
+
+**Deviations (flagged for R / NVN-10):**
+- `notifyOfChangedTrash` + `trashFolderRef:forChild:` were recon-fenced to NVN-10, but
+	they consumed `noteDirectoryRef` and linked `FSFindFolder`/`FSGetCatalogInfo`/`FNNotify`
+	— which NVN-5's DAT#1 requires gone. De-Carboned `notifyOfChangedTrash` (kept its
+	NSWorkspace Finder refresh, dropped the Carbon half) and deleted `trashFolderRef:`. The
+	`FNNotify` post-write nudges in `synchronizeNoteChanges`/`ExporterManager` were dropped
+	too. The genuine NVN-10 work (FSEvents directory *watching*) is untouched.
+- One dead reference to the removed ivar survives at `NotationDirectoryManager.m:155`
+	inside the `#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5` (pre-Leopard
+	`FNSubscribe`) block — preprocessed out on the 10.9 target; left for NVN-10 to excise.
 
 ## DAT (R)
 - [ ] No remaining Carbon File Manager / Alias / Icon / UTCUtils symbols link in the build

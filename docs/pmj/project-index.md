@@ -14,7 +14,7 @@ Params: `KEY_PREFIX=NVN` · `TICKETS_DIR=docs/pmj/` · `ARCHIVE_DIR=docs/pmj/_ar
 | NVN-1 | Stand up PMJ tracker for nvNova | Implementing | 2 |
 | NVN-3 | Excise Carbon file-I/O substrate (FSRef) → NSFileManager atomic | DAT | 1 |
 | NVN-4 | Fix `moveFileToTrash:` silent success on trash-resolution failure | DAT | 2 |
-| NVN-5 | Excise Carbon stragglers (FSFindFolder, UTCDateTime, LSCopy…, residual IconRef) | Solutioning | 3 |
+| NVN-5 | Excise Carbon stragglers (FSFindFolder, UTCDateTime, LSCopy…, residual IconRef) | DAT | 3 |
 | NVN-6 | Native arm64 — re-vendor deps (multimarkdown; crypto per NVN-11), flip ARCHS | Backlog | 1 |
 | NVN-7 | P0 — make accidental note deletion harder | Parked | 2 |
 | NVN-10 | Excise Carbon directory watching (FNNotify) → FSEvents + GCD | Backlog | 1 |
