@@ -188,7 +188,7 @@ typedef struct _NoteCatalogEntry {
 
 - (void)dealloc;
 
-#pragma mark nvALT stuff
+#pragma mark nvNova stuff
 
 - (void)removeNotesAtIndexes:(NSIndexSet *)indexes;
 - (NSString *)createCachesFolder;

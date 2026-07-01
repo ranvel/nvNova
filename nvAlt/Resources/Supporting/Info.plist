@@ -160,6 +160,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>nvnova</string>
 				<string>nvalt</string>
 				<string>nv</string>
 			</array>
@@ -202,12 +203,12 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>nvALT: New Note from Selection</string>
+				<string>nvNova: New Note from Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>createFromSelection</string>
 			<key>NSPortName</key>
-			<string>nvALT</string>
+			<string>nvNova</string>
 			<key>NSSendFileTypes</key>
 			<array>
 				<string>public.text</string>

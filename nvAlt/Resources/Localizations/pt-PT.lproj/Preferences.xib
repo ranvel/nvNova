@@ -205,7 +205,7 @@
                 <textField hidden="YES" verticalHuggingPriority="750" id="382">
                     <rect key="frame" x="163" y="15" width="192" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="This will immediately restart nvALT" id="384">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="This will immediately restart nvNova" id="384">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -703,7 +703,7 @@
                 <button id="491">
                     <rect key="frame" x="50" y="78" width="242" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Use nvALT Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="492">
+                    <buttonCell key="cell" type="check" title="Use nvNova Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="492">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>

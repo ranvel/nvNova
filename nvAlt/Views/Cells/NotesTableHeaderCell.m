@@ -93,7 +93,7 @@ NSColor *tColor;
 
 
 
-#pragma mark - nvALT additions
+#pragma mark - nvNova additions
 
 + (void)setBColor:(NSColor *)inColor{
     if (bColor) {

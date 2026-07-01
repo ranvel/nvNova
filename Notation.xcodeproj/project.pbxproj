@@ -757,7 +757,7 @@
 		5CFF810713A52EE2008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
 		5CFF810913A536F7008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* nvALT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nvALT.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* nvNova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nvNova.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93099627138BD61000368C45 /* tp2md.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = tp2md.rb; sourceTree = "<group>"; };
 		9335C40C148EC7AC009CE623 /* multimarkdown */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = multimarkdown; sourceTree = "<group>"; };
 		934C3FAE14FDA069000D14BA /* custom.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = custom.css; sourceTree = "<group>"; };
@@ -929,7 +929,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* nvALT.app */,
+				8D1107320486CEB800E47090 /* nvNova.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1556,7 +1556,7 @@
 			name = Notation;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Notation;
-			productReference = 8D1107320486CEB800E47090 /* nvALT.app */;
+			productReference = 8D1107320486CEB800E47090 /* nvNova.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2338,7 +2338,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-pg";
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
-				PRODUCT_NAME = nvALT;
+				PRODUCT_NAME = nvNova;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -2420,7 +2420,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/nvAlt/Vendor";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
-				PRODUCT_NAME = nvALT;
+				PRODUCT_NAME = nvNova;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = (
 					"-sectorder",

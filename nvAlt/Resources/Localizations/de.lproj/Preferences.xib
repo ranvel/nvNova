@@ -702,7 +702,7 @@
                 <button id="481">
                     <rect key="frame" x="128" y="75" width="242" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Use nvALT Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="482">
+                    <buttonCell key="cell" type="check" title="Use nvNova Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="482">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>

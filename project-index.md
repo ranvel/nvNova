@@ -2,10 +2,10 @@
 
 > Auto-maintained by Claude. Last updated: 2026-06-27
 
-nvALT is a macOS note-taking app (Cocoa, Objective-C, **MRC — not ARC**), forked
+nvNova is a macOS note-taking app (Cocoa, Objective-C, **MRC — not ARC**), forked
 from Notational Velocity. A single search/title field drives everything: typing
 filters notes live, and non-matching text becomes a new note's title. Xcode target
-`Notation`, product `nvALT`, license GPL-3.0. See `CLAUDE.md` for architecture.
+`Notation`, product `nvNova`, license GPL-3.0. See `CLAUDE.md` for architecture.
 
 ## Project Structure
 

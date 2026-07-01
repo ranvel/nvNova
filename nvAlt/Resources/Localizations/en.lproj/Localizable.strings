@@ -92,7 +92,7 @@
 "No notes were selected for exporting." = "No notes were selected for exporting.";
 
 /* No comment provided by engineer. */
-"nvALT should assume the file quotemark%@quotemark was saved with the encoding:" = "nvALT should assume the file “%@” was saved with the encoding:";
+"nvNova should assume the file quotemark%@quotemark was saved with the encoding:" = "nvNova should assume the file “%@” was saved with the encoding:";
 
 /* No comment provided by engineer. */
 "Note Importing Cancelled" = "Note Importing Cancelled";
@@ -197,7 +197,7 @@
 "Select" = "Select";
 
 /* No Comment */
-"Select the folder that nvALT should use for reading and storing notes." = "Select the folder that nvALT should use for reading and storing notes.";
+"Select the folder that nvNova should use for reading and storing notes." = "Select the folder that nvNova should use for reading and storing notes.";
 
 /* description for no key combination */
 "(None)" = "(None)";
@@ -366,16 +366,16 @@
 "<Feedback loop warning message>" = "To avoid this problem, choose a different location for the notes folder on this computer, or turn off %@ synchronization.";
 
 /* No comment provided by engineer. */
-"The %@ server holds a different set of notes. Replace all %u notes in nvALT with the %u notes on the server, or merge both sets together?" = "The %@ server holds a different set of notes. Replace all %u notes in nvALT with the %u notes on the server, or merge both sets together?";
+"The %@ server holds a different set of notes. Replace all %u notes in nvNova with the %u notes on the server, or merge both sets together?" = "The %@ server holds a different set of notes. Replace all %u notes in nvNova with the %u notes on the server, or merge both sets together?";
 
 /* No comment provided by engineer. */
-"The %@ server reports that no notes exist. Delete all %u notes in nvALT to match it, or re-upload them now?" = "The %@ server reports that no notes exist. Delete all %u notes in nvALT to match it, or re-upload them now?";
+"The %@ server reports that no notes exist. Delete all %u notes in nvNova to match it, or re-upload them now?" = "The %@ server reports that no notes exist. Delete all %u notes in nvNova to match it, or re-upload them now?";
 
 /* No comment provided by engineer. */
-"Replacing will remove all %u notes from nvALT. Merging will upload all notes to %@, omitting duplicates." = "Replacing will remove all %u notes from nvALT. Merging will upload all notes to %@, omitting duplicates.";
+"Replacing will remove all %u notes from nvNova. Merging will upload all notes to %@, omitting duplicates." = "Replacing will remove all %u notes from nvNova. Merging will upload all notes to %@, omitting duplicates.";
 
 /* No comment provided by engineer. */
-"If your %@ account is different, you may prefer to create a new database in nvALT instead." = "If your %@ account is different, you may prefer to create a new database in nvALT instead.";
+"If your %@ account is different, you may prefer to create a new database in nvNova instead." = "If your %@ account is different, you may prefer to create a new database in nvNova instead.";
 
 /* default button in the dialog above */
 "Turn Off Syncing" = "Turn Off Syncing";
@@ -504,7 +504,7 @@
 "No note selected." = "No note selected.";
 
 /* No comment provided by engineer. */
-"nvALT supports encryption only for notes stored in a database file." = "nvALT supports encryption only for notes stored in a database file.";
+"nvNova supports encryption only for notes stored in a database file." = "nvNova supports encryption only for notes stored in a database file.";
 
 /* No comment provided by engineer. */
 "Open Console in /Applications/Utilities/ for more information." = "Open Console in /Applications/Utilities/ for more information.";
@@ -546,7 +546,7 @@
 "rich text" = "rich text";
 
 /* No comment provided by engineer. */
-"Select a new location for your nvALT notes." = "Select a new location for your nvALT notes.";
+"Select a new location for your nvNova notes." = "Select a new location for your nvNova notes.";
 
 /* menu item title for showing bookmarks */
 "Show Bookmarks" = "Show Bookmarks";
@@ -639,7 +639,7 @@
 "Switch to Horizontal Layout" = "Switch to Horizontal Layout";
 
 /* for warning about incompatibility with TextExpander, Typinator, etc. */
-"Secure Text Entry will prevent %@, which is currently installed on this computer, from working in nvALT." = "Secure Text Entry will prevent %@, which is currently installed on this computer, from working in nvALT.";
+"Secure Text Entry will prevent %@, which is currently installed on this computer, from working in nvNova." = "Secure Text Entry will prevent %@, which is currently installed on this computer, from working in nvNova.";
 
 /* Status message after downloading a URL */
 "Importing content..." = "Importing content…";

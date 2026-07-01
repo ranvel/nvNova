@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**nvALT** — a macOS note-taking app (Cocoa, Objective-C), forked from Zachary Schneirov's **Notational Velocity**. The Xcode target is named `Notation`; the product is `nvALT`. The core idea: a single search/title field drives everything — typing incrementally filters notes in real time, and if nothing matches, that same text becomes the title of a new note (⌘J/⌘K navigate the list).
+**nvNova** — a macOS note-taking app (Cocoa, Objective-C), forked from Zachary Schneirov's **Notational Velocity**. The Xcode target is named `Notation`; the product is `nvNova`. The core idea: a single search/title field drives everything — typing incrementally filters notes in real time, and if nothing matches, that same text becomes the title of a new note (⌘J/⌘K navigate the list).
 
 License is **GPL-3.0** (`COPYING.txt`); `License.txt` (BSD-3-Clause) is a leftover from NV's pre-2010 days. Per-file source headers carry the GPLv3 grant — preserve it on files you add.
 

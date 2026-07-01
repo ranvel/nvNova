@@ -75,7 +75,7 @@
 	
 	NSString *disableEncryptionString, *enableEncryptionString;
     
-#pragma mark nvALT Finder tagging
+#pragma mark nvNova Finder tagging
     IBOutlet NSButton *useFinderTaggingButton;
 }
 
@@ -118,7 +118,7 @@
 - (void)_disableEncryption;
 - (void)disableEncryptionWithWarning:(BOOL)warning;
 
-#pragma mark nvALT Finder tagging
+#pragma mark nvNova Finder tagging
 - (IBAction)switchToFinderTags:(id)sender;
 
 @end

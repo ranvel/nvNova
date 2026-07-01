@@ -1315,7 +1315,7 @@ enum { kNext_Tag = 'j', kPrev_Tag = 'k' };
 }
 
 
-#pragma mark - nvALT work
+#pragma mark - nvNova work
 
 - (BOOL)isOpaque{
     return YES;

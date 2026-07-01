@@ -326,7 +326,7 @@ returnResult:
 	NSData *walSessionKey = [notationPrefs WALSessionKey];
     
     NSString *cPath=nil;
-    //nvALT change to store Interim Note-Changes in ~/Library/Caches/
+    //nvNova change to store Interim Note-Changes in ~/Library/Caches/
 #if kUseCachesFolderForInterimNoteChanges
     cPath=[self createCachesFolder];
 #else
@@ -1543,7 +1543,7 @@ bail:
     [super dealloc];
 }
 
-#pragma mark nvALT stuff
+#pragma mark nvNova stuff
 - (NSString *)createCachesFolder{
     NSString *path = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);

@@ -31,7 +31,7 @@
 {
     static NSString* MIMEBoundary = nil;
     if(!MIMEBoundary)
-        MIMEBoundary = [[NSString alloc] initWithFormat:@"----_=_nvALT_%@_=_----",[[NSProcessInfo processInfo] globallyUniqueString]];
+        MIMEBoundary = [[NSString alloc] initWithFormat:@"----_=_nvNova_%@_=_----",[[NSProcessInfo processInfo] globallyUniqueString]];
     return MIMEBoundary;
 }
 //this create a correctly structured multipart MIME body for the POST request from a dictionary

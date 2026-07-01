@@ -95,7 +95,7 @@ xcodebuild -project Notation.xcodeproj -scheme "Notation Develop" -configuration
 
 `SimperiumConfig.h` is git-ignored; an empty `kSimperiumAPIKeyString` builds fine and
 simply disables Simplenote/Simperium sync. Provide a real key to enable it. The built
-app (still named `nvALT.app` until the rename lands) appears under
+app (`nvNova.app`) appears under
 `~/Library/Developer/Xcode/DerivedData/`. Opening the project in Xcode and pressing
 ⌘R works too (ad-hoc "Sign to Run Locally").
 

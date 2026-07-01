@@ -94,7 +94,7 @@
 	}
 	
 	[request setHTTPShouldHandleCookies:NO];
-	[request addValue:@"Sinus cardinalis nvALT 2.2B" forHTTPHeaderField:@"User-agent"];
+	[request addValue:@"Sinus cardinalis nvNova 2.2B" forHTTPHeaderField:@"User-agent"];
 	
 	if (requestHeaders) {
 		for (NSString *field in [requestHeaders allKeys]) {

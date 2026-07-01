@@ -1,6 +1,6 @@
 //
 //  ETClipView.m
-//  nvALT
+//  nvNova
 //
 //  Created by elasticthreads on 8/15/11.
 //

@@ -33,7 +33,7 @@
                 <menuItem title="nvNova" id="56">
                     <menu key="submenu" title="nvNova" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="Über nvALT" id="58">
+                            <menuItem title="Über nvNova" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -56,7 +56,7 @@
                             <menuItem isSeparatorItem="YES" id="144">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="nvALT ausblenden" keyEquivalent="h" id="134">
+                            <menuItem title="nvNova ausblenden" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-2" id="152"/>
                                 </connections>
@@ -75,7 +75,7 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="nvALT beenden" keyEquivalent="q" id="136">
+                            <menuItem title="nvNova beenden" keyEquivalent="q" id="136">
                                 <connections>
                                     <action selector="terminate:" target="-2" id="139"/>
                                 </connections>
@@ -662,7 +662,7 @@ CA
                             <menuItem isSeparatorItem="YES" id="1058">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="nvALT Home" tag="5" id="1292">
+                            <menuItem title="nvNova Home" tag="5" id="1292">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showHelpDocument:" target="213" id="1295"/>
@@ -1001,7 +1001,7 @@ CA
                     </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1138"/>
-                <menuItem title="Über nvALT" id="Eh7-wx-CCX">
+                <menuItem title="Über nvNova" id="Eh7-wx-CCX">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="orderFrontStandardAboutPanel:" target="-2" id="XZy-fI-t9S"/>
@@ -1012,7 +1012,7 @@ CA
                         <action selector="showPreferencesWindow:" target="213" id="1183"/>
                     </connections>
                 </menuItem>
-                <menuItem title="nvALT beenden" keyEquivalent="q" id="1185">
+                <menuItem title="nvNova beenden" keyEquivalent="q" id="1185">
                     <connections>
                         <action selector="terminate:" target="-2" id="1186"/>
                     </connections>

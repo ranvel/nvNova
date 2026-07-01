@@ -93,7 +93,7 @@
                 <textField verticalHuggingPriority="750" id="287">
                     <rect key="frame" x="17" y="194" width="201" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Raccourci global pour nvALT : " id="331">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Raccourci global pour nvNova : " id="331">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +198,7 @@
                 <textField hidden="YES" verticalHuggingPriority="750" id="390">
                     <rect key="frame" x="159" y="24" width="192" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="This will immediately restart nvALT" id="392">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="This will immediately restart nvNova" id="392">
                         <font key="font" metaFont="smallSystem"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -697,7 +697,7 @@
                 <button id="488">
                     <rect key="frame" x="57" y="80" width="242" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Use nvALT Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="489">
+                    <buttonCell key="cell" type="check" title="Use nvNova Scrollbars:  " bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="489">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>

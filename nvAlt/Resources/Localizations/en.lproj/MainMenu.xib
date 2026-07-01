@@ -59,7 +59,7 @@
                             <menuItem isSeparatorItem="YES" id="144">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Hide nvALT" keyEquivalent="h" id="134">
+                            <menuItem title="Hide nvNova" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-2" id="152"/>
                                 </connections>
@@ -78,7 +78,7 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Quit nvALT" keyEquivalent="q" id="136">
+                            <menuItem title="Quit nvNova" keyEquivalent="q" id="136">
                                 <connections>
                                     <action selector="terminate:" target="-2" id="139"/>
                                 </connections>
@@ -675,7 +675,7 @@ CA
                             <menuItem isSeparatorItem="YES" id="1058">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="nvALT Home" tag="5" id="1284">
+                            <menuItem title="nvNova Home" tag="5" id="1284">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showHelpDocument:" target="213" id="1289"/>
@@ -1016,7 +1016,7 @@ CA
                     </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1139"/>
-                <menuItem title="About nvALT" id="1545">
+                <menuItem title="About nvNova" id="1545">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="orderFrontStandardAboutPanel:" target="-2" id="1546"/>
@@ -1027,7 +1027,7 @@ CA
                         <action selector="showPreferencesWindow:" target="213" id="1181"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Quit nvALT" keyEquivalent="q" id="1183">
+                <menuItem title="Quit nvNova" keyEquivalent="q" id="1183">
                     <connections>
                         <action selector="terminate:" target="-2" id="1184"/>
                     </connections>

@@ -93,7 +93,7 @@
 
 - (BOOL)didRenderFully;
 
-#pragma mark - nvALT additions
+#pragma mark - nvNova additions
 - (void)setMouseInside:(BOOL)inside;
 - (BOOL)changeMarkdownAttribute:(NSString *)syntaxBit;
 //- (BOOL)isAlreadyNearMarkdownLink;
