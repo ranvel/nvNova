@@ -220,13 +220,16 @@ long BlockSizeForNotation(NotationController *controller) {
 
 
 - (BOOL)notesDirectoryIsTrashed {
-	//NVN-5: NSURLIsInTrashKey replaces Carbon FSDetermineIfRefIsEnclosedByFolder(kTrashFolderType)
-	NSURL *dirURL = [self notesDirectoryURL];
-	if (!dirURL) return NO;
+	//NVN-5: replacement for Carbon FSDetermineIfRefIsEnclosedByFolder(kTrashFolderType). There is no
+	//public NSURL "is in trash" resource key on this SDK, so detect the trash by path component: a
+	//trashed item lives under the home Trash (~/.Trash) or a volume's per-user trash (/Volumes/X/.Trashes/<uid>).
+	NSString *path = [self notesDirectoryPath];
+	if (![path length]) return NO;
 
-	NSNumber *inTrash = nil;
-	if ([dirURL getResourceValue:&inTrash forKey:NSURLIsInTrashKey error:NULL])
-		return [inTrash boolValue];
+	for (NSString *component in [path pathComponents]) {
+		if ([component isEqualToString:@".Trash"] || [component isEqualToString:@".Trashes"])
+			return YES;
+	}
 	return NO;
 }
 
