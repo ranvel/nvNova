@@ -49,3 +49,6 @@ SimperiumConfig.h
 nvalt.taskpaper
 
 assets/*
+
+# PMJ board — local-only issue tracker (docs + generated project index)
+docs/pmj/
