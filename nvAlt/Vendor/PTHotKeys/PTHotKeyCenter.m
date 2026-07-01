@@ -5,18 +5,36 @@
 //  Created by Quentin Carnicelli on Sat Aug 02 2003.
 //  Copyright (c) 2003 Quentin D. Carnicelli. All rights reserved.
 //
+//  NVN-5: reimplemented on a CGEventTap (Quartz Event Services) so global hot keys no longer depend on
+//  the Carbon Event Manager (RegisterEventHotKey / InstallEventHandler / the Carbon event dispatcher).
+//  Behavior change: an active session tap requires the app to be trusted for Accessibility; the user is
+//  prompted the first time a hot key is registered without that trust. The public API is unchanged.
+//
 
 #import "PTHotKeyCenter.h"
 #import "PTHotKey.h"
 #import "PTKeyCombo.h"
-#import <Carbon/Carbon.h>
+#import <ApplicationServices/ApplicationServices.h>
+
+//PTKeyCombo persists modifiers as Carbon modifier bits (Events.h cmdKey/shiftKey/optionKey/controlKey),
+//and those values are stored in user defaults, so they must be interpreted exactly. Mirror them here
+//rather than importing Carbon.
+enum {
+	kPTCmdKeyMask     = 0x0100,
+	kPTShiftKeyMask   = 0x0200,
+	kPTOptionKeyMask  = 0x0800,
+	kPTControlKeyMask = 0x1000
+};
 
 @interface PTHotKeyCenter (Private)
-- (void)_updateEventHandler;
-- (void)_hotKeyDown: (PTHotKey*)hotKey;
-- (void)_hotKeyUp: (PTHotKey*)hotKey;
-static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
+- (void)_ensureEventTap;
+- (void)_teardownEventTapIfIdle;
+- (void)_reenableTap;
+- (PTHotKey*)_hotKeyMatchingKeyCode:(CGKeyCode)keyCode flags:(CGEventFlags)flags;
+- (void)_fireHotKey:(PTHotKey*)hotKey;
 @end
+
+static CGEventRef PTHotKeyEventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon);
 
 @implementation PTHotKeyCenter
 
@@ -28,26 +46,25 @@ static id _sharedHotKeyCenter = nil;
 	{
 		_sharedHotKeyCenter = [[self alloc] init];
 	}
-	
+
 	return _sharedHotKeyCenter;
 }
 
 - (id)init
 {
 	self = [super init];
-	
+
 	if( self )
 	{
 		mHotKeys = [[NSMutableDictionary alloc] init];
-        mHotKeyMap = [[NSMutableDictionary alloc] init];
-        mNextKeyID = 1;
 	}
-	
+
 	return self;
 }
 
 - (void)dealloc
 {
+	[self _teardownEventTapIfIdle];
 	[mHotKeys release];
 	[super dealloc];
 }
@@ -56,73 +73,28 @@ static id _sharedHotKeyCenter = nil;
 
 - (BOOL)registerHotKey: (PTHotKey*)hotKey
 {
-    //NSLog(@"registerHotKey: %@", hotKey);
-	OSStatus err;
-	EventHotKeyID hotKeyID;
-	EventHotKeyRef carbonHotKey;
-/*
-	if([mHotKeys objectForKey:[hotKey name]])
-    	[self unregisterHotKey: hotKey];
-*/	
+	if( hotKey == nil )
+		return NO;
+
 	if( [[hotKey keyCombo] isValidHotKeyCombo] == NO )
-    {
-        //NSLog(@"not valid keycombo:");
-        return YES;
-    }
-		
-	
-	hotKeyID.signature = UTGetOSTypeFromString(CFSTR("PTHk"));
-	hotKeyID.id = mNextKeyID;
-    
-	//NSLog(@"registering...");
-	err = RegisterEventHotKey(  [[hotKey keyCombo] keyCode],
-								[[hotKey keyCombo] modifiers],
-								hotKeyID,
-								GetEventDispatcherTarget(),
-								0,
-								&carbonHotKey );
+	{
+		//a "clear" combo is accepted but registers nothing (matches the original behavior)
+		return YES;
+	}
 
-	if( err )
-    {
-        //NSLog(@"error --");
-        return NO;
-    }
-	
-    NSNumber *kid = [NSNumber numberWithUnsignedInt:mNextKeyID];
-    [mHotKeyMap setObject:hotKey forKey:kid];
-    mNextKeyID += 1;
-    
-
-    [hotKey setCarbonHotKey:carbonHotKey];
 	[mHotKeys setObject: hotKey forKey: [hotKey name]];
+	[self _ensureEventTap];
 
-	[self _updateEventHandler];
-	//NSLog(@"Eo registerHotKey:");
 	return YES;
 }
 
 - (void)unregisterHotKey: (PTHotKey*)hotKey
 {
-    //NSLog(@"unregisterHotKey: %@", hotKey);
-	EventHotKeyRef carbonHotKey;
-
-	if(![mHotKeys objectForKey:[hotKey name]])
+	if( ![mHotKeys objectForKey:[hotKey name]] )
 		return;
-	
-	carbonHotKey = [hotKey carbonHotKey];
-	NSAssert( carbonHotKey != nil, @"" );
-
-	(void)UnregisterEventHotKey( carbonHotKey );
-	//Watch as we ignore 'err':
 
 	[mHotKeys removeObjectForKey: [hotKey name]];
-    NSArray *remKeys = [mHotKeyMap allKeysForObject:hotKey];
-    if (remKeys && [remKeys count] > 0)
-        [mHotKeyMap removeObjectsForKeys:remKeys];
-	
-	[self _updateEventHandler];
-    //NSLog(@"Eo unregisterHotKey:");
-	//See that? Completely ignored
+	[self _teardownEventTapIfIdle];
 }
 
 - (void) unregisterHotKeyForName:(NSString *)name
@@ -132,7 +104,7 @@ static id _sharedHotKeyCenter = nil;
 
 - (void) unregisterAllHotKeys;
 {
-    NSEnumerator *enumerator = [mHotKeys objectEnumerator];
+    NSEnumerator *enumerator = [[mHotKeys allValues] objectEnumerator];
     id thing;
     while ((thing = [enumerator nextObject]))
     {
@@ -154,11 +126,9 @@ static id _sharedHotKeyCenter = nil;
 - (void) updateHotKey:(PTHotKey *)hk
 {
     [hk retain];
-    //NSLog(@"updateHotKey: %@", hk);
     [self unregisterHotKey:[mHotKeys objectForKey:[hk name]]];
-    //NSLog(@"unreg'd: %@", hk);
     [self registerHotKey:hk];
-    //NSLog(@"Eo updateHotKey:");
+    [hk release];
 }
 
 - (PTHotKey *) hotKeyForName:(NSString *)name
@@ -172,79 +142,116 @@ static id _sharedHotKeyCenter = nil;
 }
 
 #pragma mark -
-- (void)_updateEventHandler
-{
-	if( [mHotKeys count] && mEventHandlerInstalled == NO )
-	{
-		EventTypeSpec eventSpec[2] = {
-			{ kEventClassKeyboard, kEventHotKeyPressed },
-			{ kEventClassKeyboard, kEventHotKeyReleased }
-		};    
 
-		InstallEventHandler( GetEventDispatcherTarget(),
-							 (EventHandlerProcPtr)hotKeyEventHandler, 
-							 2, eventSpec, nil, nil);
-	
-		mEventHandlerInstalled = YES;
+- (void)_ensureEventTap
+{
+	if( mEventTap != NULL || [mHotKeys count] == 0 )
+		return;
+
+	//an active tap that can swallow the matched combo requires Accessibility trust; prompt once if needed
+	if( !AXIsProcessTrusted() )
+	{
+		NSDictionary *opts = [NSDictionary dictionaryWithObject:(id)kCFBooleanTrue
+														 forKey:(id)kAXTrustedCheckOptionPrompt];
+		AXIsProcessTrustedWithOptions( (CFDictionaryRef)opts );
+	}
+
+	CGEventMask mask = CGEventMaskBit( kCGEventKeyDown );
+	mEventTap = CGEventTapCreate( kCGSessionEventTap, kCGHeadInsertEventTap,
+								  kCGEventTapOptionDefault, mask, PTHotKeyEventTapCallback, (void*)self );
+	if( mEventTap == NULL )
+	{
+		NSLog(@"PTHotKeyCenter: could not create the global hot-key event tap. Grant Notational Velocity "
+			  @"Accessibility access in System Settings to enable global hot keys.");
+		return;
+	}
+
+	mRunLoopSource = CFMachPortCreateRunLoopSource( kCFAllocatorDefault, mEventTap, 0 );
+	CFRunLoopAddSource( CFRunLoopGetMain(), mRunLoopSource, kCFRunLoopCommonModes );
+	CGEventTapEnable( mEventTap, true );
+}
+
+- (void)_teardownEventTapIfIdle
+{
+	if( [mHotKeys count] > 0 )
+		return;
+
+	if( mRunLoopSource != NULL )
+	{
+		CFRunLoopRemoveSource( CFRunLoopGetMain(), mRunLoopSource, kCFRunLoopCommonModes );
+		CFRelease( mRunLoopSource );
+		mRunLoopSource = NULL;
+	}
+	if( mEventTap != NULL )
+	{
+		CGEventTapEnable( mEventTap, false );
+		CFRelease( mEventTap );
+		mEventTap = NULL;
 	}
 }
 
-- (void)_hotKeyDown: (PTHotKey*)hotKey
+- (void)_reenableTap
+{
+	//the system disables a tap that is too slow or is interrupted; turn it back on
+	if( mEventTap != NULL )
+		CGEventTapEnable( mEventTap, true );
+}
+
+- (PTHotKey*)_hotKeyMatchingKeyCode:(CGKeyCode)keyCode flags:(CGEventFlags)flags
+{
+	BOOL cmd   = (flags & kCGEventFlagMaskCommand)   != 0;
+	BOOL shift = (flags & kCGEventFlagMaskShift)     != 0;
+	BOOL opt   = (flags & kCGEventFlagMaskAlternate) != 0;
+	BOOL ctrl  = (flags & kCGEventFlagMaskControl)   != 0;
+
+	for( id name in mHotKeys )
+	{
+		PTHotKey *hotKey = [mHotKeys objectForKey:name];
+		PTKeyCombo *combo = [hotKey keyCombo];
+		if( (CGKeyCode)[combo keyCode] != keyCode )
+			continue;
+
+		int m = [combo modifiers];
+		if( (((m & kPTCmdKeyMask)    != 0) == cmd)   &&
+			(((m & kPTShiftKeyMask)  != 0) == shift) &&
+			(((m & kPTOptionKeyMask) != 0) == opt)   &&
+			(((m & kPTControlKeyMask)!= 0) == ctrl) )
+			return hotKey;
+	}
+	return nil;
+}
+
+- (void)_fireHotKey:(PTHotKey*)hotKey
 {
 	[hotKey invoke];
 }
 
-- (void)_hotKeyUp: (PTHotKey*)hotKey
-{
-    //[hotKey uninvoke];
-}
-
-- (OSStatus)sendCarbonEvent: (EventRef)event
-{
-	OSStatus err;
-	EventHotKeyID hotKeyID;
-	PTHotKey* hotKey;
-
-	NSAssert( GetEventClass( event ) == kEventClassKeyboard, @"Unknown event class" );
-
-	err = GetEventParameter(	event,
-								kEventParamDirectObject, 
-								typeEventHotKeyID,
-								nil,
-								sizeof(EventHotKeyID),
-								nil,
-								&hotKeyID );
-	if( err )
-		return err;
-	
-
-	NSAssert( hotKeyID.signature == UTGetOSTypeFromString(CFSTR("PTHk")), @"Invalid hot key id" );
-
-    NSNumber *kid = [NSNumber numberWithUnsignedInt:hotKeyID.id];
-	hotKey = [mHotKeyMap objectForKey:kid];
-    
-    NSAssert( hotKey != nil, @"Invalid hot key id" );
-
-	switch( GetEventKind( event ) )
-	{
-		case kEventHotKeyPressed:
-            [self _hotKeyDown: hotKey];
-            break;
-
-		case kEventHotKeyReleased:
-            [self _hotKeyUp: hotKey];
-            break;
-
-		default:
-			NSAssert( 0, @"Unknown event kind" );
-	}
-	
-	return noErr;
-}
-
-static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon )
-{
-	return [[PTHotKeyCenter sharedCenter] sendCarbonEvent: inEvent];
-}
-
 @end
+
+static CGEventRef PTHotKeyEventTapCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *refcon)
+{
+	PTHotKeyCenter *center = (PTHotKeyCenter*)refcon;
+
+	if( type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput )
+	{
+		[center _reenableTap];
+		return event;
+	}
+
+	if( type != kCGEventKeyDown )
+		return event;
+
+	CGKeyCode keyCode = (CGKeyCode)CGEventGetIntegerValueField( event, kCGKeyboardEventKeycode );
+	CGEventFlags flags = CGEventGetFlags( event );
+
+	PTHotKey *hotKey = [center _hotKeyMatchingKeyCode:keyCode flags:flags];
+	if( hotKey != nil )
+	{
+		//the callback runs on the main run loop (the source is added there); defer the invoke to the
+		//next cycle so we don't re-enter event handling while still inside the tap callback
+		[center performSelectorOnMainThread:@selector(_fireHotKey:) withObject:hotKey waitUntilDone:NO];
+		return NULL; //swallow the combo, matching the old RegisterEventHotKey behavior
+	}
+
+	return event;
+}

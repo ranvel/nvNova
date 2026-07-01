@@ -12,10 +12,12 @@
 
 @interface PTHotKeyCenter : NSObject
 {
-	NSMutableDictionary*	mHotKeys; //Keys are NSValue of EventHotKeyRef
-    NSMutableDictionary*    mHotKeyMap;
-    u_int32_t               mNextKeyID;
-	BOOL					mEventHandlerInstalled;
+	NSMutableDictionary*	mHotKeys; //name → PTHotKey
+	//NVN-5: replaced the Carbon Event Manager hot-key registration with a single CGEventTap
+	//(Carbon RegisterEventHotKey/InstallEventHandler are gone). One session tap watches key-down events
+	//and matches them against the registered key combos.
+	CFMachPortRef			mEventTap;
+	CFRunLoopSourceRef		mRunLoopSource;
 }
 
 + (id)sharedCenter;

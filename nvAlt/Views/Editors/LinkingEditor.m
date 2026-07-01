@@ -1435,17 +1435,14 @@ static long (*GetGetScriptManagerVariablePointer())(short) {
 	//call RevertTextEncodingToScriptInfo on ATSFontFamilyGetEncoding(ATSFontFamilyFindFromName(CFStringRef([bodyFont familyName]), kATSOptionFlagsDefault))
 	//because someone on a japanese-localized system could see their font changing around a lot if they didn't set their note body font to something suitable for their language
 	
-	BOOL currentKeyboardInputIsSystemLanguage = NO;
-	
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
-    TISInputSourceRef inputRef = TISCopyCurrentKeyboardInputSource();
-    NSArray* inputLangs = [[(NSArray*)TISGetInputSourceProperty(inputRef, kTISPropertyInputSourceLanguages) retain] autorelease];
-    CFRelease(inputRef);
-    NSString *preferredLang = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleLanguageCode];
-    currentKeyboardInputIsSystemLanguage = nil != preferredLang && [inputLangs containsObject:preferredLang];
-#else
-	currentKeyboardInputIsSystemLanguage = GetScriptManagerVariable(smSysScript) == GetScriptManagerVariable(smKeyScript);
-#endif
+	//NVN-5: determine, without Carbon TIS, whether the current keyboard input is a plain layout rather
+	//than a CJK-style input method. NSTextInputContext (AppKit) exposes the selected input source ID;
+	//keyboard *layouts* (com.apple.keylayout.*) are treated as system-language input and input *methods*
+	//(com.apple.inputmethod.*) as non-system — which is exactly what this font-substitution guard cares
+	//about (it exists to stop NSTextView swapping in a CJK substitution font mid-typing).
+	NSString *inputSourceID = [[self inputContext] selectedKeyboardInputSource];
+	BOOL currentKeyboardInputIsSystemLanguage = (inputSourceID == nil) ||
+		([inputSourceID rangeOfString:@".inputmethod."].location == NSNotFound);
 	
 	if (currentKeyboardInputIsSystemLanguage) {
 		//only attempt to restore fonts (with styles of course) if the current script is system default--that is, not using an input method that would change the font

@@ -18,6 +18,41 @@
 
 #import "SecureTextEntryManager.h"
 #include <Carbon/Carbon.h>
+#include <dlfcn.h>
+
+//NVN-5: EnableSecureEventInput/DisableSecureEventInput/IsSecureEventInputEnabled are HIToolbox (Carbon)
+//functions with no Cocoa equivalent — they toggle *app-wide* secure input (this whole feature exists to
+//keep note typing away from keyloggers). To preserve the feature without linking Carbon.framework, they
+//are resolved at runtime via dlsym. (The Process Manager calls in -checkForIncompatibleApps still link
+//via ApplicationServices, so <Carbon/Carbon.h> stays for those declarations.)
+static void *nv_HIToolboxHandle(void) {
+	static void *handle = NULL;
+	static BOOL attempted = NO;
+	if (!attempted) {
+		attempted = YES;
+		handle = dlopen("/System/Library/Frameworks/Carbon.framework/Carbon", RTLD_LAZY);
+		if (!handle) NSLog(@"SecureTextEntryManager: could not load Carbon for secure event input: %s", dlerror());
+	}
+	return handle;
+}
+
+static void nv_EnableSecureEventInput(void) {
+	void *h = nv_HIToolboxHandle();
+	void (*fn)(void) = h ? (void(*)(void))dlsym(h, "EnableSecureEventInput") : NULL;
+	if (fn) fn();
+}
+
+static void nv_DisableSecureEventInput(void) {
+	void *h = nv_HIToolboxHandle();
+	void (*fn)(void) = h ? (void(*)(void))dlsym(h, "DisableSecureEventInput") : NULL;
+	if (fn) fn();
+}
+
+static BOOL nv_IsSecureEventInputEnabled(void) {
+	void *h = nv_HIToolboxHandle();
+	Boolean (*fn)(void) = h ? (Boolean(*)(void))dlsym(h, "IsSecureEventInputEnabled") : NULL;
+	return fn ? (BOOL)fn() : NO;
+}
 
 NSString *ShouldHideSecureTextEntryWarningKey = @"ShouldHideSecureTextEntryWarning";
 
@@ -75,20 +110,20 @@ static SecureTextEntryManager *sharedInstance = nil;
 		
 		_calledSecureEventInput = YES;
 		//NSLog(@"%s: enabled secure input", _cmd);
-		
-		EnableSecureEventInput();
+
+		nv_EnableSecureEventInput();
 	}
 }
 
 - (void)_disableSecureEventInput {
 	if (_calledSecureEventInput) {
 		
-		DisableSecureEventInput();
-		
+		nv_DisableSecureEventInput();
+
 		//NSLog(@"%s: disabled secure input", _cmd);
 		_calledSecureEventInput = NO;
-		
-		if (IsSecureEventInputEnabled())
+
+		if (nv_IsSecureEventInputEnabled())
 			NSLog(@"%@: WARNING: secure input is still enabled, possibly by another app", NSStringFromSelector(_cmd));
 	}
 }
