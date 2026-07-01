@@ -288,7 +288,7 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		12BB945FA836254278B19804 /* nvNova.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = nvAlt/Resources/Supporting/nvNova.entitlements; sourceTree = SOURCE_ROOT; };
+		12BB945FA836254278B19804 /* nvNova.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = nvNova/Resources/Supporting/nvNova.entitlements; sourceTree = SOURCE_ROOT; };
 		210A10660B66720F005BE981 /* BookmarksTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BookmarksTable.h; sourceTree = "<group>"; };
 		210A10670B66720F005BE981 /* BookmarksTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BookmarksTable.m; sourceTree = "<group>"; };
 		210C07230B6BF0A1005D23A8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -317,15 +317,15 @@
 		212B84610978422300F3597F /* NSString_NV.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSString_NV.m; sourceTree = "<group>"; };
 		212C6950110E1940004DD82C /* TitlebarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitlebarButton.h; sourceTree = "<group>"; };
 		212C6951110E1940004DD82C /* TitlebarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitlebarButton.m; sourceTree = "<group>"; };
-		212C6A22110E371B004DD82C /* TBAlertWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBAlertWhite.png; path = nvAlt/Resources/Images/TBAlertWhite.png; sourceTree = SOURCE_ROOT; };
-		212C6A23110E371B004DD82C /* TBSynchronizingWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizingWhite.png; path = nvAlt/Resources/Images/TBSynchronizingWhite.png; sourceTree = SOURCE_ROOT; };
-		212C6A24110E371B004DD82C /* TBSynchronizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizing.png; path = nvAlt/Resources/Images/TBSynchronizing.png; sourceTree = SOURCE_ROOT; };
-		212C6A25110E371B004DD82C /* TBDownArrowWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBDownArrowWhite.png; path = nvAlt/Resources/Images/TBDownArrowWhite.png; sourceTree = SOURCE_ROOT; };
-		212C6A26110E371B004DD82C /* TBRolloverBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBRolloverBG.png; path = nvAlt/Resources/Images/TBRolloverBG.png; sourceTree = SOURCE_ROOT; };
-		212C6A27110E371B004DD82C /* TBMousedownBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBMousedownBG.png; path = nvAlt/Resources/Images/TBMousedownBG.png; sourceTree = SOURCE_ROOT; };
-		212C6E99110E46F0004DD82C /* TBDownArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBDownArrow.png; path = nvAlt/Resources/Images/TBDownArrow.png; sourceTree = SOURCE_ROOT; };
-		212C6EA1110E493C004DD82C /* Clear.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tif; path = nvAlt/Resources/Images/Clear.tif; sourceTree = SOURCE_ROOT; };
-		212C6EA2110E493C004DD82C /* ClearPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClearPressed.tif; path = nvAlt/Resources/Images/ClearPressed.tif; sourceTree = SOURCE_ROOT; };
+		212C6A22110E371B004DD82C /* TBAlertWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBAlertWhite.png; path = nvNova/Resources/Images/TBAlertWhite.png; sourceTree = SOURCE_ROOT; };
+		212C6A23110E371B004DD82C /* TBSynchronizingWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizingWhite.png; path = nvNova/Resources/Images/TBSynchronizingWhite.png; sourceTree = SOURCE_ROOT; };
+		212C6A24110E371B004DD82C /* TBSynchronizing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBSynchronizing.png; path = nvNova/Resources/Images/TBSynchronizing.png; sourceTree = SOURCE_ROOT; };
+		212C6A25110E371B004DD82C /* TBDownArrowWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBDownArrowWhite.png; path = nvNova/Resources/Images/TBDownArrowWhite.png; sourceTree = SOURCE_ROOT; };
+		212C6A26110E371B004DD82C /* TBRolloverBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBRolloverBG.png; path = nvNova/Resources/Images/TBRolloverBG.png; sourceTree = SOURCE_ROOT; };
+		212C6A27110E371B004DD82C /* TBMousedownBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBMousedownBG.png; path = nvNova/Resources/Images/TBMousedownBG.png; sourceTree = SOURCE_ROOT; };
+		212C6E99110E46F0004DD82C /* TBDownArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBDownArrow.png; path = nvNova/Resources/Images/TBDownArrow.png; sourceTree = SOURCE_ROOT; };
+		212C6EA1110E493C004DD82C /* Clear.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Clear.tif; path = nvNova/Resources/Images/Clear.tif; sourceTree = SOURCE_ROOT; };
+		212C6EA2110E493C004DD82C /* ClearPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ClearPressed.tif; path = nvNova/Resources/Images/ClearPressed.tif; sourceTree = SOURCE_ROOT; };
 		212DCA450A6AD28700F74E46 /* EncodingsManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EncodingsManager.h; sourceTree = "<group>"; };
 		212DCA460A6AD28700F74E46 /* EncodingsManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EncodingsManager.m; sourceTree = "<group>"; };
 		212DCF5F0A6DEECB00F74E46 /* DeletionManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DeletionManager.h; sourceTree = "<group>"; };
@@ -334,15 +334,15 @@
 		213621F00B92414F008C0830 /* MultiTextFinder.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MultiTextFinder.m; sourceTree = "<group>"; };
 		21395BB30B7FDB85007BCFAA /* Notation.freqorder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Notation.freqorder; sourceTree = "<group>"; };
 		21395BC60B7FDD35007BCFAA /* Notation.launchorder */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = Notation.launchorder; sourceTree = "<group>"; };
-		213FB0230B3CB1C4004C74BD /* PTKeyboardIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PTKeyboardIcon.tiff; path = nvAlt/Resources/Images/PTKeyboardIcon.tiff; sourceTree = SOURCE_ROOT; };
-		2143D2F210E953F400127EA6 /* SnapBackPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SnapBackPressed.tif; path = nvAlt/Resources/Images/SnapBackPressed.tif; sourceTree = SOURCE_ROOT; };
-		2143D2F310E953F500127EA6 /* SnapBack.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SnapBack.tif; path = nvAlt/Resources/Images/SnapBack.tif; sourceTree = SOURCE_ROOT; };
-		2143D3D810E987B100127EA6 /* Pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pencil.png; path = nvAlt/Resources/Images/Pencil.png; sourceTree = SOURCE_ROOT; };
+		213FB0230B3CB1C4004C74BD /* PTKeyboardIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PTKeyboardIcon.tiff; path = nvNova/Resources/Images/PTKeyboardIcon.tiff; sourceTree = SOURCE_ROOT; };
+		2143D2F210E953F400127EA6 /* SnapBackPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SnapBackPressed.tif; path = nvNova/Resources/Images/SnapBackPressed.tif; sourceTree = SOURCE_ROOT; };
+		2143D2F310E953F500127EA6 /* SnapBack.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SnapBack.tif; path = nvNova/Resources/Images/SnapBack.tif; sourceTree = SOURCE_ROOT; };
+		2143D3D810E987B100127EA6 /* Pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pencil.png; path = nvNova/Resources/Images/Pencil.png; sourceTree = SOURCE_ROOT; };
 		214493E70ADB892C00E2A2B6 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		214494F80ADC7C8D00E2A2B6 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		214495040ADC7F4F00E2A2B6 /* SFPasswordAssistantInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SFPasswordAssistantInspectorController.h; sourceTree = "<group>"; };
-		2144950D0ADC883000E2A2B6 /* PasswordAssistantButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PasswordAssistantButton.tif; path = nvAlt/Resources/Images/PasswordAssistantButton.tif; sourceTree = SOURCE_ROOT; };
-		2144950E0ADC883000E2A2B6 /* PasswordAssistantButtonPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PasswordAssistantButtonPressed.tif; path = nvAlt/Resources/Images/PasswordAssistantButtonPressed.tif; sourceTree = SOURCE_ROOT; };
+		2144950D0ADC883000E2A2B6 /* PasswordAssistantButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PasswordAssistantButton.tif; path = nvNova/Resources/Images/PasswordAssistantButton.tif; sourceTree = SOURCE_ROOT; };
+		2144950E0ADC883000E2A2B6 /* PasswordAssistantButtonPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PasswordAssistantButtonPressed.tif; path = nvNova/Resources/Images/PasswordAssistantButtonPressed.tif; sourceTree = SOURCE_ROOT; };
 		214495110ADC8A6600E2A2B6 /* PassphrasePicker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PassphrasePicker.h; sourceTree = "<group>"; };
 		214495120ADC8A6600E2A2B6 /* PassphrasePicker.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PassphrasePicker.m; sourceTree = "<group>"; };
 		2144987D0AE192F900E2A2B6 /* PassphraseChanger.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PassphraseChanger.h; sourceTree = "<group>"; };
@@ -362,17 +362,17 @@
 		21582DC40B73F59A00711663 /* BookmarksController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BookmarksController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		215DE83609ECC4FE009A710B /* HeaderViewWIthMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HeaderViewWIthMenu.h; sourceTree = "<group>"; };
 		215DE83709ECC4FE009A710B /* HeaderViewWIthMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HeaderViewWIthMenu.m; sourceTree = "<group>"; };
-		215DEA3D09EF5323009A710B /* General.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = General.tiff; path = nvAlt/Resources/Images/General.tiff; sourceTree = SOURCE_ROOT; };
-		215DEA4609EF6446009A710B /* Notes.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Notes.tiff; path = nvAlt/Resources/Images/Notes.tiff; sourceTree = SOURCE_ROOT; };
-		215DEE1209F1AA4C009A710B /* Editing.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Editing.tiff; path = nvAlt/Resources/Images/Editing.tiff; sourceTree = SOURCE_ROOT; };
-		21665A9C10E6032F00188D3D /* Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Search.png; path = nvAlt/Resources/Images/Search.png; sourceTree = SOURCE_ROOT; };
+		215DEA3D09EF5323009A710B /* General.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = General.tiff; path = nvNova/Resources/Images/General.tiff; sourceTree = SOURCE_ROOT; };
+		215DEA4609EF6446009A710B /* Notes.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Notes.tiff; path = nvNova/Resources/Images/Notes.tiff; sourceTree = SOURCE_ROOT; };
+		215DEE1209F1AA4C009A710B /* Editing.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Editing.tiff; path = nvNova/Resources/Images/Editing.tiff; sourceTree = SOURCE_ROOT; };
+		21665A9C10E6032F00188D3D /* Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Search.png; path = nvNova/Resources/Images/Search.png; sourceTree = SOURCE_ROOT; };
 		2168EC5109E33B0300778D02 /* FrozenNotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrozenNotation.h; sourceTree = "<group>"; };
 		2168EC5209E33B0300778D02 /* FrozenNotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrozenNotation.m; sourceTree = "<group>"; };
 		216D987D12CE68AD0004B9CE /* NSFileManager_NV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSFileManager_NV.h; sourceTree = "<group>"; };
 		216D987E12CE68AD0004B9CE /* NSFileManager_NV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManager_NV.m; sourceTree = "<group>"; };
-		216D9C2B12CFEF2A0004B9CE /* LinkBack.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = LinkBack.tif; path = nvAlt/Resources/Images/LinkBack.tif; sourceTree = SOURCE_ROOT; };
-		216D9C2C12CFEF2A0004B9CE /* LinkBackPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = LinkBackPressed.tif; path = nvAlt/Resources/Images/LinkBackPressed.tif; sourceTree = SOURCE_ROOT; };
-		216DA1AC12D15F310004B9CE /* ListDividerDrag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ListDividerDrag.png; path = nvAlt/Resources/Images/ListDividerDrag.png; sourceTree = SOURCE_ROOT; };
+		216D9C2B12CFEF2A0004B9CE /* LinkBack.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = LinkBack.tif; path = nvNova/Resources/Images/LinkBack.tif; sourceTree = SOURCE_ROOT; };
+		216D9C2C12CFEF2A0004B9CE /* LinkBackPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = LinkBackPressed.tif; path = nvNova/Resources/Images/LinkBackPressed.tif; sourceTree = SOURCE_ROOT; };
+		216DA1AC12D15F310004B9CE /* ListDividerDrag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ListDividerDrag.png; path = nvNova/Resources/Images/ListDividerDrag.png; sourceTree = SOURCE_ROOT; };
 		217CEBA109E9885500DF0E09 /* NotationFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotationFileManager.h; sourceTree = "<group>"; };
 		217CEBA209E9885500DF0E09 /* NotationFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotationFileManager.m; sourceTree = "<group>"; };
 		217D4280096545A000E84749 /* LabelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelObject.h; sourceTree = "<group>"; };
@@ -381,11 +381,11 @@
 		2181171209F311110020A252 /* DeletedNoteObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeletedNoteObject.m; sourceTree = "<group>"; };
 		2181193909FA9CF90020A252 /* SynchronizedNoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynchronizedNoteProtocol.h; sourceTree = "<group>"; };
 		21813561105AF27400A0AE18 /* Acknowledgments.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Acknowledgments.txt; sourceTree = "<group>"; };
-		2182B395106B2296008641E4 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = nvAlt/Vendor/RBSplitView/RBSplitSubview.h; sourceTree = SOURCE_ROOT; };
-		2182B396106B2296008641E4 /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitSubview.m; path = nvAlt/Vendor/RBSplitView/RBSplitSubview.m; sourceTree = SOURCE_ROOT; };
-		2182B397106B2296008641E4 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = nvAlt/Vendor/RBSplitView/RBSplitView.h; sourceTree = SOURCE_ROOT; };
-		2182B398106B2296008641E4 /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitView.m; path = nvAlt/Vendor/RBSplitView/RBSplitView.m; sourceTree = SOURCE_ROOT; };
-		2182B399106B2296008641E4 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = nvAlt/Vendor/RBSplitView/RBSplitViewPrivateDefines.h; sourceTree = SOURCE_ROOT; };
+		2182B395106B2296008641E4 /* RBSplitSubview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitSubview.h; path = nvNova/Vendor/RBSplitView/RBSplitSubview.h; sourceTree = SOURCE_ROOT; };
+		2182B396106B2296008641E4 /* RBSplitSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitSubview.m; path = nvNova/Vendor/RBSplitView/RBSplitSubview.m; sourceTree = SOURCE_ROOT; };
+		2182B397106B2296008641E4 /* RBSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitView.h; path = nvNova/Vendor/RBSplitView/RBSplitView.h; sourceTree = SOURCE_ROOT; };
+		2182B398106B2296008641E4 /* RBSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RBSplitView.m; path = nvNova/Vendor/RBSplitView/RBSplitView.m; sourceTree = SOURCE_ROOT; };
+		2182B399106B2296008641E4 /* RBSplitViewPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBSplitViewPrivateDefines.h; path = nvNova/Vendor/RBSplitView/RBSplitViewPrivateDefines.h; sourceTree = SOURCE_ROOT; };
 		21918FCE09C49B2400586B15 /* EmptyView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EmptyView.m; sourceTree = "<group>"; };
 		21918FCF09C49B2500586B15 /* EmptyView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EmptyView.h; sourceTree = "<group>"; };
 		219190EF09C4A60600586B15 /* DualField.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DualField.h; sourceTree = "<group>"; };
@@ -395,10 +395,10 @@
 		219192D309CFBC8700586B15 /* NoteAttributeColumn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NoteAttributeColumn.m; sourceTree = "<group>"; };
 		2191930109CFBEBD00586B15 /* NotesTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NotesTableView.h; sourceTree = "<group>"; };
 		2191930209CFBEBD00586B15 /* NotesTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NotesTableView.m; sourceTree = "<group>"; };
-		219196BB09D4F20000586B15 /* Add_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Add_Pressed.tiff; path = nvAlt/Resources/Images/Add_Pressed.tiff; sourceTree = SOURCE_ROOT; };
-		219196BC09D4F20000586B15 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Add.tiff; path = nvAlt/Resources/Images/Add.tiff; sourceTree = SOURCE_ROOT; };
-		219196BD09D4F20000586B15 /* Remove_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Remove_Pressed.tiff; path = nvAlt/Resources/Images/Remove_Pressed.tiff; sourceTree = SOURCE_ROOT; };
-		219196BE09D4F20000586B15 /* Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Remove.tiff; path = nvAlt/Resources/Images/Remove.tiff; sourceTree = SOURCE_ROOT; };
+		219196BB09D4F20000586B15 /* Add_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Add_Pressed.tiff; path = nvNova/Resources/Images/Add_Pressed.tiff; sourceTree = SOURCE_ROOT; };
+		219196BC09D4F20000586B15 /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Add.tiff; path = nvNova/Resources/Images/Add.tiff; sourceTree = SOURCE_ROOT; };
+		219196BD09D4F20000586B15 /* Remove_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Remove_Pressed.tiff; path = nvNova/Resources/Images/Remove_Pressed.tiff; sourceTree = SOURCE_ROOT; };
+		219196BE09D4F20000586B15 /* Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Remove.tiff; path = nvNova/Resources/Images/Remove.tiff; sourceTree = SOURCE_ROOT; };
 		2191982009D607C600586B15 /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrefsWindowController.h; sourceTree = "<group>"; };
 		2191982109D607C600586B15 /* PrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrefsWindowController.m; sourceTree = "<group>"; };
 		219588D00961D7F200972B8C /* LinkingEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LinkingEditor.h; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		219739F90AFE42A10046683E /* PassphraseRetriever.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PassphraseRetriever.h; sourceTree = "<group>"; };
 		219739FA0AFE42A10046683E /* PassphraseRetriever.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PassphraseRetriever.m; sourceTree = "<group>"; };
 		21973FBC0B0060C80046683E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		219D1BB2110EA66A005E7DF5 /* TBAlert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBAlert.png; path = nvAlt/Resources/Images/TBAlert.png; sourceTree = SOURCE_ROOT; };
+		219D1BB2110EA66A005E7DF5 /* TBAlert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TBAlert.png; path = nvNova/Resources/Images/TBAlert.png; sourceTree = SOURCE_ROOT; };
 		219D25491113FE34005E7DF5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		219FD3140B2CC655004E132B /* LinkingEditor_Indentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinkingEditor_Indentation.h; sourceTree = "<group>"; };
 		219FD3150B2CC655004E132B /* LinkingEditor_Indentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinkingEditor_Indentation.m; sourceTree = "<group>"; };
@@ -418,8 +418,8 @@
 		21A2FA1609DF6174001AF0B5 /* NotationPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotationPrefsViewController.m; sourceTree = "<group>"; };
 		21A30EA50971D11D0071E9AF /* FastListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FastListDataSource.h; sourceTree = "<group>"; };
 		21A30EA60971D11D0071E9AF /* FastListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastListDataSource.m; sourceTree = "<group>"; };
-		21A38EE212EA864400CEB5F0 /* MakeDefault_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MakeDefault_Pressed.tiff; path = nvAlt/Resources/Images/MakeDefault_Pressed.tiff; sourceTree = SOURCE_ROOT; };
-		21A38EE312EA864400CEB5F0 /* MakeDefault.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MakeDefault.tiff; path = nvAlt/Resources/Images/MakeDefault.tiff; sourceTree = SOURCE_ROOT; };
+		21A38EE212EA864400CEB5F0 /* MakeDefault_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MakeDefault_Pressed.tiff; path = nvNova/Resources/Images/MakeDefault_Pressed.tiff; sourceTree = SOURCE_ROOT; };
+		21A38EE312EA864400CEB5F0 /* MakeDefault.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MakeDefault.tiff; path = nvNova/Resources/Images/MakeDefault.tiff; sourceTree = SOURCE_ROOT; };
 		21A3913812EB4C2F00CEB5F0 /* Spaces.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spaces.h; sourceTree = "<group>"; };
 		21A3913912EB4C2F00CEB5F0 /* Spaces.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Spaces.c; sourceTree = "<group>"; };
 		21A6E6FB0974204F008436A9 /* LabelsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelsListController.h; sourceTree = "<group>"; };
@@ -430,12 +430,12 @@
 		21AD254F110A8BA600B7A985 /* SimplenoteEntryCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplenoteEntryCollector.m; sourceTree = "<group>"; };
 		21AD284E110BE99B00B7A985 /* SyncSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncSessionController.h; sourceTree = "<group>"; };
 		21AD284F110BE99B00B7A985 /* SyncSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncSessionController.m; sourceTree = "<group>"; };
-		21AD292C110C188800B7A985 /* TinyAlert.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TinyAlert.tif; path = nvAlt/Resources/Images/TinyAlert.tif; sourceTree = SOURCE_ROOT; };
+		21AD292C110C188800B7A985 /* TinyAlert.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TinyAlert.tif; path = nvNova/Resources/Images/TinyAlert.tif; sourceTree = SOURCE_ROOT; };
 		21B1BC341104D20E0004A7D0 /* InvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvocationRecorder.h; sourceTree = "<group>"; };
 		21B1BC351104D20E0004A7D0 /* InvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvocationRecorder.m; sourceTree = "<group>"; };
-		21B1C16E110764570004A7D0 /* statusValidated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusValidated.png; path = nvAlt/Resources/Images/statusValidated.png; sourceTree = SOURCE_ROOT; };
-		21B1C16F110764570004A7D0 /* statusError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusError.png; path = nvAlt/Resources/Images/statusError.png; sourceTree = SOURCE_ROOT; };
-		21B1C170110764570004A7D0 /* statusInProgress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusInProgress.png; path = nvAlt/Resources/Images/statusInProgress.png; sourceTree = SOURCE_ROOT; };
+		21B1C16E110764570004A7D0 /* statusValidated.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusValidated.png; path = nvNova/Resources/Images/statusValidated.png; sourceTree = SOURCE_ROOT; };
+		21B1C16F110764570004A7D0 /* statusError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusError.png; path = nvNova/Resources/Images/statusError.png; sourceTree = SOURCE_ROOT; };
+		21B1C170110764570004A7D0 /* statusInProgress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusInProgress.png; path = nvNova/Resources/Images/statusInProgress.png; sourceTree = SOURCE_ROOT; };
 		21B548F8112F307E00E163A1 /* NotationDirectoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotationDirectoryManager.m; sourceTree = "<group>"; };
 		21B548F9112F307E00E163A1 /* NotationDirectoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotationDirectoryManager.h; sourceTree = "<group>"; };
 		21B54C011134F2E800E163A1 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -445,7 +445,7 @@
 		21BD2ECF10DAF31500BA3DF6 /* LinearDividerShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearDividerShader.m; sourceTree = "<group>"; };
 		21BD2ED010DAF31500BA3DF6 /* LinearDividerShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearDividerShader.h; sourceTree = "<group>"; };
 		21BD2F3510DAF61700BA3DF6 /* SplitViewDimple.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDimple.tif; sourceTree = "<group>"; };
-		21C0F8A112C7E7160068693F /* Fonts & Colors.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Fonts & Colors.tiff"; path = "nvAlt/Resources/Images/Fonts & Colors.tiff"; sourceTree = SOURCE_ROOT; };
+		21C0F8A112C7E7160068693F /* Fonts & Colors.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Fonts & Colors.tiff"; path = "nvNova/Resources/Images/Fonts & Colors.tiff"; sourceTree = SOURCE_ROOT; };
 		21C737930B50C73E0048C08A /* MultiplePageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MultiplePageView.h; sourceTree = "<group>"; };
 		21C737940B50C73E0048C08A /* MultiplePageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MultiplePageView.m; sourceTree = "<group>"; };
 		21CB29AD10EEE39400360118 /* SyncServiceSessionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncServiceSessionProtocol.h; sourceTree = "<group>"; };
@@ -459,16 +459,16 @@
 		21D6FB4812E104D6005C2DA5 /* NSBezierPath_NV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPath_NV.m; sourceTree = "<group>"; };
 		21DB3D0D12D4FBDD0057F52B /* SecureTextEntryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecureTextEntryManager.h; sourceTree = "<group>"; };
 		21DB3D0E12D4FBDD0057F52B /* SecureTextEntryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureTextEntryManager.m; sourceTree = "<group>"; };
-		21DB407D12D5383F0057F52B /* IBeamInverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IBeamInverted.png; path = nvAlt/Resources/Images/IBeamInverted.png; sourceTree = SOURCE_ROOT; };
+		21DB407D12D5383F0057F52B /* IBeamInverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IBeamInverted.png; path = nvNova/Resources/Images/IBeamInverted.png; sourceTree = SOURCE_ROOT; };
 		21DB49BA12DE19480057F52B /* UnifiedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnifiedCell.h; sourceTree = "<group>"; };
 		21DB4BE412DE4E3D0057F52B /* NSString_CustomTruncation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_CustomTruncation.h; sourceTree = "<group>"; };
 		21DB4BE512DE4E3D0057F52B /* NSString_CustomTruncation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_CustomTruncation.m; sourceTree = "<group>"; };
 		21DC788D097894B600E59B09 /* NSCollection_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCollection_utils.h; sourceTree = "<group>"; };
 		21DC788E097894B600E59B09 /* NSCollection_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCollection_utils.m; sourceTree = "<group>"; };
-		21DF19AE10D172F600543C35 /* DFCapRightInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapRightInactive.png; path = nvAlt/Resources/Images/DFCapRightInactive.png; sourceTree = SOURCE_ROOT; };
-		21DF19AF10D172F600543C35 /* DFCapRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapRight.png; path = nvAlt/Resources/Images/DFCapRight.png; sourceTree = SOURCE_ROOT; };
-		21DF19B010D172F600543C35 /* DFCapLeftRoundedInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapLeftRoundedInactive.png; path = nvAlt/Resources/Images/DFCapLeftRoundedInactive.png; sourceTree = SOURCE_ROOT; };
-		21DF19B110D172F600543C35 /* DFCapLeftRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapLeftRounded.png; path = nvAlt/Resources/Images/DFCapLeftRounded.png; sourceTree = SOURCE_ROOT; };
+		21DF19AE10D172F600543C35 /* DFCapRightInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapRightInactive.png; path = nvNova/Resources/Images/DFCapRightInactive.png; sourceTree = SOURCE_ROOT; };
+		21DF19AF10D172F600543C35 /* DFCapRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapRight.png; path = nvNova/Resources/Images/DFCapRight.png; sourceTree = SOURCE_ROOT; };
+		21DF19B010D172F600543C35 /* DFCapLeftRoundedInactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapLeftRoundedInactive.png; path = nvNova/Resources/Images/DFCapLeftRoundedInactive.png; sourceTree = SOURCE_ROOT; };
+		21DF19B110D172F600543C35 /* DFCapLeftRounded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DFCapLeftRounded.png; path = nvNova/Resources/Images/DFCapLeftRounded.png; sourceTree = SOURCE_ROOT; };
 		21E6B09D0B6E6D18001ABEDC /* URLGetter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = URLGetter.m; sourceTree = "<group>"; };
 		21E6B09E0B6E6D18001ABEDC /* URLGetter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = URLGetter.h; sourceTree = "<group>"; };
 		21F078FA10EC280E004FE56F /* NotationSyncServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotationSyncServiceManager.h; sourceTree = "<group>"; };
@@ -477,27 +477,27 @@
 		21F0794210EC5EA2004FE56F /* SimplenoteSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplenoteSession.m; sourceTree = "<group>"; };
 		21F0797C10EC93B0004FE56F /* SyncResponseFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncResponseFetcher.h; sourceTree = "<group>"; };
 		21F0797D10EC93B0004FE56F /* SyncResponseFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncResponseFetcher.m; sourceTree = "<group>"; };
-		21F07C7110EDED93004FE56F /* BSJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSJSONEncoder.h; path = nvAlt/Vendor/JSON/BSJSONEncoder.h; sourceTree = SOURCE_ROOT; };
-		21F07C7210EDED93004FE56F /* BSJSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSJSONEncoder.m; path = nvAlt/Vendor/JSON/BSJSONEncoder.m; sourceTree = SOURCE_ROOT; };
-		21F07C7310EDED93004FE56F /* NSArray+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BSJSONAdditions.h"; path = "nvAlt/Vendor/JSON/NSArray+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
-		21F07C7410EDED93004FE56F /* NSArray+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BSJSONAdditions.m"; path = "nvAlt/Vendor/JSON/NSArray+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
-		21F07C7510EDED93004FE56F /* NSDictionary+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BSJSONAdditions.h"; path = "nvAlt/Vendor/JSON/NSDictionary+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
-		21F07C7610EDED93004FE56F /* NSDictionary+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+BSJSONAdditions.m"; path = "nvAlt/Vendor/JSON/NSDictionary+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
-		21F07C7710EDED93004FE56F /* NSScanner+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScanner+BSJSONAdditions.h"; path = "nvAlt/Vendor/JSON/NSScanner+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
-		21F07C7810EDED93004FE56F /* NSScanner+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScanner+BSJSONAdditions.m"; path = "nvAlt/Vendor/JSON/NSScanner+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
-		21F07C7910EDED93004FE56F /* NSString+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BSJSONAdditions.h"; path = "nvAlt/Vendor/JSON/NSString+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
-		21F07C7A10EDED93004FE56F /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSJSONAdditions.m"; path = "nvAlt/Vendor/JSON/NSString+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
-		21F1CD650B3A38DB001FB5F6 /* PTHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKeyCenter.h; path = nvAlt/Vendor/PTHotKeys/PTHotKeyCenter.h; sourceTree = SOURCE_ROOT; };
-		21F1CD660B3A38DB001FB5F6 /* PTHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKeyCenter.m; path = nvAlt/Vendor/PTHotKeys/PTHotKeyCenter.m; sourceTree = SOURCE_ROOT; };
-		21F1CD680B3A38DB001FB5F6 /* PTKeyBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyBroadcaster.h; path = nvAlt/Vendor/PTHotKeys/PTKeyBroadcaster.h; sourceTree = SOURCE_ROOT; };
-		21F1CD690B3A38DB001FB5F6 /* PTKeyBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyBroadcaster.m; path = nvAlt/Vendor/PTHotKeys/PTKeyBroadcaster.m; sourceTree = SOURCE_ROOT; };
-		21F1CD6A0B3A38DB001FB5F6 /* PTKeyCodes.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; name = PTKeyCodes.plist; path = nvAlt/Vendor/PTHotKeys/PTKeyCodes.plist; sourceTree = SOURCE_ROOT; };
-		21F1CD6B0B3A38DB001FB5F6 /* PTKeyComboPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyComboPanel.h; path = nvAlt/Vendor/PTHotKeys/PTKeyComboPanel.h; sourceTree = SOURCE_ROOT; };
-		21F1CD6C0B3A38DB001FB5F6 /* PTKeyComboPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyComboPanel.m; path = nvAlt/Vendor/PTHotKeys/PTKeyComboPanel.m; sourceTree = SOURCE_ROOT; };
-		21F1CD960B3A3F77001FB5F6 /* PTHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKey.h; path = nvAlt/Vendor/PTHotKeys/PTHotKey.h; sourceTree = SOURCE_ROOT; };
-		21F1CD970B3A3F77001FB5F6 /* PTHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKey.m; path = nvAlt/Vendor/PTHotKeys/PTHotKey.m; sourceTree = SOURCE_ROOT; };
-		21F1CDAB0B3A401F001FB5F6 /* PTKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCombo.h; path = nvAlt/Vendor/PTHotKeys/PTKeyCombo.h; sourceTree = SOURCE_ROOT; };
-		21F1CDAC0B3A401F001FB5F6 /* PTKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCombo.m; path = nvAlt/Vendor/PTHotKeys/PTKeyCombo.m; sourceTree = SOURCE_ROOT; };
+		21F07C7110EDED93004FE56F /* BSJSONEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSJSONEncoder.h; path = nvNova/Vendor/JSON/BSJSONEncoder.h; sourceTree = SOURCE_ROOT; };
+		21F07C7210EDED93004FE56F /* BSJSONEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSJSONEncoder.m; path = nvNova/Vendor/JSON/BSJSONEncoder.m; sourceTree = SOURCE_ROOT; };
+		21F07C7310EDED93004FE56F /* NSArray+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+BSJSONAdditions.h"; path = "nvNova/Vendor/JSON/NSArray+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
+		21F07C7410EDED93004FE56F /* NSArray+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+BSJSONAdditions.m"; path = "nvNova/Vendor/JSON/NSArray+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
+		21F07C7510EDED93004FE56F /* NSDictionary+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+BSJSONAdditions.h"; path = "nvNova/Vendor/JSON/NSDictionary+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
+		21F07C7610EDED93004FE56F /* NSDictionary+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+BSJSONAdditions.m"; path = "nvNova/Vendor/JSON/NSDictionary+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
+		21F07C7710EDED93004FE56F /* NSScanner+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScanner+BSJSONAdditions.h"; path = "nvNova/Vendor/JSON/NSScanner+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
+		21F07C7810EDED93004FE56F /* NSScanner+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScanner+BSJSONAdditions.m"; path = "nvNova/Vendor/JSON/NSScanner+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
+		21F07C7910EDED93004FE56F /* NSString+BSJSONAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+BSJSONAdditions.h"; path = "nvNova/Vendor/JSON/NSString+BSJSONAdditions.h"; sourceTree = SOURCE_ROOT; };
+		21F07C7A10EDED93004FE56F /* NSString+BSJSONAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+BSJSONAdditions.m"; path = "nvNova/Vendor/JSON/NSString+BSJSONAdditions.m"; sourceTree = SOURCE_ROOT; };
+		21F1CD650B3A38DB001FB5F6 /* PTHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKeyCenter.h; path = nvNova/Vendor/PTHotKeys/PTHotKeyCenter.h; sourceTree = SOURCE_ROOT; };
+		21F1CD660B3A38DB001FB5F6 /* PTHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKeyCenter.m; path = nvNova/Vendor/PTHotKeys/PTHotKeyCenter.m; sourceTree = SOURCE_ROOT; };
+		21F1CD680B3A38DB001FB5F6 /* PTKeyBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyBroadcaster.h; path = nvNova/Vendor/PTHotKeys/PTKeyBroadcaster.h; sourceTree = SOURCE_ROOT; };
+		21F1CD690B3A38DB001FB5F6 /* PTKeyBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyBroadcaster.m; path = nvNova/Vendor/PTHotKeys/PTKeyBroadcaster.m; sourceTree = SOURCE_ROOT; };
+		21F1CD6A0B3A38DB001FB5F6 /* PTKeyCodes.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; name = PTKeyCodes.plist; path = nvNova/Vendor/PTHotKeys/PTKeyCodes.plist; sourceTree = SOURCE_ROOT; };
+		21F1CD6B0B3A38DB001FB5F6 /* PTKeyComboPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyComboPanel.h; path = nvNova/Vendor/PTHotKeys/PTKeyComboPanel.h; sourceTree = SOURCE_ROOT; };
+		21F1CD6C0B3A38DB001FB5F6 /* PTKeyComboPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyComboPanel.m; path = nvNova/Vendor/PTHotKeys/PTKeyComboPanel.m; sourceTree = SOURCE_ROOT; };
+		21F1CD960B3A3F77001FB5F6 /* PTHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKey.h; path = nvNova/Vendor/PTHotKeys/PTHotKey.h; sourceTree = SOURCE_ROOT; };
+		21F1CD970B3A3F77001FB5F6 /* PTHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKey.m; path = nvNova/Vendor/PTHotKeys/PTHotKey.m; sourceTree = SOURCE_ROOT; };
+		21F1CDAB0B3A401F001FB5F6 /* PTKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCombo.h; path = nvNova/Vendor/PTHotKeys/PTKeyCombo.h; sourceTree = SOURCE_ROOT; };
+		21F1CDAC0B3A401F001FB5F6 /* PTKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCombo.m; path = nvNova/Vendor/PTHotKeys/PTKeyCombo.m; sourceTree = SOURCE_ROOT; };
 		21F4599B0A92E01C00FB6FFE /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		21FF94F50B5AD23B00DB6A2F /* ExporterManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExporterManager.m; sourceTree = "<group>"; };
 		21FF94F60B5AD23B00DB6A2F /* ExporterManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExporterManager.h; sourceTree = "<group>"; };
@@ -509,107 +509,107 @@
 		57F27FB71197407400C63ACF /* SearchCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCommand.h; sourceTree = "<group>"; };
 		57F27FB81197407400C63ACF /* SearchCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCommand.m; sourceTree = "<group>"; };
 		58223E102FF43F99000D317C /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		5C0C545A13A54E560008BC90 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
-		5C0C545C13A54E5A0008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
-		5C0C545D13A54E670008BC90 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
-		5C0C545E13A54E920008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
-		5C0C546013A54ED90008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
+		5C0C545A13A54E560008BC90 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
+		5C0C545C13A54E5A0008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
+		5C0C545D13A54E670008BC90 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
+		5C0C545E13A54E920008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
+		5C0C546013A54ED90008BC90 /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
 		5C177AE5141EF95200BC0C0A /* ETClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETClipView.h; sourceTree = "<group>"; };
 		5C177AE6141EF95200BC0C0A /* ETClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETClipView.m; sourceTree = "<group>"; };
-		5C1830D4132EA6A4005E2210 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
-		5C1D1CE217344B2200139AFE /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
-		5C1D1CE517344C1200139AFE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
-		5C1D1CE617344C3200139AFE /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
-		5C2CC183134989A8006FFE56 /* nvMenuC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuC.png; path = nvAlt/Resources/Images/nvMenuC.png; sourceTree = SOURCE_ROOT; };
-		5C2CC189134989D7006FFE56 /* nvMenuDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuDark.png; path = nvAlt/Resources/Images/nvMenuDark.png; sourceTree = SOURCE_ROOT; };
+		5C1830D4132EA6A4005E2210 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
+		5C1D1CE217344B2200139AFE /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
+		5C1D1CE517344C1200139AFE /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
+		5C1D1CE617344C3200139AFE /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
+		5C2CC183134989A8006FFE56 /* nvMenuC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuC.png; path = nvNova/Resources/Images/nvMenuC.png; sourceTree = SOURCE_ROOT; };
+		5C2CC189134989D7006FFE56 /* nvMenuDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuDark.png; path = nvNova/Resources/Images/nvMenuDark.png; sourceTree = SOURCE_ROOT; };
 		5C2CD035132ED47900CA0D7C /* ETScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETScrollView.h; sourceTree = "<group>"; };
 		5C2CD036132ED47900CA0D7C /* ETScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETScrollView.m; sourceTree = "<group>"; };
 		5C367EE81DA2C06F0043C8EC /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		5C367F3C1DA2C2B20043C8EC /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		5C38E2C214223D6900131682 /* ETOverlayScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETOverlayScroller.h; sourceTree = "<group>"; };
 		5C38E2C314223D6900131682 /* ETOverlayScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETOverlayScroller.m; sourceTree = "<group>"; };
-		5C43665C1DA267130086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		5C43665D1DA267290086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
-		5C43665E1DA2672F0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
-		5C43665F1DA267370086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
-		5C4366601DA2673B0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366611DA267420086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366621DA2674B0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
-		5C4366631DA267650086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
-		5C4366641DA267690086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
-		5C4366651DA267700086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
-		5C4366661DA267810086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/PassphraseChanger.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366671DA267820086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
-		5C4366681DA267890086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/PassphrasePicker.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366691DA2678B0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
-		5C43666A1DA267910086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/NotationPrefsView.nib"; sourceTree = SOURCE_ROOT; };
-		5C43666B1DA267940086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
-		5C43666C1DA267980086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/Preferences.xib"; sourceTree = SOURCE_ROOT; };
-		5C43666D1DA2679A0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
-		5C43666E1DA2679E0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/EncodingsManager.nib"; sourceTree = SOURCE_ROOT; };
-		5C43666F1DA2679F0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366701DA267A40086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366711DA267A80086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
-		5C4366721DA267AC0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
-		5C4366731DA267B20086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
-		5C4366741DA267B60086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		5C4366751DA267BF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
-		5C4366761DA267C10086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/PassphraseRetriever.xib"; sourceTree = SOURCE_ROOT; };
-		5C4366771DA267C20086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
-		5C4366781DA267C60086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/KeyDerivationManager.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366791DA267C90086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
-		5C43667A1DA267CA0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
-		5C43667B1DA267CE0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/BlorPasswordRetriever.nib"; sourceTree = SOURCE_ROOT; };
-		5C43667C1DA267CF0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
-		5C43667D1DA267D00086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
-		5C43667E1DA267D40086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/PTKeyComboPanel.xib"; sourceTree = SOURCE_ROOT; };
-		5C43667F1DA267D50086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
-		5C4366801DA267D60086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvAlt/Resources/Localizations/en.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
-		5C4366811DA267D90086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/ExporterManager.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366821DA267DA0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366831DA267DB0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
-		5C4366841DA267DF0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/ImporterAccessory.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366851DA267E10086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
-		5C4366861DA267E20086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
-		5C4366871DA267E60086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/SavedSearches.nib"; sourceTree = SOURCE_ROOT; };
-		5C4366881DA267E80086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
-		5C4366891DA267EA0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
-		5C43668A1DA267ED0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/URLGetter.nib"; sourceTree = SOURCE_ROOT; };
-		5C43668B1DA267EE0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
-		5C43668C1DA267EF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
-		5C43668D1DA267F30086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/FindPanel.nib"; sourceTree = SOURCE_ROOT; };
-		5C43668E1DA267F40086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
-		5C43668F1DA267F50086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvAlt/Resources/Localizations/en.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
-		5C4366901DA267FC0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = nvAlt/Resources/Localizations/en.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
-		5C4366911DA267FF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nvAlt/Resources/Localizations/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		5C4366921DA268030086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nvAlt/Resources/Localizations/en.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
-		5C4366931DA2680E0086FF84 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = nvAlt/Resources/Localizations/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		5C4366941DA2682D0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = nvAlt/Resources/Localizations/en.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
-		5C4366961DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvAlt/Resources/Localizations/en.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5C4366981DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvAlt/Resources/Localizations/en.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5C43669A1DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvAlt/Resources/Localizations/en.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5C43665C1DA267130086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		5C43665D1DA267290086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
+		5C43665E1DA2672F0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
+		5C43665F1DA267370086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
+		5C4366601DA2673B0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366611DA267420086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366621DA2674B0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		5C4366631DA267650086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
+		5C4366641DA267690086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
+		5C4366651DA267700086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
+		5C4366661DA267810086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/PassphraseChanger.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366671DA267820086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
+		5C4366681DA267890086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/PassphrasePicker.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366691DA2678B0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
+		5C43666A1DA267910086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/NotationPrefsView.nib"; sourceTree = SOURCE_ROOT; };
+		5C43666B1DA267940086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
+		5C43666C1DA267980086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/Preferences.xib"; sourceTree = SOURCE_ROOT; };
+		5C43666D1DA2679A0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		5C43666E1DA2679E0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/EncodingsManager.nib"; sourceTree = SOURCE_ROOT; };
+		5C43666F1DA2679F0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366701DA267A40086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366711DA267A80086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/TagEditingManager.xib; sourceTree = SOURCE_ROOT; };
+		5C4366721DA267AC0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
+		5C4366731DA267B20086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
+		5C4366741DA267B60086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		5C4366751DA267BF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
+		5C4366761DA267C10086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/PassphraseRetriever.xib"; sourceTree = SOURCE_ROOT; };
+		5C4366771DA267C20086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
+		5C4366781DA267C60086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/KeyDerivationManager.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366791DA267C90086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
+		5C43667A1DA267CA0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
+		5C43667B1DA267CE0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/BlorPasswordRetriever.nib"; sourceTree = SOURCE_ROOT; };
+		5C43667C1DA267CF0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
+		5C43667D1DA267D00086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
+		5C43667E1DA267D40086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/PTKeyComboPanel.xib"; sourceTree = SOURCE_ROOT; };
+		5C43667F1DA267D50086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
+		5C4366801DA267D60086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = nvNova/Resources/Localizations/en.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
+		5C4366811DA267D90086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/ExporterManager.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366821DA267DA0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366831DA267DB0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
+		5C4366841DA267DF0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/ImporterAccessory.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366851DA267E10086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
+		5C4366861DA267E20086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
+		5C4366871DA267E60086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/SavedSearches.nib"; sourceTree = SOURCE_ROOT; };
+		5C4366881DA267E80086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
+		5C4366891DA267EA0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
+		5C43668A1DA267ED0086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/URLGetter.nib"; sourceTree = SOURCE_ROOT; };
+		5C43668B1DA267EE0086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
+		5C43668C1DA267EF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
+		5C43668D1DA267F30086FF84 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/FindPanel.nib"; sourceTree = SOURCE_ROOT; };
+		5C43668E1DA267F40086FF84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = nvNova/Resources/Localizations/fr.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
+		5C43668F1DA267F50086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = nvNova/Resources/Localizations/en.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
+		5C4366901DA267FC0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = nvNova/Resources/Localizations/en.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
+		5C4366911DA267FF0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nvNova/Resources/Localizations/en.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		5C4366921DA268030086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = nvNova/Resources/Localizations/en.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
+		5C4366931DA2680E0086FF84 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = nvNova/Resources/Localizations/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		5C4366941DA2682D0086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = nvNova/Resources/Localizations/en.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
+		5C4366961DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvNova/Resources/Localizations/en.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5C4366981DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvNova/Resources/Localizations/en.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5C43669A1DA268500086FF84 /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = "nvNova/Resources/Localizations/en.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
 		5C43669E1DA283720086FF84 /* ETNoteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETNoteScrollView.h; sourceTree = "<group>"; };
 		5C43669F1DA283720086FF84 /* ETNoteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETNoteScrollView.m; sourceTree = "<group>"; };
 		5C4479DF17020153000AA45A /* nvaDevConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nvaDevConfig.h; sourceTree = "<group>"; };
-		5C48A28113A54FBD006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
-		5C48A28413A54FCA006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
-		5C48A28813A54FE1006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
-		5C48A28A13A54FEB006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
-		5C48A28E13A54FFC006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29013A55006006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29213A5500F006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29413A55016006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29613A5501F006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29713A55057006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29913A55061006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29B13A55078006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
-		5C48A29E13A5508C006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A213A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A313A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A413A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A513A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A713A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
-		5C48A2A813A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
+		5C48A28113A54FBD006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
+		5C48A28413A54FCA006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
+		5C48A28813A54FE1006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
+		5C48A28A13A54FEB006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
+		5C48A28E13A54FFC006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29013A55006006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29213A5500F006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29413A55016006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29613A5501F006B73DD /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29713A55057006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29913A55061006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29B13A55078006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
+		5C48A29E13A5508C006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A213A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A313A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A413A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A513A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A713A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
+		5C48A2A813A550B0006B73DD /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
 		5C49E364131C5CC500696B68 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		5C4B35351307220E00014119 /* TransparentScrollerKnobBottom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TransparentScrollerKnobBottom.tif; sourceTree = "<group>"; };
 		5C4B35361307220E00014119 /* TransparentScrollerKnobTop.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TransparentScrollerKnobTop.tif; sourceTree = "<group>"; };
@@ -620,32 +620,32 @@
 		5C4B35681307225000014119 /* ETTransparentScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETTransparentScroller.h; sourceTree = "<group>"; };
 		5C4B35691307225000014119 /* ETTransparentScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETTransparentScroller.m; sourceTree = "<group>"; };
 		5C5713F01309A42600961090 /* SplitViewDimple2.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SplitViewDimple2.tif; sourceTree = "<group>"; };
-		5C84319714229D940020E5A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
-		5C84319814229D940020E5A7 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
-		5C84319914229D940020E5A7 /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
-		5C8BCF771DA25EC40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
-		5C8BCF791DA25EC40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/MainMenu.xib"; sourceTree = SOURCE_ROOT; };
-		5C8BCF7A1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/MarkupPreview.xib"; sourceTree = SOURCE_ROOT; };
-		5C8BCF7B1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/SaveHTMLPreview.nib"; sourceTree = SOURCE_ROOT; };
-		5C8BCF7C1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/TagEditingManager.xib"; sourceTree = SOURCE_ROOT; };
-		5C8BCF7D1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/DeletionManager.nib"; sourceTree = SOURCE_ROOT; };
-		5C8BCF831DA2617C0036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
-		5C8BCF8A1DA261C00036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCF8B1DA261C30036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
-		5C8BCF8C1DA261D40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/ServicesMenu.strings"; sourceTree = SOURCE_ROOT; };
-		5C8BCF8D1DA261D50036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCF921DA262540036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
-		5C8BCF9A1DA263BD0036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = it; path = nvAlt/Resources/Localizations/it.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
-		5C8BCF9B1DA263C70036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
-		5C8BCF9C1DA263CE0036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/CarbonErrorStrings.plist"; sourceTree = SOURCE_ROOT; };
-		5C8BCF9D1DA264050036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvAlt/Resources/Localizations/it.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCF9E1DA264070036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCF9F1DA264100036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvAlt/Resources/Localizations/it.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCFA01DA264110036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCFA21DA264280036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvAlt/Resources/Localizations/it.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCFA31DA264290036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvAlt/Resources/Localizations/fr.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		5C8BCFA41DA2642B0036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		5C91A1851723079B006BF757 /* nvMenuW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuW.png; path = nvAlt/Resources/Images/nvMenuW.png; sourceTree = SOURCE_ROOT; };
+		5C84319714229D940020E5A7 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
+		5C84319814229D940020E5A7 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
+		5C84319914229D940020E5A7 /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/PassphraseRetriever.xib; sourceTree = SOURCE_ROOT; };
+		5C8BCF771DA25EC40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		5C8BCF791DA25EC40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/MainMenu.xib"; sourceTree = SOURCE_ROOT; };
+		5C8BCF7A1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/MarkupPreview.xib"; sourceTree = SOURCE_ROOT; };
+		5C8BCF7B1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/SaveHTMLPreview.nib"; sourceTree = SOURCE_ROOT; };
+		5C8BCF7C1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/TagEditingManager.xib"; sourceTree = SOURCE_ROOT; };
+		5C8BCF7D1DA25EC50036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/DeletionManager.nib"; sourceTree = SOURCE_ROOT; };
+		5C8BCF831DA2617C0036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = nvNova/Resources/Localizations/fr.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
+		5C8BCF8A1DA261C00036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvNova/Resources/Localizations/fr.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCF8B1DA261C30036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		5C8BCF8C1DA261D40036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/ServicesMenu.strings"; sourceTree = SOURCE_ROOT; };
+		5C8BCF8D1DA261D50036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvNova/Resources/Localizations/fr.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCF921DA262540036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = fr; path = nvNova/Resources/Localizations/fr.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
+		5C8BCF9A1DA263BD0036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = it; path = nvNova/Resources/Localizations/it.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
+		5C8BCF9B1DA263C70036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh; path = nvNova/Resources/Localizations/zh.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
+		5C8BCF9C1DA263CE0036FA7E /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/CarbonErrorStrings.plist"; sourceTree = SOURCE_ROOT; };
+		5C8BCF9D1DA264050036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvNova/Resources/Localizations/it.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCF9E1DA264070036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvNova/Resources/Localizations/zh.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCF9F1DA264100036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvNova/Resources/Localizations/it.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCFA01DA264110036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvNova/Resources/Localizations/zh.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCFA21DA264280036FA7E /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = nvNova/Resources/Localizations/it.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCFA31DA264290036FA7E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = nvNova/Resources/Localizations/fr.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		5C8BCFA41DA2642B0036FA7E /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = nvNova/Resources/Localizations/zh.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		5C91A1851723079B006BF757 /* nvMenuW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nvMenuW.png; path = nvNova/Resources/Images/nvMenuW.png; sourceTree = SOURCE_ROOT; };
 		5C94376C132A0C9D00B08B80 /* greyscrollervertbottom3.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertbottom3.tif; sourceTree = "<group>"; };
 		5C94376D132A0C9D00B08B80 /* greyscrollervertfill3.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertfill3.tif; sourceTree = "<group>"; };
 		5C94376E132A0C9D00B08B80 /* greyscrollerverttop3.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollerverttop3.tif; sourceTree = "<group>"; };
@@ -660,8 +660,8 @@
 		5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Markdown.m; sourceTree = "<group>"; };
 		5C96F5AD131C37DF00A2E4AC /* NSString_Textile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Textile.h; sourceTree = "<group>"; };
 		5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Textile.m; sourceTree = "<group>"; };
-		5C96F610131C380100A2E4AC /* Textile_2.12 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvAlt/Vendor/Textile_2.12; sourceTree = SOURCE_ROOT; };
-		5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvAlt/Vendor/Markdown_1.0.1; sourceTree = SOURCE_ROOT; };
+		5C96F610131C380100A2E4AC /* Textile_2.12 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Textile_2.12; sourceTree = SOURCE_ROOT; };
+		5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Markdown_1.0.1; sourceTree = SOURCE_ROOT; };
 		5C96F6DD131C488B00A2E4AC /* ETTransparentButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETTransparentButtonCell.m; sourceTree = "<group>"; };
 		5C96F6E7131C48FE00A2E4AC /* ETTransparentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETTransparentButton.h; sourceTree = "<group>"; };
 		5C96F6E8131C48FE00A2E4AC /* ETTransparentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETTransparentButton.m; sourceTree = "<group>"; };
@@ -681,34 +681,34 @@
 		5CA10F31131C29E900DE1F91 /* AppController_Preview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController_Preview.m; sourceTree = "<group>"; };
 		5CA10F39131C2A3F00DE1F91 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAttachedWindow.h; sourceTree = "<group>"; };
 		5CA10F3A131C2A3F00DE1F91 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
-		5CA10FFB131C2A7600DE1F91 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/__init__.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/BeautifulSoup.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvAlt/Vendor/readability/BeautifulSoup.pyc; sourceTree = SOURCE_ROOT; };
-		5CA10FFE131C2A7600DE1F91 /* html2text.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/html2text.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFF131C2A7600DE1F91 /* page_parser.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/page_parser.py; sourceTree = SOURCE_ROOT; };
-		5CA11000131C2A7600DE1F91 /* page_parser.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvAlt/Vendor/readability/page_parser.pyc; sourceTree = SOURCE_ROOT; };
-		5CA11001131C2A7600DE1F91 /* readability.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/readability.py; sourceTree = SOURCE_ROOT; };
-		5CA11002131C2A7600DE1F91 /* url_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvAlt/Vendor/readability/url_helpers.py; sourceTree = SOURCE_ROOT; };
-		5CA11003131C2A7600DE1F91 /* url_helpers.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvAlt/Vendor/readability/url_helpers.pyc; sourceTree = SOURCE_ROOT; };
-		5CAB2F771DC76578000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = nvAlt/Resources/Localizations/it.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
-		5CAB2F781DC765B5000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = nvAlt/Resources/Localizations/de.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
-		5CAB2F7A1DC76619000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvAlt/Resources/Localizations/de.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F7B1DC76634000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvAlt/Resources/Localizations/de.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F7C1DC76646000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvAlt/Resources/Localizations/de.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F7D1DC76670000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F7E1DC7669F000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvAlt/Resources/Localizations/fr.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F7F1DC766C4000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvAlt/Resources/Localizations/fr.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F801DC7699E000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvAlt/Resources/Localizations/fr.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F811DC769B3000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F821DC769C9000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/Contact.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F831DC769E6000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvAlt/Resources/Localizations/pt-PT.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F8A1DC76A7C000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvAlt/Resources/Localizations/it.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F8B1DC76AA1000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvAlt/Resources/Localizations/it.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F8C1DC76EFB000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvAlt/Resources/Localizations/it.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F8D1DC7998C000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvAlt/Resources/Localizations/zh.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F8E1DC799AB000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
-		5CAB2F8F1DC799D2000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvAlt/Resources/Localizations/zh.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
-		5CAB2F901DC799EE000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvAlt/Resources/Localizations/zh.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CA10FFB131C2A7600DE1F91 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/__init__.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/BeautifulSoup.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/BeautifulSoup.pyc; sourceTree = SOURCE_ROOT; };
+		5CA10FFE131C2A7600DE1F91 /* html2text.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/html2text.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFF131C2A7600DE1F91 /* page_parser.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/page_parser.py; sourceTree = SOURCE_ROOT; };
+		5CA11000131C2A7600DE1F91 /* page_parser.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/page_parser.pyc; sourceTree = SOURCE_ROOT; };
+		5CA11001131C2A7600DE1F91 /* readability.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/readability.py; sourceTree = SOURCE_ROOT; };
+		5CA11002131C2A7600DE1F91 /* url_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/url_helpers.py; sourceTree = SOURCE_ROOT; };
+		5CA11003131C2A7600DE1F91 /* url_helpers.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/url_helpers.pyc; sourceTree = SOURCE_ROOT; };
+		5CAB2F771DC76578000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = nvNova/Resources/Localizations/it.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
+		5CAB2F781DC765B5000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = nvNova/Resources/Localizations/de.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
+		5CAB2F7A1DC76619000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvNova/Resources/Localizations/de.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F7B1DC76634000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvNova/Resources/Localizations/de.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F7C1DC76646000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvNova/Resources/Localizations/de.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F7D1DC76670000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F7E1DC7669F000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvNova/Resources/Localizations/fr.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F7F1DC766C4000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvNova/Resources/Localizations/fr.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F801DC7699E000AFED9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text; name = fr; path = "nvNova/Resources/Localizations/fr.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F811DC769B3000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F821DC769C9000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/Contact.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F831DC769E6000AFED9 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text; name = "pt-PT"; path = "nvNova/Resources/Localizations/pt-PT.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F8A1DC76A7C000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvNova/Resources/Localizations/it.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F8B1DC76AA1000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvNova/Resources/Localizations/it.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F8C1DC76EFB000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = "nvNova/Resources/Localizations/it.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F8D1DC7998C000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvNova/Resources/Localizations/zh.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F8E1DC799AB000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = nvNova/Resources/Localizations/zh.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
+		5CAB2F8F1DC799D2000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvNova/Resources/Localizations/zh.lproj/This is the title of a note.nvhelp"; sourceTree = SOURCE_ROOT; };
+		5CAB2F901DC799EE000AFED9 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text; name = zh; path = "nvNova/Resources/Localizations/zh.lproj/How does this thing work?.nvhelp"; sourceTree = SOURCE_ROOT; };
 		5CBA7A961305E38C004ADEBB /* TagEditingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagEditingManager.h; sourceTree = "<group>"; };
 		5CBA7A971305E38C004ADEBB /* TagEditingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagEditingManager.m; sourceTree = "<group>"; };
 		5CBD88F0132A84E000FC5A79 /* ETTransparentButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETTransparentButtonCell.h; sourceTree = "<group>"; };
@@ -717,16 +717,16 @@
 		5CCEEF1B130B599B00E15B77 /* DFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFView.h; sourceTree = "<group>"; };
 		5CCEEF1C130B599B00E15B77 /* DFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFView.m; sourceTree = "<group>"; };
 		5CD58D771D9DA3C70004E1B8 /* SimperiumConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimperiumConfig.h; sourceTree = "<group>"; };
-		5CDBA8E413A5449900E7494E /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
-		5CDBA8E713A5449900E7494E /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
-		5CDBA8EA13A5450200E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		5CDBA8EB13A547B700E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
-		5CDBA8F413A5492700E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
-		5CDBA8F613A5493100E7494E /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvAlt/Resources/Localizations/it.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
-		5CDBA8F713A5493100E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
-		5CE5B00C1422796900FB554C /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvAlt/Resources/Localizations/zh.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
-		5CE5B00E1422796900FB554C /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
-		5CE5B0101422796900FB554C /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8E413A5449900E7494E /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8E713A5449900E7494E /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8EA13A5450200E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8EB13A547B700E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8F413A5492700E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/MarkupPreview.xib; sourceTree = SOURCE_ROOT; };
+		5CDBA8F613A5493100E7494E /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = nvNova/Resources/Localizations/it.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
+		5CDBA8F713A5493100E7494E /* zh */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/SaveHTMLPreview.nib; sourceTree = SOURCE_ROOT; };
+		5CE5B00C1422796900FB554C /* zh */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh; path = nvNova/Resources/Localizations/zh.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
+		5CE5B00E1422796900FB554C /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
+		5CE5B0101422796900FB554C /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/PTKeyComboPanel.xib; sourceTree = SOURCE_ROOT; };
 		5CE6624913185202002039D0 /* NSTextFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTextFinder.h; sourceTree = "<group>"; };
 		5CF01B02132975910083D66E /* greyscrollervertbottom.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertbottom.tiff; sourceTree = "<group>"; };
 		5CF01B04132975910083D66E /* greyscrollervertfill.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = greyscrollervertfill.tiff; sourceTree = "<group>"; };
@@ -736,26 +736,26 @@
 		5CF01B1A132975DA0083D66E /* BTransparentScrollerSlotTop.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BTransparentScrollerSlotTop.tif; sourceTree = "<group>"; };
 		5CF33C701308B478002B5499 /* NotesTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesTableHeaderCell.h; sourceTree = "<group>"; };
 		5CF33C711308B478002B5499 /* NotesTableHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesTableHeaderCell.m; sourceTree = "<group>"; };
-		5CF96BFF132EA03E0079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		5CF96CBE132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CBF132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = de; path = nvAlt/Resources/Localizations/de.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
-		5CF96CC0132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CC3132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CC4132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CC5132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CC7132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CC8132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvAlt/Resources/Localizations/de.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
-		5CF96CC9132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CCC132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvAlt/Resources/Localizations/de.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
-		5CF96CD0132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CD1132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CD2132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CD4132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvAlt/Resources/Localizations/de.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
-		5CF96CD6132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
-		5CF96CD7132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvAlt/Resources/Localizations/de.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
-		5CF96CD9132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvAlt/Resources/Localizations/de.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
-		5CFF810713A52EE2008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
-		5CFF810913A536F7008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvAlt/Resources/Localizations/it.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		5CF96BFF132EA03E0079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		5CF96CBE132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/BlorPasswordRetriever.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CBF132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = de; path = nvNova/Resources/Localizations/de.lproj/CarbonErrorStrings.plist; sourceTree = SOURCE_ROOT; };
+		5CF96CC0132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/DeletionManager.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CC3132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/EncodingsManager.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CC4132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/ExporterManager.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CC5132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/FindPanel.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CC7132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/ImporterAccessory.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CC8132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvNova/Resources/Localizations/de.lproj/InfoPlist.strings; sourceTree = SOURCE_ROOT; };
+		5CF96CC9132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/KeyDerivationManager.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CCC132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvNova/Resources/Localizations/de.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		5CF96CD0132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/NotationPrefsView.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CD1132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/PassphraseChanger.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CD2132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/PassphrasePicker.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CD4132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = nvNova/Resources/Localizations/de.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		5CF96CD6132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/SavedSearches.nib; sourceTree = SOURCE_ROOT; };
+		5CF96CD7132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = nvNova/Resources/Localizations/de.lproj/ServicesMenu.strings; sourceTree = SOURCE_ROOT; };
+		5CF96CD9132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
+		5CFF810713A52EE2008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		5CFF810913A536F7008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* nvNova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nvNova.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93099627138BD61000368C45 /* tp2md.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = tp2md.rb; sourceTree = "<group>"; };
@@ -767,41 +767,41 @@
 		934C3FB714FDA74F000D14BA /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		934C3FB814FDA74F000D14BA /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
 		93A158BB133C304D00E1E7DA /* Markdownify.nvhelp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Markdownify.nvhelp; sourceTree = "<group>"; };
-		93B348241371547800658F98 /* HUDIconLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconLock.png; path = nvAlt/Resources/Images/HUDIconLock.png; sourceTree = SOURCE_ROOT; };
-		93B348251371547800658F98 /* HUDIconPrint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconPrint.png; path = nvAlt/Resources/Images/HUDIconPrint.png; sourceTree = SOURCE_ROOT; };
-		93B348261371547800658F98 /* HUDIconSave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconSave.png; path = nvAlt/Resources/Images/HUDIconSave.png; sourceTree = SOURCE_ROOT; };
-		93B348271371547800658F98 /* HUDIconShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconShare.png; path = nvAlt/Resources/Images/HUDIconShare.png; sourceTree = SOURCE_ROOT; };
+		93B348241371547800658F98 /* HUDIconLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconLock.png; path = nvNova/Resources/Images/HUDIconLock.png; sourceTree = SOURCE_ROOT; };
+		93B348251371547800658F98 /* HUDIconPrint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconPrint.png; path = nvNova/Resources/Images/HUDIconPrint.png; sourceTree = SOURCE_ROOT; };
+		93B348261371547800658F98 /* HUDIconSave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconSave.png; path = nvNova/Resources/Images/HUDIconSave.png; sourceTree = SOURCE_ROOT; };
+		93B348271371547800658F98 /* HUDIconShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconShare.png; path = nvNova/Resources/Images/HUDIconShare.png; sourceTree = SOURCE_ROOT; };
 		93B90E771386018200BEC5FB /* ExternalEditorListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalEditorListController.h; sourceTree = "<group>"; };
 		93B90E781386018200BEC5FB /* ExternalEditorListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalEditorListController.m; sourceTree = "<group>"; };
-		93B90E7E138601C100BEC5FB /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nvAlt/Vendor/ODBEditor/LICENSE.txt; sourceTree = SOURCE_ROOT; };
-		93B90E7F138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "nvAlt/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h"; sourceTree = SOURCE_ROOT; };
-		93B90E80138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "nvAlt/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m"; sourceTree = SOURCE_ROOT; };
-		93B90E81138601C100BEC5FB /* ODBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvAlt/Vendor/ODBEditor/ODBEditor.h; sourceTree = SOURCE_ROOT; };
-		93B90E82138601C100BEC5FB /* ODBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nvAlt/Vendor/ODBEditor/ODBEditor.m; sourceTree = SOURCE_ROOT; };
-		93B90E83138601C100BEC5FB /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvAlt/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
+		93B90E7E138601C100BEC5FB /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nvNova/Vendor/ODBEditor/LICENSE.txt; sourceTree = SOURCE_ROOT; };
+		93B90E7F138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h"; sourceTree = SOURCE_ROOT; };
+		93B90E80138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m"; sourceTree = SOURCE_ROOT; };
+		93B90E81138601C100BEC5FB /* ODBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditor.h; sourceTree = SOURCE_ROOT; };
+		93B90E82138601C100BEC5FB /* ODBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nvNova/Vendor/ODBEditor/ODBEditor.m; sourceTree = SOURCE_ROOT; };
+		93B90E83138601C100BEC5FB /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
 		93B90E901386072E00BEC5FB /* TemporaryFileCachePreparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFileCachePreparer.h; sourceTree = "<group>"; };
 		93B90E911386072E00BEC5FB /* TemporaryFileCachePreparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFileCachePreparer.m; sourceTree = "<group>"; };
 		9FB19D88C325F52EE28AE704 /* nvNova.icns */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.icns; path = nvNova.icns; sourceTree = "<group>"; };
-		B683A0C716F1CDA600564A1D /* LinkBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBack@2x.tif"; path = "nvAlt/Resources/Images/LinkBack@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B683A0C816F1CDA600564A1D /* LinkBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBackPressed@2x.tif"; path = "nvAlt/Resources/Images/LinkBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B683A0C916F1CDA600564A1D /* SnapBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "SnapBack@2x.tif"; path = "nvAlt/Resources/Images/SnapBack@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B683A0CA16F1CDA600564A1D /* SnapBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "SnapBackPressed@2x.tif"; path = "nvAlt/Resources/Images/SnapBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B683A0CB16F1CDA600564A1D /* TBAlert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBAlert@2x.png"; path = "nvAlt/Resources/Images/TBAlert@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0CC16F1CDA600564A1D /* TBAlertWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBAlertWhite@2x.png"; path = "nvAlt/Resources/Images/TBAlertWhite@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0CD16F1CDA600564A1D /* TBDownArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBDownArrow@2x.png"; path = "nvAlt/Resources/Images/TBDownArrow@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0CE16F1CDA600564A1D /* TBDownArrowWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBDownArrowWhite@2x.png"; path = "nvAlt/Resources/Images/TBDownArrowWhite@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0CF16F1CDA600564A1D /* TBMousedownBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBMousedownBG@2x.png"; path = "nvAlt/Resources/Images/TBMousedownBG@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0D016F1CDA600564A1D /* TBRolloverBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBRolloverBG@2x.png"; path = "nvAlt/Resources/Images/TBRolloverBG@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0D116F1CDA600564A1D /* TBSynchronizing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBSynchronizing@2x.png"; path = "nvAlt/Resources/Images/TBSynchronizing@2x.png"; sourceTree = SOURCE_ROOT; };
-		B683A0D216F1CDA600564A1D /* TBSynchronizingWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBSynchronizingWhite@2x.png"; path = "nvAlt/Resources/Images/TBSynchronizingWhite@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26E816F0B523001C6E4B /* Clear@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Clear@2x.tif"; path = "nvAlt/Resources/Images/Clear@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B69E26E916F0B523001C6E4B /* ClearPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "ClearPressed@2x.tif"; path = "nvAlt/Resources/Images/ClearPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
-		B69E26EA16F0B523001C6E4B /* DFCapLeftRounded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapLeftRounded@2x.png"; path = "nvAlt/Resources/Images/DFCapLeftRounded@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26EB16F0B523001C6E4B /* DFCapLeftRoundedInactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapLeftRoundedInactive@2x.png"; path = "nvAlt/Resources/Images/DFCapLeftRoundedInactive@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26EC16F0B523001C6E4B /* DFCapRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapRight@2x.png"; path = "nvAlt/Resources/Images/DFCapRight@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26ED16F0B523001C6E4B /* DFCapRightInactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapRightInactive@2x.png"; path = "nvAlt/Resources/Images/DFCapRightInactive@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26EE16F0B523001C6E4B /* Pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Pencil@2x.png"; path = "nvAlt/Resources/Images/Pencil@2x.png"; sourceTree = SOURCE_ROOT; };
-		B69E26EF16F0B523001C6E4B /* Search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Search@2x.png"; path = "nvAlt/Resources/Images/Search@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0C716F1CDA600564A1D /* LinkBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBack@2x.tif"; path = "nvNova/Resources/Images/LinkBack@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B683A0C816F1CDA600564A1D /* LinkBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBackPressed@2x.tif"; path = "nvNova/Resources/Images/LinkBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B683A0C916F1CDA600564A1D /* SnapBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "SnapBack@2x.tif"; path = "nvNova/Resources/Images/SnapBack@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B683A0CA16F1CDA600564A1D /* SnapBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "SnapBackPressed@2x.tif"; path = "nvNova/Resources/Images/SnapBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B683A0CB16F1CDA600564A1D /* TBAlert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBAlert@2x.png"; path = "nvNova/Resources/Images/TBAlert@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0CC16F1CDA600564A1D /* TBAlertWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBAlertWhite@2x.png"; path = "nvNova/Resources/Images/TBAlertWhite@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0CD16F1CDA600564A1D /* TBDownArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBDownArrow@2x.png"; path = "nvNova/Resources/Images/TBDownArrow@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0CE16F1CDA600564A1D /* TBDownArrowWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBDownArrowWhite@2x.png"; path = "nvNova/Resources/Images/TBDownArrowWhite@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0CF16F1CDA600564A1D /* TBMousedownBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBMousedownBG@2x.png"; path = "nvNova/Resources/Images/TBMousedownBG@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0D016F1CDA600564A1D /* TBRolloverBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBRolloverBG@2x.png"; path = "nvNova/Resources/Images/TBRolloverBG@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0D116F1CDA600564A1D /* TBSynchronizing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBSynchronizing@2x.png"; path = "nvNova/Resources/Images/TBSynchronizing@2x.png"; sourceTree = SOURCE_ROOT; };
+		B683A0D216F1CDA600564A1D /* TBSynchronizingWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TBSynchronizingWhite@2x.png"; path = "nvNova/Resources/Images/TBSynchronizingWhite@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26E816F0B523001C6E4B /* Clear@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "Clear@2x.tif"; path = "nvNova/Resources/Images/Clear@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B69E26E916F0B523001C6E4B /* ClearPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "ClearPressed@2x.tif"; path = "nvNova/Resources/Images/ClearPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
+		B69E26EA16F0B523001C6E4B /* DFCapLeftRounded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapLeftRounded@2x.png"; path = "nvNova/Resources/Images/DFCapLeftRounded@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26EB16F0B523001C6E4B /* DFCapLeftRoundedInactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapLeftRoundedInactive@2x.png"; path = "nvNova/Resources/Images/DFCapLeftRoundedInactive@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26EC16F0B523001C6E4B /* DFCapRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapRight@2x.png"; path = "nvNova/Resources/Images/DFCapRight@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26ED16F0B523001C6E4B /* DFCapRightInactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DFCapRightInactive@2x.png"; path = "nvNova/Resources/Images/DFCapRightInactive@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26EE16F0B523001C6E4B /* Pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Pencil@2x.png"; path = "nvNova/Resources/Images/Pencil@2x.png"; sourceTree = SOURCE_ROOT; };
+		B69E26EF16F0B523001C6E4B /* Search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Search@2x.png"; path = "nvNova/Resources/Images/Search@2x.png"; sourceTree = SOURCE_ROOT; };
 		D3EEC9FE106F66C70023D7F8 /* NVPasswordGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NVPasswordGenerator.m; sourceTree = "<group>"; };
 		D3EEC9FF106F66C70023D7F8 /* NVPasswordGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVPasswordGenerator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1097,7 +1097,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				69308320253DCD5B0EF7DF0D /* nvAlt */,
+				69308320253DCD5B0EF7DF0D /* nvNova */,
 			);
 			name = Notation;
 			sourceTree = "<group>";
@@ -1259,10 +1259,10 @@
 				5CA11002131C2A7600DE1F91 /* url_helpers.py */,
 				5CA11003131C2A7600DE1F91 /* url_helpers.pyc */,
 			);
-			path = nvAlt/Vendor/readability;
+			path = nvNova/Vendor/readability;
 			sourceTree = "<group>";
 		};
-		69308320253DCD5B0EF7DF0D /* nvAlt */ = {
+		69308320253DCD5B0EF7DF0D /* nvNova */ = {
 			isa = PBXGroup;
 			children = (
 				5985D1B171F1C6678F310FEF /* Views */,
@@ -1278,7 +1278,7 @@
 				A9BDA9CFF53E0128C673C6BA /* Vendor */,
 				940CF0C9EFF1F37403B0AE44 /* Resources */,
 			);
-			path = nvAlt;
+			path = nvNova;
 			sourceTree = "<group>";
 		};
 		788306FC65F7268A1B5FDD01 /* ImportExport */ = {
@@ -1355,7 +1355,7 @@
 				93B90E82138601C100BEC5FB /* ODBEditor.m */,
 				93B90E83138601C100BEC5FB /* ODBEditorSuite.h */,
 			);
-			path = nvAlt/Vendor/ODBEditor;
+			path = nvNova/Vendor/ODBEditor;
 			sourceTree = "<group>";
 		};
 		940CF0C9EFF1F37403B0AE44 /* Resources */ = {
@@ -2213,7 +2213,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_ENTITLEMENTS = nvAlt/Resources/Supporting/nvNova.entitlements;
+				CODE_SIGN_ENTITLEMENTS = nvNova/Resources/Supporting/nvNova.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2229,18 +2229,18 @@
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/nvAlt/Vendor",
+					"$(PROJECT_DIR)/nvNova/Vendor",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/**",
-					"$(SRCROOT)/nvAlt/Vendor/library",
+					"$(SRCROOT)/nvNova/**",
+					"$(SRCROOT)/nvNova/Vendor/library",
 				);
 				INFOPLIST_KEY_CFBundleDisplayName = nvNova;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/Vendor",
+					"$(SRCROOT)/nvNova/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
@@ -2279,7 +2279,7 @@
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/Vendor",
+					"$(SRCROOT)/nvNova/Vendor",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -2293,7 +2293,7 @@
 				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PFE_FILE_C_DIALECTS = "c objective-c";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = nvAlt/Resources/Supporting/Notation_Prefix.pch;
+				GCC_PREFIX_HEADER = nvNova/Resources/Supporting/Notation_Prefix.pch;
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -2327,13 +2327,13 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/nvAlt/**",
-					"$(SRCROOT)/nvAlt/Vendor/library",
+					"$(SRCROOT)/nvNova/**",
+					"$(SRCROOT)/nvNova/Vendor/library",
 				);
 				IBC_STRIP_NIBS = NO;
-				INFOPLIST_FILE = nvAlt/Resources/Supporting/Info.plist;
+				INFOPLIST_FILE = nvNova/Resources/Supporting/Info.plist;
 				LD_GENERATE_MAP_FILE = YES;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/nvAlt/Vendor";
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/nvNova/Vendor";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-pg";
@@ -2369,7 +2369,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/Vendor",
+					"$(SRCROOT)/nvNova/Vendor",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)\"";
@@ -2381,7 +2381,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PFE_FILE_C_DIALECTS = "c objective-c";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = nvAlt/Resources/Supporting/Notation_Prefix.pch;
+				GCC_PREFIX_HEADER = nvNova/Resources/Supporting/Notation_Prefix.pch;
 				GCC_THREADSAFE_STATICS = NO;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -2413,11 +2413,11 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/nvAlt/**",
-					"$(SRCROOT)/nvAlt/Vendor/library",
+					"$(SRCROOT)/nvNova/**",
+					"$(SRCROOT)/nvNova/Vendor/library",
 				);
-				INFOPLIST_FILE = nvAlt/Resources/Supporting/Info.plist;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/nvAlt/Vendor";
+				INFOPLIST_FILE = nvNova/Resources/Supporting/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/nvNova/Vendor";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRIVATE_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/PrivateHeaders";
 				PRODUCT_NAME = nvNova;
@@ -2442,7 +2442,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = NO;
 				CLANG_ENABLE_MODULES = NO;
-				CODE_SIGN_ENTITLEMENTS = nvAlt/Resources/Supporting/nvNova.entitlements;
+				CODE_SIGN_ENTITLEMENTS = nvNova/Resources/Supporting/nvNova.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2458,18 +2458,18 @@
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/nvAlt/Vendor",
+					"$(PROJECT_DIR)/nvNova/Vendor",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/**",
-					"$(SRCROOT)/nvAlt/Vendor/library",
+					"$(SRCROOT)/nvNova/**",
+					"$(SRCROOT)/nvNova/Vendor/library",
 				);
 				INFOPLIST_KEY_CFBundleDisplayName = nvNova;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/nvAlt/Vendor",
+					"$(SRCROOT)/nvNova/Vendor",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;

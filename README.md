@@ -89,7 +89,7 @@ No pre-built release is available yet — for now, build it yourself:
 ```bash
 git clone <your-fork-url> nvNova
 cd nvNova
-cp nvAlt/App/SimperiumConfig-example.h nvAlt/App/SimperiumConfig.h
+cp nvNova/App/SimperiumConfig-example.h nvNova/App/SimperiumConfig.h
 xcodebuild -project Notation.xcodeproj -scheme "Notation Develop" -configuration Development build
 ```
 
