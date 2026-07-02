@@ -17,9 +17,9 @@
 @class NotationPrefsViewController;
 @class GlobalPrefs;
 
-@interface PrefsWindowController : NSObject 
+@interface PrefsWindowController : NSObject
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-<NSWindowDelegate, NSToolbarDelegate>
+<NSWindowDelegate, NSToolbarDelegate, NSTableViewDelegate, NSTableViewDataSource>
 #endif
 {
     IBOutlet NSButton *useETScrollbarsOnLionButton;
@@ -50,10 +50,20 @@
     IBOutlet NSButton *showGridButton;
     IBOutlet NSButton *altRowsButton;
 	NSMutableParagraphStyle *centerStyle;
-	NSMutableDictionary *items;
-	NSToolbar *toolbar;
 	BOOL fontPanelWasOpen;
-	
+
+	//NVN-15 sidebar settings shell (all built programmatically; the xib's legacy
+	//tabbed window is discarded at load and `window` is repointed to this one)
+	NSSplitViewController *settingsSplitViewController;
+	NSTableView *sidebarTable;
+	NSView *detailContainer;
+	NSView *deletionGroupView;
+	NSArray *paneIdentifiers;
+	NSMutableArray *navHistory;
+	NSUInteger navIndex;
+	NSString *currentPaneIdentifier;
+	BOOL navigatingViaHistory;
+
 	IBOutlet NSWindow *window;
 	IBOutlet NSView *editingView, *generalView, *fontsColorsView, *databaseView, *notationPrefsView;
 	IBOutlet NSButton *rtlButton;
@@ -98,9 +108,9 @@
 
 - (NotationPrefsViewController*)notationPrefsViewController;
 - (NSView*)databaseView;
-- (void)addToolbarItemWithName:(NSString*)name;
-- (void)switchViews:(NSToolbarItem *)item;
-	NSRect ScaleRectWithFactor(NSRect rect, float factor);
+- (void)selectPaneWithIdentifier:(NSString*)identifier animate:(BOOL)animate;
+- (IBAction)navigateBack:(id)sender;
+- (IBAction)navigateForward:(id)sender;
 - (IBAction)toggleHideDockIcon:(id)sender;
 - (IBAction)toggleKeepsTextWidthInWindow:(id)sender;
 - (IBAction)setMaxWidth:(id)sender;

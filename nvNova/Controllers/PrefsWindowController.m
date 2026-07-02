@@ -26,6 +26,62 @@
 
 #define SYSTEM_LIST_FONT_SIZE 12.0f
 
+//NVN-15 sidebar settings shell geometry
+static const CGFloat kSidebarWidth = 190.0f;
+static const CGFloat kDetailWidth = 460.0f;	//fits the widest legacy pane (Fonts & Colors, 420) with margins
+static const CGFloat kPaneMargin = 20.0f;
+static NSString *const kNavBackItemIdentifier = @"NVNavBack";
+static NSString *const kNavForwardItemIdentifier = @"NVNavForward";
+static NSString *const kSidebarSeparatorItemIdentifier = @"NVSidebarSeparator";
+
+static NSString *NVSymbolNameForPane(NSString *identifier) {
+	if ([identifier isEqualToString:@"Notes"]) return @"folder";
+	if ([identifier isEqualToString:@"Editing"]) return @"pencil";
+	if ([identifier isEqualToString:@"Fonts & Colors"]) return @"textformat";
+	return @"gearshape";	//General
+}
+
+//programmatic control builders for the rebuilt General pane; each returns an
+//unretained reference (the superview owns it), matching IBOutlet semantics
+static NSButton *NVAddCheckbox(NSView *parent, NSString *title, id target, SEL action, NSRect frame) {
+	NSButton *button = [[NSButton alloc] initWithFrame:frame];
+	[button setButtonType:NSButtonTypeSwitch];
+	[button setTitle:title];
+	[button setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[button setTarget:target];
+	[button setAction:action];
+	[parent addSubview:button];
+	[button release];
+	return button;
+}
+
+static NSTextField *NVAddLabel(NSView *parent, NSString *string, NSRect frame, NSTextAlignment alignment, BOOL small) {
+	NSTextField *field = [[NSTextField alloc] initWithFrame:frame];
+	[field setStringValue:string];
+	[field setEditable:NO];
+	[field setSelectable:NO];
+	[field setBezeled:NO];
+	[field setDrawsBackground:NO];
+	[field setAlignment:alignment];
+	[field setFont:[NSFont systemFontOfSize:small ? [NSFont smallSystemFontSize] : [NSFont systemFontSize]]];
+	if (small) [field setTextColor:[NSColor secondaryLabelColor]];
+	[parent addSubview:field];
+	[field release];
+	return field;
+}
+
+static NSButton *NVAddPushButton(NSView *parent, NSString *title, id target, SEL action, NSRect frame) {
+	NSButton *button = [[NSButton alloc] initWithFrame:frame];
+	[button setBezelStyle:NSBezelStyleRounded];
+	[button setTitle:title];
+	[button setFont:[NSFont systemFontOfSize:[NSFont systemFontSize]]];
+	[button setTarget:target];
+	[button setAction:action];
+	[parent addSubview:button];
+	[button release];
+	return button;
+}
+
 @implementation PrefsWindowController
 
 - (id)init {
@@ -50,10 +106,16 @@
 		}
 	}
 	[checkSpellingButton setState:[prefsController checkSpellingAsYouType]];
-	if (![window isVisible])
+	BOOL firstShow = ![window isVisible];
+	if (firstShow)
 		[window center];
-	
+
 	[window makeKeyAndOrderFront:self];
+	if (firstShow) {
+		//the toolbar's safe-area inset isn't final until the window has been laid
+		//out on screen, so re-run the pane fit once now
+		[self selectPaneWithIdentifier:currentPaneIdentifier animate:NO];
+	}
     if (!NSApp.isActive) {
         [NSApp activateIgnoringOtherApps:YES];
     }
@@ -381,27 +443,25 @@
     return databaseView;
 }
 
-- (void)addToolbarItemWithName:(NSString*)name {
-    NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:name];
-	
-	NSString *localizedTitle = [[NSBundle mainBundle] localizedStringForKey:name value:@"" table:nil];
-    [item setPaletteLabel:localizedTitle];
-    [item setLabel:localizedTitle];
-    //[item setToolTip:@"General settings: appearance and behavior"];
-    [item setImage:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:name ofType:@"tiff"]] autorelease]];
-    [item setTarget:self];
-    [item setAction:@selector(switchViews:)];
-    [items setObject:item forKey:name];
-    [item release];
-}
-
 - (void)awakeFromNib {
-	
-	[window setDelegate:self];
-	
+
+	//NVN-15: the xib's legacy tabbed window and General pane are discarded here;
+	//the other pane views are top-level nib objects and survive to be hosted by
+	//the new sidebar shell
+	NSWindow *legacyWindow = window;
+	window = nil;
+	NSView *legacyGeneralView = generalView;
+	generalView = nil;
+
+	[self _buildGeneralPane];
+	[self _buildSettingsWindow];
+
+	[legacyGeneralView release];
+	[legacyWindow release];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changedTableText:)
 												 name:NSControlTextDidEndEditingNotification object:tableTextSizeField];
-    
+
     [tabKeyRadioMatrix setState:[prefsController tabKeyIndents] atRow:0 column:0];
     [tabKeyRadioMatrix setState:![prefsController tabKeyIndents] atRow:1 column:0];
     
@@ -459,112 +519,336 @@
     [altRowsButton setState:[prefsController alternatingRows]];
     [showGridButton setState:[prefsController showGrid]];
     [autoPairButton setState:[prefsController useAutoPairing]];
-    items = [[NSMutableDictionary alloc] init];
-    
-    [self addToolbarItemWithName:@"General"];
-    [self addToolbarItemWithName:@"Notes"];	
-    [self addToolbarItemWithName:@"Editing"];
-	[self addToolbarItemWithName:@"Fonts & Colors"];
-		
-    toolbar = [[NSToolbar alloc] initWithIdentifier:@"preferencePanes"];
-    [toolbar setDelegate:self];
-    [toolbar setAllowsUserCustomization:NO];
-    [toolbar setAutosavesConfiguration:NO]; 
-    [window setToolbar:toolbar];
-    [toolbar release];  //setToolbar retains the toolbar we pass, so release the one we used.
-	
-	[window setShowsToolbarButton:NO];
     [useETScrollbarsOnLionButton setState:[prefsController useETScrollbarsOnLion]];
     [useETScrollbarsOnLionButton setHidden:!IsLionOrLater];
-    [self switchViews:nil];  //select last selected pane by default
-    
+    [sidebarTable reloadData];
+    [self selectPaneWithIdentifier:nil animate:NO];  //select last selected pane by default
 }
 
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
-    return [items objectForKey:itemIdentifier];
+#pragma mark NVN-15 sidebar settings shell
+
+//rebuilds the General pane in code (the legacy xib pane is discarded at load).
+//Controls are assigned to the same ivars the xib outlets used to fill, so the
+//existing state-init and settings-callback code runs unchanged.
+- (void)_buildGeneralPane {
+	const CGFloat paneWidth = 368.0f;
+	const CGFloat paneHeight = 310.0f;
+	generalView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, paneWidth, paneHeight)];
+
+	//list text size row
+	NVAddLabel(generalView, NSLocalizedString(@"List Text Size:", nil),
+			   NSMakeRect(20, paneHeight - 21 - 17, 148, 17), NSTextAlignmentRight, NO);
+	tableTextMenuButton = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(171, paneHeight - 18 - 26, 95, 26) pullsDown:NO];
+	[tableTextMenuButton addItemWithTitle:NSLocalizedString(@"Small", nil)];
+	[[tableTextMenuButton lastItem] setTag:1];
+	[tableTextMenuButton addItemWithTitle:NSLocalizedString(@"Large", nil)];
+	[[tableTextMenuButton lastItem] setTag:2];
+	[[tableTextMenuButton menu] addItem:[NSMenuItem separatorItem]];
+	[tableTextMenuButton addItemWithTitle:NSLocalizedString(@"Other…", nil)];
+	[[tableTextMenuButton lastItem] setTag:3];
+	[tableTextMenuButton setTarget:self];
+	[tableTextMenuButton setAction:@selector(changedTableText:)];
+	[generalView addSubview:tableTextMenuButton];
+	[tableTextMenuButton release];
+
+	tableTextSizeField = [[NSTextField alloc] initWithFrame:NSMakeRect(272, paneHeight - 20 - 22, 61, 22)];
+	[tableTextSizeField setBezeled:YES];
+	[tableTextSizeField setEditable:YES];
+	[[tableTextSizeField cell] setPlaceholderString:NSLocalizedString(@"Size", nil)];
+	[generalView addSubview:tableTextSizeField];
+	[tableTextSizeField release];
+
+	//bring-to-front hotkey row
+	NVAddLabel(generalView, NSLocalizedString(@"Bring-to-Front Hotkey:", nil),
+			   NSMakeRect(8, paneHeight - 64 - 20, 161, 20), NSTextAlignmentRight, NO);
+	appShortcutField = [[NSTextField alloc] initWithFrame:NSMakeRect(174, paneHeight - 63 - 22, 89, 22)];
+	[appShortcutField setBezeled:YES];
+	[appShortcutField setEditable:NO];
+	[appShortcutField setSelectable:YES];
+	[[appShortcutField cell] setPlaceholderString:NSLocalizedString(@"(None)", nil)];
+	[generalView addSubview:appShortcutField];
+	[appShortcutField release];
+	NVAddPushButton(generalView, NSLocalizedString(@"Set…", nil), self, @selector(setAppShortcut:),
+					NSMakeRect(265, paneHeight - 59 - 32, 73, 32));
+
+	//behavior checkboxes
+	completeNoteTitlesButton = NVAddCheckbox(generalView, NSLocalizedString(@"Auto-select notes by title when searching", nil),
+											 self, @selector(changedTitleCompletion:), NSMakeRect(32, paneHeight - 99 - 18, 286, 18));
+	NVAddLabel(generalView, NSLocalizedString(@"Automatically selecting very long notes may affect responsiveness.", nil),
+			   NSMakeRect(49, paneHeight - 121 - 33, 286, 33), NSTextAlignmentLeft, YES);
+
+	//"Note deletion" grouping: parent checkbox on top; the indented strip beneath
+	//is reserved for child prefs gating individual deletion paths (NVN-7 adds
+	//"Allow keyboard deletions" at x=18 inside this container)
+	deletionGroupView = [[NSView alloc] initWithFrame:NSMakeRect(32, paneHeight - 166 - 42, 316, 42)];
+	confirmDeletionButton = NVAddCheckbox(deletionGroupView, NSLocalizedString(@"Confirm note deletion", nil),
+										  self, @selector(changedNoteDeletion:), NSMakeRect(0, 24, 242, 18));
+	[generalView addSubview:deletionGroupView];
+	[deletionGroupView release];
+
+	quitWhenClosingButton = NVAddCheckbox(generalView, NSLocalizedString(@"Quit when closing window", nil),
+										  self, @selector(changedQuitBehavior:), NSMakeRect(32, paneHeight - 216 - 18, 223, 18));
+
+	NSButton *menuBarIconButton = NVAddCheckbox(generalView, NSLocalizedString(@"Show menu bar icon", nil),
+												self, @selector(toggleStatusItem:), NSMakeRect(32, paneHeight - 240 - 18, 269, 18));
+	NSUserDefaultsController *defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+	[menuBarIconButton bind:NSValueBinding toObject:defaultsController withKeyPath:@"values.StatusBarItem" options:nil];
+	[menuBarIconButton bind:NSEnabledBinding toObject:defaultsController withKeyPath:@"values.ShowDockIcon"
+					options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:NSNullPlaceholderBindingOption]];
+
+	NSBox *separator = [[NSBox alloc] initWithFrame:NSMakeRect(0, paneHeight - 262 - 5, paneWidth, 5)];
+	[separator setBoxType:NSBoxSeparator];
+	[generalView addSubview:separator];
+	[separator release];
+
+	togDockButton = NVAddPushButton(generalView, @"Hide Dock Icon", self, @selector(toggleHideDockIcon:),
+									NSMakeRect(34, paneHeight - 271 - 25, 121, 25));
+	togDockLabel = NVAddLabel(generalView, NSLocalizedString(@"This will immediately restart nvNova", nil),
+							  NSMakeRect(160, paneHeight - 276 - 14, 192, 14), NSTextAlignmentLeft, YES);
+}
+
+- (void)_buildSettingsWindow {
+	paneIdentifiers = [[NSArray alloc] initWithObjects:@"General", @"Notes", @"Editing", @"Fonts & Colors", nil];
+	navHistory = [[NSMutableArray alloc] init];
+	navIndex = 0;
+
+	//sidebar: a source-list table inside the sidebar split item, which supplies
+	//the material and full-height appearance
+	sidebarTable = [[NSTableView alloc] initWithFrame:NSMakeRect(0, 0, kSidebarWidth, 300)];
+	NSTableColumn *paneColumn = [[NSTableColumn alloc] initWithIdentifier:@"pane"];
+	[paneColumn setEditable:NO];
+	[sidebarTable addTableColumn:paneColumn];
+	[paneColumn release];
+	[sidebarTable setHeaderView:nil];
+	[sidebarTable setStyle:NSTableViewStyleSourceList];
+	[sidebarTable setRowHeight:26.0f];
+	[sidebarTable setAllowsEmptySelection:NO];
+	[sidebarTable setAllowsMultipleSelection:NO];
+	[sidebarTable setDelegate:self];
+	[sidebarTable setDataSource:self];
+
+	NSScrollView *sidebarScroll = [[NSScrollView alloc] initWithFrame:NSMakeRect(0, 0, kSidebarWidth, 300)];
+	[sidebarScroll setDocumentView:sidebarTable];
+	[sidebarScroll setHasVerticalScroller:YES];
+	[sidebarScroll setDrawsBackground:NO];
+	[sidebarTable release];
+
+	NSViewController *sidebarController = [[NSViewController alloc] init];
+	[sidebarController setView:sidebarScroll];
+	[sidebarScroll release];
+
+	detailContainer = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, kDetailWidth, 400)];
+	NSViewController *detailController = [[NSViewController alloc] init];
+	[detailController setView:detailContainer];
+	[detailContainer release];
+
+	settingsSplitViewController = [[NSSplitViewController alloc] init];
+	NSSplitViewItem *sidebarItem = [NSSplitViewItem sidebarWithViewController:sidebarController];
+	[sidebarItem setMinimumThickness:kSidebarWidth];
+	[sidebarItem setMaximumThickness:kSidebarWidth];
+	[sidebarItem setCanCollapse:NO];
+	[settingsSplitViewController addSplitViewItem:sidebarItem];
+	[settingsSplitViewController addSplitViewItem:[NSSplitViewItem splitViewItemWithViewController:detailController]];
+	[sidebarController release];
+	[detailController release];
+
+	window = [[NSWindow alloc] initWithContentRect:NSMakeRect(0, 0, kSidebarWidth + 1 + kDetailWidth, 420)
+										 styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
+													NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskFullSizeContentView)
+										   backing:NSBackingStoreBuffered defer:NO];
+	[window setReleasedWhenClosed:NO];
+	[window setContentViewController:settingsSplitViewController];
+	[settingsSplitViewController release];	//the window's contentViewController retains it
+	//setContentViewController: resizes the window to the split view's own fitting
+	//size, so restore the intended dimensions afterward
+	[window setContentSize:NSMakeSize(kSidebarWidth + 1 + kDetailWidth, 420)];
+
+	[window setToolbarStyle:NSWindowToolbarStyleUnified];
+	NSToolbar *settingsToolbar = [[NSToolbar alloc] initWithIdentifier:@"nvNovaSettingsToolbar"];
+	[settingsToolbar setDelegate:self];
+	[settingsToolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
+	[settingsToolbar setAllowsUserCustomization:NO];
+	[settingsToolbar setAutosavesConfiguration:NO];
+	[window setToolbar:settingsToolbar];
+	[settingsToolbar release];
+	[window setShowsToolbarButton:NO];
+	[window setDelegate:self];
+
+	//keep the hosted pane pinned to the top of the detail area across window
+	//resizes and safe-area (toolbar) changes; pane views use fixed frames
+	[detailContainer setPostsFrameChangedNotifications:YES];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_layoutCurrentPane)
+												 name:NSViewFrameDidChangeNotification object:detailContainer];
+}
+
+- (NSView*)_paneViewForIdentifier:(NSString*)identifier {
+	if ([identifier isEqualToString:@"General"]) return generalView;
+	if ([identifier isEqualToString:@"Notes"]) return [self databaseView];
+	if ([identifier isEqualToString:@"Editing"]) return editingView;
+	if ([identifier isEqualToString:@"Fonts & Colors"]) return fontsColorsView;
+	return nil;
+}
+
+- (void)_layoutCurrentPane {
+	NSView *paneView = [[detailContainer subviews] count] ? [[detailContainer subviews] objectAtIndex:0] : nil;
+	if (!paneView) return;
+	NSRect bounds = [detailContainer bounds];
+	NSRect paneFrame = [paneView frame];
+	paneFrame.origin.x = floorf((NSWidth(bounds) - NSWidth(paneFrame)) / 2.0f);
+	paneFrame.origin.y = NSHeight(bounds) - [detailContainer safeAreaInsets].top - kPaneMargin - NSHeight(paneFrame);
+	[paneView setFrame:paneFrame];
+}
+
+- (void)selectPaneWithIdentifier:(NSString*)identifier animate:(BOOL)animate {
+	if (!identifier) identifier = [prefsController lastSelectedPreferencesPane];
+	if (!identifier || ![paneIdentifiers containsObject:identifier]) identifier = @"General";
+
+	NSView *paneView = [self _paneViewForIdentifier:identifier];
+	NSAssert(paneView != nil, @"switching to a nil prefs view!");
+
+	if (paneView == databaseView)
+		[folderLocationsMenuButton setMenu:[self directorySelectionMenu]];
+
+	[prefsController setLastSelectedPreferencesPane:identifier sender:self];
+	if (currentPaneIdentifier != identifier) {
+		[currentPaneIdentifier autorelease];
+		currentPaneIdentifier = [identifier retain];
+	}
+
+	if (!navigatingViaHistory) {
+		if (navIndex + 1 < [navHistory count])
+			[navHistory removeObjectsInRange:NSMakeRange(navIndex + 1, [navHistory count] - navIndex - 1)];
+		if (![navHistory count] || ![[navHistory lastObject] isEqualToString:identifier])
+			[navHistory addObject:identifier];
+		navIndex = [navHistory count] - 1;
+	}
+
+	NSUInteger row = [paneIdentifiers indexOfObject:identifier];
+	if ((NSInteger)row != [sidebarTable selectedRow])
+		[sidebarTable selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+
+	[[NSFontPanel sharedFontPanel] close];
+	[window setTitle:[[NSBundle mainBundle] localizedStringForKey:identifier value:@"" table:nil]];
+
+	while ([[detailContainer subviews] count])
+		[[[detailContainer subviews] lastObject] removeFromSuperview];
+
+	//fit the window height to the pane, System Settings-style, keeping the top edge fixed
+	CGFloat contentHeight = [detailContainer safeAreaInsets].top + kPaneMargin + NSHeight([paneView frame]) + kPaneMargin;
+	NSRect contentRect = [window contentRectForFrameRect:[window frame]];
+	CGFloat delta = contentHeight - NSHeight(contentRect);
+	if (delta != 0.0f) {
+		NSRect newFrame = [window frame];
+		newFrame.size.height += delta;
+		newFrame.origin.y -= delta;
+		[window setFrame:newFrame display:YES animate:animate];
+	}
+
+	[paneView setAutoresizingMask:NSViewNotSizable];
+	[detailContainer addSubview:paneView];
+	[self _layoutCurrentPane];
+}
+
+- (IBAction)navigateBack:(id)sender {
+	if (!navIndex) return;
+	navIndex--;
+	navigatingViaHistory = YES;
+	[self selectPaneWithIdentifier:[navHistory objectAtIndex:navIndex] animate:YES];
+	navigatingViaHistory = NO;
+}
+
+- (IBAction)navigateForward:(id)sender {
+	if (navIndex + 1 >= [navHistory count]) return;
+	navIndex++;
+	navigatingViaHistory = YES;
+	[self selectPaneWithIdentifier:[navHistory objectAtIndex:navIndex] animate:YES];
+	navigatingViaHistory = NO;
+}
+
+#pragma mark sidebar table
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+	return [paneIdentifiers count];
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+	NSTableCellView *cellView = [tableView makeViewWithIdentifier:@"paneCell" owner:self];
+	if (!cellView) {
+		cellView = [[[NSTableCellView alloc] initWithFrame:NSMakeRect(0, 0, kSidebarWidth, 26)] autorelease];
+		[cellView setIdentifier:@"paneCell"];
+
+		NSImageView *iconView = [[NSImageView alloc] initWithFrame:NSMakeRect(5, 5, 16, 16)];
+		[cellView addSubview:iconView];
+		[cellView setImageView:iconView];
+		[iconView release];
+
+		NSTextField *titleField = [[NSTextField alloc] initWithFrame:NSMakeRect(28, 4, kSidebarWidth - 34, 18)];
+		[titleField setEditable:NO];
+		[titleField setSelectable:NO];
+		[titleField setBezeled:NO];
+		[titleField setDrawsBackground:NO];
+		[titleField setFont:[NSFont systemFontOfSize:13.0f]];
+		[[titleField cell] setLineBreakMode:NSLineBreakByTruncatingTail];
+		[titleField setAutoresizingMask:NSViewWidthSizable];
+		[cellView addSubview:titleField];
+		[cellView setTextField:titleField];
+		[titleField release];
+	}
+	NSString *identifier = [paneIdentifiers objectAtIndex:row];
+	[[cellView imageView] setImage:[NSImage imageWithSystemSymbolName:NVSymbolNameForPane(identifier) accessibilityDescription:nil]];
+	[[cellView textField] setStringValue:[[NSBundle mainBundle] localizedStringForKey:identifier value:@"" table:nil]];
+	return cellView;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+	NSInteger row = [sidebarTable selectedRow];
+	if (row < 0 || row >= (NSInteger)[paneIdentifiers count]) return;
+	NSString *identifier = [paneIdentifiers objectAtIndex:row];
+	if ([identifier isEqualToString:currentPaneIdentifier]) return;
+	[self selectPaneWithIdentifier:identifier animate:YES];
+}
+
+#pragma mark settings toolbar
+
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)theToolbar {
+	return [NSArray arrayWithObjects:kSidebarSeparatorItemIdentifier, kNavBackItemIdentifier,
+			kNavForwardItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)theToolbar {
-    return [self toolbarDefaultItemIdentifiers:theToolbar];
+	return [self toolbarDefaultItemIdentifiers:theToolbar];
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)theToolbar {
-    return [NSArray arrayWithObjects:@"General", @"Notes", @"Editing", @"Fonts & Colors", nil];
-}
-
-- (NSArray *)toolbarSelectableItemIdentifiers: (NSToolbar *)toolbar {
-    //make all of them selectable. This puts that little grey outline thing around an item when you select it.
-    return [items allKeys];
-}
-
-- (void)switchViews:(NSToolbarItem *)item {
-    NSString *sender = nil;
-	
-    if (item == nil) {
-        sender = [prefsController lastSelectedPreferencesPane];
-        [toolbar setSelectedItemIdentifier:sender];
-    } else {
-        sender = [item itemIdentifier];
-		[prefsController setLastSelectedPreferencesPane:sender sender:self];
-    }
-	
-    NSView *prefsView = nil;
-	
-    [window setTitle:[[NSBundle mainBundle] localizedStringForKey:sender value:@"" table:nil]];
-	
-    if ([sender isEqualToString:@"General"]){
-         prefsView = generalView;
-    } else if([sender isEqualToString:@"Notes"]) {
-        prefsView = [self databaseView];
-    } else if([sender isEqualToString:@"Editing"]) {
-        prefsView = editingView;
-    } else if([sender isEqualToString:@"Fonts & Colors"]) {
-        prefsView = fontsColorsView;
-	} else {
-		NSLog(@"unknown sender: %@", sender);
+- (NSToolbarItem *)toolbar:(NSToolbar *)aToolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag {
+	if ([itemIdentifier isEqualToString:kSidebarSeparatorItemIdentifier]) {
+		return [NSTrackingSeparatorToolbarItem trackingSeparatorToolbarItemWithIdentifier:itemIdentifier
+																				splitView:[settingsSplitViewController splitView]
+																			 dividerIndex:0];
 	}
-    
-    if (prefsView == databaseView)
-		[folderLocationsMenuButton setMenu:[self directorySelectionMenu]];
-	
-	NSAssert(prefsView != nil, @"switching to a nil prefs view!");
-    
-	[[NSFontPanel sharedFontPanel] close];
-	
-	//fix this math to convert between window and view coordinates for resolution independence
-	
-	float userSpaceScaleFactor = [window userSpaceScaleFactor];
-	
-    //to stop flicker, we make a temp blank view.
-	
-	NSRect windowContentFrame = ScaleRectWithFactor([[window contentView] frame], userSpaceScaleFactor);
-    NSView *tempView = [[NSView alloc] initWithFrame:[[window contentView] frame]];
-    [window setContentView:tempView];
-    [tempView release];
-    
-    NSRect newFrame = [window frame];
-	NSRect viewFrameForWindow = ScaleRectWithFactor([prefsView frame], userSpaceScaleFactor);
-    newFrame.size.height = viewFrameForWindow.size.height + ([window frame].size.height - windowContentFrame.size.height);
-    newFrame.size.width = viewFrameForWindow.size.width;
-    newFrame.origin.y += (windowContentFrame.size.height - viewFrameForWindow.size.height);
-    	
-    [window setShowsResizeIndicator:YES];
-    [window setFrame:newFrame display:YES animate:YES];
-
-    [window setContentView:prefsView];
+	BOOL isBack = [itemIdentifier isEqualToString:kNavBackItemIdentifier];
+	if (isBack || [itemIdentifier isEqualToString:kNavForwardItemIdentifier]) {
+		NSToolbarItem *item = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
+		NSString *label = isBack ? NSLocalizedString(@"Back", nil) : NSLocalizedString(@"Forward", nil);
+		[item setNavigational:YES];
+		[item setBordered:YES];
+		[item setLabel:label];
+		[item setPaletteLabel:label];
+		[item setImage:[NSImage imageWithSystemSymbolName:isBack ? @"chevron.backward" : @"chevron.forward"
+								 accessibilityDescription:label]];
+		[item setTarget:self];
+		[item setAction:isBack ? @selector(navigateBack:) : @selector(navigateForward:)];
+		return item;
+	}
+	return nil;
 }
 
-NSRect ScaleRectWithFactor(NSRect rect, float factor) {
-	NSRect newRect = rect;
-	newRect.size.width *= factor;
-	newRect.size.height *= factor;
-	newRect.origin.x *= factor;
-	newRect.origin.y *= factor;
-	
-	//these may still need to be rounded up
-	
-	return newRect;
+- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
+	if ([[theItem itemIdentifier] isEqualToString:kNavBackItemIdentifier])
+		return navIndex > 0;
+	if ([[theItem itemIdentifier] isEqualToString:kNavForwardItemIdentifier])
+		return navIndex + 1 < [navHistory count];
+	return YES;
 }
 
 //elasticwork
