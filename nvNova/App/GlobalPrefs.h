@@ -48,7 +48,8 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2);
 @interface GlobalPrefs : NSObject {
 	NSUserDefaults *defaults;
 	
-	IMP runCallbacksIMP;
+	//typed IMP: arm64 forbids calling a bare IMP with arguments
+	void (*runCallbacksIMP)(id, SEL, SEL, id);
 	NSMutableDictionary *selectorObservers;
 	
 	PTKeyCombo *appActivationKeyCombo;

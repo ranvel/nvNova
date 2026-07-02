@@ -118,7 +118,7 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 - (id)init {
 	if (self=[super init]) {
         
-		runCallbacksIMP = [self methodForSelector:@selector(notifyCallbacksForSelector:excludingSender:)];
+		runCallbacksIMP = (void (*)(id, SEL, SEL, id))[self methodForSelector:@selector(notifyCallbacksForSelector:excludingSender:)];
 		selectorObservers = [[NSMutableDictionary alloc] init];
 		
 		defaults = [NSUserDefaults standardUserDefaults];
