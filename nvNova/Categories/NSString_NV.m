@@ -554,25 +554,9 @@ BOOL IsHardLineBreakUnichar(unichar uchar, NSString *str, unsigned charIndex) {
 }
 
 - (NSData *)decodeBase64WithNewlines:(BOOL)encodedWithNewlines {
-    // Create a memory buffer containing Base64 encoded string data
-    BIO * mem = BIO_new_mem_buf((void *) [self UTF8String], strlen([self UTF8String]));
-    
-    // Push a Base64 filter so that reading from the buffer decodes it
-    BIO * b64 = BIO_new(BIO_f_base64());
-    if (!encodedWithNewlines)
-        BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
-    mem = BIO_push(b64, mem);
-    
-    // Decode into an NSMutableData
-    NSMutableData * data = [NSMutableData data];
-    char inbuf[512];
-    int inlen;
-    while ((inlen = BIO_read(mem, inbuf, sizeof(inbuf))) > 0)
-        [data appendBytes: inbuf length: inlen];
-    
-    // Clean up and go home
-    BIO_free_all(mem);
-    return data;
+    // Ignoring unknown characters covers both the newline-wrapped and bare forms
+    return [[[NSData alloc] initWithBase64EncodedString:self
+                                                options:NSDataBase64DecodingIgnoreUnknownCharacters] autorelease];
 }
 
 - (NSString *)firstNumberFromStringWithinRange:(NSRange)subRange isInRange:(NSRange *)foundRange{
