@@ -426,8 +426,10 @@ void outletObjectAwoke(id sender) {
 	NSString *location = ([notesPath length] ? notesPath : NSLocalizedString(@"your Application Support directory",nil));
 
 	while (!newNotation) {
+	    //NVN-12: when the backstop bounced the volume, name the actual filesystem instead of
+	    //the generic CarbonErrorStrings entry for kUnsupportedFSErr
+	    NSString *reason = (err == kUnsupportedFSErr) ? NVUnacceptableFSReason(location) : [NSString reasonStringFromCarbonFSError:err];
 	    location = [location stringByAbbreviatingWithTildeInPath];
-	    NSString *reason = [NSString reasonStringFromCarbonFSError:err];
 		
 	    if (NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Unable to initialize notes database in \n%@ because %@.",nil), location, reason],
 							subMessage, NSLocalizedString(@"Choose another folder",nil),NSLocalizedString(@"Quit",nil),NULL) == NSAlertDefaultReturn) {
@@ -993,7 +995,8 @@ terminateApp:
 				//display alert with err--could not set notation directory
 				NSString *location = [newPath stringByAbbreviatingWithTildeInPath];
 				NSString *oldLocation = [oldPath stringByAbbreviatingWithTildeInPath];
-				NSString *reason = [NSString reasonStringFromCarbonFSError:err];
+				//NVN-12: name the actual filesystem when the backstop bounced the volume
+				NSString *reason = (err == kUnsupportedFSErr) ? NVUnacceptableFSReason(newPath) : [NSString reasonStringFromCarbonFSError:err];
 				NSRunAlertPanel([NSString stringWithFormat:NSLocalizedString(@"Unable to initialize notes database in \n%@ because %@.",nil), location, reason],
 								[NSString stringWithFormat:NSLocalizedString(@"Reverting to current location of %@.",nil), oldLocation],
 								NSLocalizedString(@"OK",nil), NULL, NULL);

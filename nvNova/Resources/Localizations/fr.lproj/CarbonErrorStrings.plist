@@ -92,6 +92,8 @@
 	<string>les données n&apos;ont pu être formatées de façon adéquate</string>
 	<key>-825</key>
 	<string>après décodage, les notes ont des valeurs discordantes</string>
+	<key>-827</key>
+	<string>le système de fichiers du volume n&apos;est pas pris en charge (les notes nécessitent APFS, HFS+ ou ZFS)</string>
 	<key>-1300</key>
 	<string>l&apos;ID de fichier spécifiée n&apos;a  pu être trouvée sur le système de fichiers</string>
 	<key>-1301</key>

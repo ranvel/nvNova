@@ -47,6 +47,13 @@ CFUUIDRef CopyHFSVolumeUUIDForMount(const char *mntonname);
 long BlockSizeForNotation(NotationController *controller);
 NSUInteger diskUUIDIndexForNotation(NotationController *controller);
 
+//NVN-12: filesystem-acceptability gate — only volumes whose timestamp granularity and
+//atomicity the storage layer can trust may hold a notes folder. statfs() failure fails
+//closed (returns NO with *outFSTypeName = nil).
+BOOL NVVolumeIsAcceptableForNotes(NSString *path, NSString **outFSTypeName);
+NSString *NVUnacceptableFSAlertMessage(NSString *path, NSString *fsTypeName);
+NSString *NVUnacceptableFSReason(NSString *path);
+
 - (void)purgeOldPerDiskInfoFromNotes;
 - (void)initializeDiskUUIDIfNecessary;
 

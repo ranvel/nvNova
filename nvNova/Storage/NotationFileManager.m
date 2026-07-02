@@ -192,6 +192,68 @@ static struct statfs *StatFSVolumeInfo(NotationController *controller) {
 	return controller->statfsInfo;
 }
 
+//NVN-12: gate on f_fstypename; the case-sensitive variants of APFS/HFS+ report the same
+//fstypename as their case-insensitive forms, so the allowlist covers them with no extra logic
+BOOL NVVolumeIsAcceptableForNotes(NSString *path, NSString **outFSTypeName) {
+	static const char *acceptableFSTypes[] = { "apfs", "hfs", "zfs" };
+
+	if (outFSTypeName) *outFSTypeName = nil;
+
+	const char *cPath = [path fileSystemRepresentation];
+	if (!cPath) return NO;
+
+	struct statfs sfsb;
+	if (statfs(cPath, &sfsb)) {
+		//fail closed: a volume we can't identify is a volume we don't trust
+		NSLog(@"[FSGATE] statfs(%s): error %d", cPath, errno);
+		return NO;
+	}
+
+	if (outFSTypeName)
+		*outFSTypeName = [NSString stringWithUTF8String:sfsb.f_fstypename];
+
+	NSUInteger i;
+	for (i = 0; i < sizeof(acceptableFSTypes) / sizeof(*acceptableFSTypes); i++) {
+		if (!strcasecmp(sfsb.f_fstypename, acceptableFSTypes[i]))
+			return YES;
+	}
+	return NO;
+}
+
+static NSString *NVDisplayNameForFSTypeName(NSString *fsTypeName) {
+	if ([fsTypeName caseInsensitiveCompare:@"exfat"] == NSOrderedSame)
+		return @"exFAT";
+	if ([fsTypeName caseInsensitiveCompare:@"msdos"] == NSOrderedSame)
+		return @"FAT";
+	if ([fsTypeName caseInsensitiveCompare:@"smbfs"] == NSOrderedSame ||
+		[fsTypeName caseInsensitiveCompare:@"nfs"] == NSOrderedSame ||
+		[fsTypeName caseInsensitiveCompare:@"webdav"] == NSOrderedSame)
+		return NSLocalizedString(@"an SMB/NFS/WebDAV network share", nil);
+	return [NSString stringWithFormat:@"\"%@\"", fsTypeName];
+}
+
+//NVN-12: message line for the picker/relocation bounce dialogs; a nil fsTypeName means
+//statfs itself failed, so the copy shifts from "that volume is X" to "can't verify"
+NSString *NVUnacceptableFSAlertMessage(NSString *path, NSString *fsTypeName) {
+	NSString *displayPath = [path stringByAbbreviatingWithTildeInPath];
+	if (![fsTypeName length])
+		return [NSString stringWithFormat:NSLocalizedString(@"Can't verify the filesystem of \"%@\".",nil), displayPath];
+	return [NSString stringWithFormat:NSLocalizedString(@"Can't keep notes in \"%@\" — that volume is formatted as %@.",nil),
+			displayPath, NVDisplayNameForFSTypeName(fsTypeName)];
+}
+
+//NVN-12: fstype-naming reason for the "Unable to initialize notes database in %@ because %@."
+//alerts behind the initWithDirectoryPath: backstop (kUnsupportedFSErr); the CarbonErrorStrings
+//entry for -827 stays as the generic fallback for any caller that doesn't special-case
+NSString *NVUnacceptableFSReason(NSString *path) {
+	NSString *fsTypeName = nil;
+	NVVolumeIsAcceptableForNotes(path, &fsTypeName);
+	if (![fsTypeName length])
+		return NSLocalizedString(@"its volume's filesystem could not be verified (notes require APFS, HFS+, or ZFS)",nil);
+	return [NSString stringWithFormat:NSLocalizedString(@"its volume is formatted as %@ (notes require APFS, HFS+, or ZFS)",nil),
+			NVDisplayNameForFSTypeName(fsTypeName)];
+}
+
 NSUInteger diskUUIDIndexForNotation(NotationController *controller) {
 	return controller->diskUUIDIndex;
 }
@@ -301,6 +363,18 @@ long BlockSizeForNotation(NotationController *controller) {
             
 			NSURL *destParentURL = [openPanel URL];
 			if (destParentURL) {
+
+				//NVN-12: bounce unsupported filesystems BEFORE the move — afterward the notes
+				//would already be stranded on the untrusted volume. No prior folder to fall back
+				//to here (the notes dir is in the Trash), so the alternative to retrying is Quit.
+				NSString *fsTypeName = nil;
+				if (!NVVolumeIsAcceptableForNotes([destParentURL path], &fsTypeName)) {
+					if (NSRunAlertPanel(NVUnacceptableFSAlertMessage([destParentURL path], fsTypeName),
+										NSLocalizedString(@"nvNova needs a filesystem with trustworthy timestamps and atomic saves: APFS, HFS+, or ZFS. Volumes like exFAT, FAT, and network shares can quietly eat your data. Please choose a folder on a supported volume. Your notes are untouched — still in the Trash. If you quit now, nvNova will offer to relocate them again at next launch.",nil),
+										NSLocalizedString(@"Try Again",nil), NSLocalizedString(@"Quit",nil), NULL) == NSAlertDefaultReturn)
+						continue;
+					goto terminate;
+				}
 
 				//NVN-5: NSFileManager move replaces the Carbon FSMoveObject/FSCompareFSRefs dance.
 				//the notes directory is moved into the chosen parent folder, keeping its name.

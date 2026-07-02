@@ -92,6 +92,8 @@
 	<string>数据无法被正确格式化</string>
 	<key>-825</key>
 	<string>笔记解码后包含不匹配数值</string>
+	<key>-827</key>
+	<string>该卷的文件系统不受支持（笔记需要 APFS、HFS+ 或 ZFS）</string>
 	<key>-1300</key>
 	<string>无法在文件系统上找到指定 ID</string>
 	<key>-1301</key>

@@ -91,6 +91,13 @@
 		return nil;
 	}
 
+	//NVN-12 backstop: the pickers gate interactively upstream, but a stale unsupported path can
+	//still arrive here from defaults (older build, hand-edited plist) or a future caller
+	if (!NVVolumeIsAcceptableForNotes(path, NULL)) {
+		*err = kUnsupportedFSErr;
+		return nil;
+	}
+
 	if (self=[self init]) {
 		notesDirectoryPath = [path copy];
 

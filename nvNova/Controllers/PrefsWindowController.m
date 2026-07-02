@@ -21,6 +21,7 @@
 #import "NSBezierPath_NV.h"
 #import "BufferUtils.h"
 #import "NotationPrefs.h"
+#import "NotationFileManager.h"
 #import "GlobalPrefs.h"
 
 #define SYSTEM_LIST_FONT_SIZE 12.0f
@@ -339,11 +340,23 @@
     [openPanel setMessage:NSLocalizedString(@"Select the folder that Notational Velocity should use for reading and storing notes.",nil)];
     if ([startingDirectory length]) [openPanel setDirectoryURL:[NSURL fileURLWithPath:startingDirectory]];
     [openPanel setAllowedFileTypes:nil];
-    if ([openPanel runModal]==NSFileHandlingPanelOKButton) {
+    while ([openPanel runModal]==NSFileHandlingPanelOKButton) {
 
 		NSString *chosen = [[openPanel URL] path];
 		if (![chosen length])
 			return NO;
+
+		//NVN-12: gate on the volume's filesystem before the path escapes the picker; this is
+		//the shared chokepoint for the prefs "change folder" path (which used to persist — and
+		//reload the database — before anything could object) and the startup retry loop
+		NSString *fsTypeName = nil;
+		if (!NVVolumeIsAcceptableForNotes(chosen, &fsTypeName)) {
+			if (NSRunAlertPanel(NVUnacceptableFSAlertMessage(chosen, fsTypeName),
+								NSLocalizedString(@"nvNova needs a filesystem with trustworthy timestamps and atomic saves: APFS, HFS+, or ZFS. Volumes like exFAT, FAT, and network shares can quietly eat your data. Please choose a folder on a supported volume.",nil),
+								NSLocalizedString(@"Try Again",nil), NSLocalizedString(@"Cancel",nil), NULL) == NSAlertDefaultReturn)
+				continue;
+			return NO;
+		}
 
 		if (path)
 			*path = [[chosen copy] autorelease];

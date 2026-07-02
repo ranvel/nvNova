@@ -92,6 +92,8 @@
 	<string>the data could not be formatted appropriately</string>
 	<key>-825</key>
 	<string>notes had mis-matching values after decoding</string>
+	<key>-827</key>
+	<string>the volume&apos;s filesystem is not supported (notes require APFS, HFS+, or ZFS)</string>
 	<key>-1300</key>
 	<string>the specified file ID was not found on the file system</string>
 	<key>-1301</key>

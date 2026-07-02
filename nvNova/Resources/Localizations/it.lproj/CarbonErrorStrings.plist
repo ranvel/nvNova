@@ -92,6 +92,8 @@
 	<string>non è stato possibile formattare correttamente i dati</string>
 	<key>-825</key>
 	<string>le note presentano dei valori non coincidenti dopo la decodifica</string>
+	<key>-827</key>
+	<string>il file system del volume non è supportato (le note richiedono APFS, HFS+ o ZFS)</string>
 	<key>-1300</key>
 	<string>non ho trovato l'ID del documento specificato nel file system</string>
 	<key>-1301</key>

@@ -92,6 +92,8 @@
 	<string>Die Daten konnten nicht entsprechend formatiert werden</string>
 	<key>-825</key>
 	<string>Notizen haben nach der Kodierung Fehlanpassungen</string>
+	<key>-827</key>
+	<string>das Dateisystem des Volumes wird nicht unterstützt (Notizen erfordern APFS, HFS+ oder ZFS)</string>
 	<key>-1300</key>
 	<string>Die angegebene Datei ID konnte nicht auf dem Dateisystem gefunden werden</string>
 	<key>-1301</key>

@@ -87,6 +87,7 @@ typedef char _COMPILE_ASSERT_SYMBOL(__LINE__, msg) [ ((test) ? 1 : -1) ]
 #define kDataFormattingErr -824
 #define kItemVerifyErr -825
 #define kFileStorageErr -826
+#define kUnsupportedFSErr -827
 
 #define VERIFY_SALT "Salt for verifying master key in a single iteration"
 #define LOG_SESSION_SALT "Salt for encrypting a write-ahead-log session"
