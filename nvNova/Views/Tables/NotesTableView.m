@@ -856,7 +856,9 @@ static void _CopyItemWithSelectorFromMenu(NSMenu *destMenu, NSMenu *sourceMenu, 
 			return;
 		}
     } else if (keyChar == NSDeleteCharacter || keyChar == NSDeleteFunctionKey || keyChar == NSDeleteCharFunctionKey) {
-		[[NSApp delegate] deleteNote:self];
+		//bare delete keys never delete notes; ⌘⌫ (the Delete menu item's key equivalent) is the keyboard path
+		//consume the event here so it doesn't forward to the search field's editor below
+		NSBeep();
 		return;
 	} else if (keyChar == NSTabCharacter) {
 		[[self window] selectNextKeyView:self];

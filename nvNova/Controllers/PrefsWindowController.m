@@ -578,14 +578,8 @@ static NSButton *NVAddPushButton(NSView *parent, NSString *title, id target, SEL
 	NVAddLabel(generalView, NSLocalizedString(@"Automatically selecting very long notes may affect responsiveness.", nil),
 			   NSMakeRect(49, paneHeight - 121 - 33, 286, 33), NSTextAlignmentLeft, YES);
 
-	//"Note deletion" grouping: parent checkbox on top; the indented strip beneath
-	//is reserved for child prefs gating individual deletion paths (NVN-7 adds
-	//"Allow keyboard deletions" at x=18 inside this container)
-	deletionGroupView = [[NSView alloc] initWithFrame:NSMakeRect(32, paneHeight - 166 - 42, 316, 42)];
-	confirmDeletionButton = NVAddCheckbox(deletionGroupView, NSLocalizedString(@"Confirm note deletion", nil),
-										  self, @selector(changedNoteDeletion:), NSMakeRect(0, 24, 242, 18));
-	[generalView addSubview:deletionGroupView];
-	[deletionGroupView release];
+	confirmDeletionButton = NVAddCheckbox(generalView, NSLocalizedString(@"Confirm note deletion", nil),
+										  self, @selector(changedNoteDeletion:), NSMakeRect(32, paneHeight - 166 - 18, 242, 18));
 
 	quitWhenClosingButton = NVAddCheckbox(generalView, NSLocalizedString(@"Quit when closing window", nil),
 										  self, @selector(changedQuitBehavior:), NSMakeRect(32, paneHeight - 216 - 18, 223, 18));

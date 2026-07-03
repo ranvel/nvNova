@@ -57,7 +57,6 @@
 	NSSplitViewController *settingsSplitViewController;
 	NSTableView *sidebarTable;
 	NSView *detailContainer;
-	NSView *deletionGroupView;
 	NSArray *paneIdentifiers;
 	NSMutableArray *navHistory;
 	NSUInteger navIndex;
