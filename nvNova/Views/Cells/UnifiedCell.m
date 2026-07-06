@@ -116,37 +116,6 @@
 	previewIsHidden = value;
 }
 
-+ (NSColor*)dateColorForTint {
-	static NSColor *color = nil;
-	static NSControlTint lastTint = -1;
-	
-	NSControlTint tint = [NSColor currentControlTint];
-	
-	if (!color || lastTint != tint) {
-		if (tint == NSBlueControlTint) {
-			color = [NSColor colorWithCalibratedRed:0.31 green:.494 blue:0.765 alpha:1.0];
-		} else if (tint == NSGraphiteControlTint) {
-			color = [NSColor colorWithCalibratedRed:0.498 green:0.525 blue:0.573 alpha:1.0];
-		} else {
-			color = [NSColor grayColor];
-		}
-		lastTint = tint;
-		[color retain];
-	}
-	return color;
-}
-
-static NSShadow* ShadowForSnowLeopard() {
-	static NSShadow *sh = nil;
-	if (!sh) {
-		sh = [[NSShadow alloc] init];
-		[sh setShadowOffset:NSMakeSize(0,-1)];
-		[sh setShadowColor:[NSColor colorWithCalibratedWhite:0.15 alpha:0.67]];
-		[sh setShadowBlurRadius:0.5];
-	}
-	return sh;
-}
-
 NSAttributedString *AttributedStringForSelection(NSAttributedString *str, BOOL withShadow) {
 	//used to modify the cell's attributed string before display when it is selected
 	
@@ -180,15 +149,12 @@ NSAttributedString *AttributedStringForSelection(NSAttributedString *str, BOOL w
 	//draw note date and tags
 
 	NSMutableDictionary *baseAttrs = [self baseTextAttributes];
-	BOOL isActive = (IsLeopardOrLater && [tv selectionHighlightStyle] == NSTableViewSelectionHighlightStyleSourceList) ? YES : [tv isActiveStyle];
-	
-	NSColor *textColor = ([self isHighlighted] && isActive) ? [NSColor whiteColor] : (![self isHighlighted] ? [[self class] dateColorForTint]/*[NSColor grayColor]*/ : nil);
-	if (textColor)
-		[baseAttrs setObject:textColor forKey:NSForegroundColorAttributeName];
-	if (IsSnowLeopardOrLater && [self isHighlighted] && ([tv selectionHighlightStyle] == NSTableViewSelectionHighlightStyleSourceList)) {
-//		[baseAttrs setObject:ShadowForSnowLeopard() forKey:NSShadowAttributeName];
-	}
-	
+	BOOL emphasized = [self isHighlighted] &&
+		[self interiorBackgroundStyle] == NSBackgroundStyleEmphasized;
+
+	NSColor *textColor = emphasized ? [NSColor alternateSelectedControlTextColor] : [NSColor secondaryLabelColor];
+	[baseAttrs setObject:textColor forKey:NSForegroundColorAttributeName];
+
 	float fontHeight = [tv tableFontHeight];
 	
 	//if the sort-order is date-created, then show the date on which this note was created; otherwise show date modified.
@@ -219,14 +185,15 @@ NSAttributedString *AttributedStringForSelection(NSAttributedString *str, BOOL w
 		//clip the tags image within the bounds of the cell so that narrow columns look nicer
 		[NSGraphicsContext saveGraphicsState];
 		NSRectClip(cellFrame);
-		[noteObject drawLabelBlocksInRect:rect rightAlign:!previewIsHidden highlighted:([self isHighlighted] && isActive)];
+		[noteObject drawLabelBlocksInRect:rect rightAlign:!previewIsHidden highlighted:emphasized];
 		[NSGraphicsContext restoreGraphicsState];
 	}
 	
 	if ([tv currentEditor] && [self isHighlighted]) {
 		//needed because the body text is normally not drawn while editing
+		NSColor *editColor = emphasized ? [NSColor alternateSelectedControlTextColor] : [NSColor labelColor];
 		NSMutableAttributedString *cloneStr = [[self attributedStringValue] mutableCopy];
-		[cloneStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[self font], NSFontAttributeName, textColor, 
+		[cloneStr addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[self font], NSFontAttributeName, editColor,
 								 NSForegroundColorAttributeName, nil] range:NSMakeRange(0, [cloneStr length])];
 		[cloneStr addAttributes:LineTruncAttributesForTitle() range:NSMakeRange(0, [titleOfNote(noteObject) length])];
 		

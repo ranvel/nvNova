@@ -2862,25 +2862,11 @@ terminateApp:
 }
 
 - (void)updateFieldAttributes{
-    if (!foregrndColor) {
-        foregrndColor = [self foregrndColor];
-    }
-    if (!backgrndColor) {
-        backgrndColor = [self backgrndColor];
-    }
-    if (fieldAttributes) {
-        [fieldAttributes release];
-    }
-    fieldAttributes = [[NSDictionary dictionaryWithObject:[textView _selectionColorForForegroundColor:foregrndColor backgroundColor:backgrndColor] forKey:NSBackgroundColorAttributeName] retain];
-    
     if (self.isEditing) {
         [theFieldEditor setDrawsBackground:NO];
-        [theFieldEditor setTextColor:foregrndColor];
-        [theFieldEditor setSelectedTextAttributes:fieldAttributes];
-        [theFieldEditor setInsertionPointColor:foregrndColor];
-        
+        [theFieldEditor setTextColor:[NSColor labelColor]];
+        [theFieldEditor setInsertionPointColor:[NSColor labelColor]];
     }
-    
 }
     
     - (void)setBackgrndColor:(NSColor *)inColor{
@@ -3170,40 +3156,14 @@ terminateApp:
     }
     
     - (id)windowWillReturnFieldEditor:(NSWindow *)sender toObject:(id)client{
-        
+
         if (self.isEditing) {
-            
-            if (!fieldAttributes) {
-                [self updateFieldAttributes];
-            }else{
-                if (!foregrndColor) {
-                    foregrndColor = [self foregrndColor];
-                }
-                if (!backgrndColor) {
-                    backgrndColor = [self backgrndColor];
-                }
-                [theFieldEditor setDrawsBackground:NO];
-                // [theFieldEditor setBackgroundColor:backgrndColor];
-                if ([theFieldEditor textColor] != foregrndColor) {
-                    [theFieldEditor setTextColor:foregrndColor];
-                }
-                [theFieldEditor setSelectedTextAttributes:fieldAttributes];
-                [theFieldEditor setInsertionPointColor:foregrndColor];
-                
-                // [notesTableView setNeedsDisplay:YES];
-            }
-        }else {//if (client==field) {
-//            [theFieldEditor setDrawsBackground:NO];
-//            [theFieldEditor setSelectedTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor selectedTextBackgroundColor], NSBackgroundColorAttributeName, nil]];
-            [theFieldEditor setInsertionPointColor:[NSColor blackColor]];
+            [self updateFieldAttributes];
+        }else {
+            [theFieldEditor setInsertionPointColor:[NSColor textColor]];
         }
-        // NSLog(@"window first is :%@",[window firstResponder]);
-        //NSLog(@"client is :%@",client);
-        //}
-        
-        
+
         return theFieldEditor;
-        //[super windowWillReturnFieldEditor:sender toObject:client];
     }
     
     - (void)updateRTL

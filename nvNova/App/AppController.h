@@ -70,7 +70,6 @@
 	NSInteger userScheme;
 	NSString *noteFormat;
 	NSTextView *theFieldEditor;
-    NSDictionary *fieldAttributes;
 	NSTimer *modifierTimer;
 	IBOutlet WordCountToken *wordCounter;
     IBOutlet DualField *field;

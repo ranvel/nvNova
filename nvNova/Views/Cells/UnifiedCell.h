@@ -32,7 +32,6 @@ NSAttributedString *AttributedStringForSelection(NSAttributedString *str, BOOL w
 - (float)tableFontFrameHeight;
 
 - (void)setPreviewIsHidden:(BOOL)value;
-+ (NSColor*)dateColorForTint;
 - (NSMutableDictionary*)baseTextAttributes;
 - (NoteObject*)noteObject;
 - (void)setNoteObject:(NoteObject*)obj;
