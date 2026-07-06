@@ -54,7 +54,7 @@ static void _CopyItemWithSelectorFromMenu(NSMenu *destMenu, NSMenu *sourceMenu, 
 		loadStatusString = NSLocalizedString(@"Loading Notes...",nil);
 		loadStatusAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
 								 [NSFont fontWithName:@"Helvetica" size:STATUS_STRING_FONT_SIZE], NSFontAttributeName,
-								 [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f], NSForegroundColorAttributeName, nil] retain];
+								 [NSColor secondaryLabelColor], NSForegroundColorAttributeName, nil] retain];
 		loadStatusStringWidth = [loadStatusString sizeWithAttributes:loadStatusAttributes].width;
 		
 		affinity = 0;
@@ -1364,71 +1364,6 @@ enum { kNext_Tag = 'j', kPrev_Tag = 'k' };
 
 + (BOOL)isCompatibleWithResponsiveScrolling{
     return NO;
-}
-
-- (void)setBackgroundColor:(NSColor *)color{
-    [super setBackgroundColor:color];
-     
-    if (![[color colorSpaceName] isEqualToString:@"NSNamedColorSpace"]) {
-        [NotesTableHeaderCell setBColor:color];
-        CGFloat fWhite;
-        fWhite = [[color colorUsingColorSpaceName:NSCalibratedWhiteColorSpace] whiteComponent];
-        if (fWhite<0.25f) {
-            fWhite += 0.22f;
-        }else if (fWhite < 0.75f) {
-            fWhite += 0.16f;
-        }else {
-            fWhite -= 0.20f;
-        }
-        
-        [self setGridColor:[[color blendedColorWithFraction:0.18f ofColor:[self gridColor]] blendedColorWithFraction:0.26f ofColor:[NSColor colorWithCalibratedWhite:fWhite alpha:1.0f]]];
-        [self setNeedsDisplay:YES];
-    }
-}
-
-# pragma mark alternating rows 
-- (void)drawBackgroundInClipRect:(NSRect)clipRect{
-	if (![self usesAlternatingRowBackgroundColors]) {
-        [super drawBackgroundInClipRect:clipRect];
-//        [[self backgroundColor]setFill];
-//        NSRectFill(clipRect);
-    }else{
-        NSColor *backColor=[self backgroundColor];
-        NSColor *altColor;
-		if ([[backColor colorUsingColorSpaceName:NSCalibratedWhiteColorSpace]whiteComponent] < 0.5f) {
-			altColor = [backColor blendedColorWithFraction:0.05f ofColor:[NSColor whiteColor]];
-		} else {
-			altColor = [backColor blendedColorWithFraction:0.05f ofColor:[NSColor blackColor]];
-        }
-        
-        CGFloat rectHeight = [self rowHeight] + [self intercellSpacing].height;
-        NSInteger loc;
-        if (clipRect.origin.y<0.0f) {
-            CGFloat minY=fabs(NSMinY(clipRect));
-            loc=(NSInteger)(minY/rectHeight);
-            if (((NSInteger)minY % (NSInteger)rectHeight)!=0) {
-                loc++;
-            }
-            loc=0-loc;
-        }else{
-            loc=(NSInteger)[self rowsInRect:clipRect].location;
-        }
-        NSRect rowRect=NSMakeRect(0.0f, (rectHeight * (CGFloat)loc),NSMaxX(clipRect), rectHeight);
-        CGFloat maxY=NSMaxY(clipRect);
-        NSInteger row;
-        [NSGraphicsContext saveGraphicsState];
-        //        [[NSGraphicsContext currentContext] setShouldAntialias:NO];
-        for (row=loc; rowRect.origin.y < maxY; row++) {
-            if(( row % 2)!=0){
-                [altColor setFill];
-            }else{
-                [backColor setFill];
-            }
-            NSRectFill(rowRect);
-            rowRect.origin.y+=rectHeight;
-        }
-        [NSGraphicsContext restoreGraphicsState];
-    }
 }
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect{

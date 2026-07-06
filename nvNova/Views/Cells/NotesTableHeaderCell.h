@@ -12,9 +12,6 @@
 @interface NotesTableHeaderCell : NSTableHeaderCell {
 }
 
-+ (void)setBColor:(NSColor *)inColor;
-+ (void)setTxtColor:(NSColor *)inColor;
-
 @end
 
 

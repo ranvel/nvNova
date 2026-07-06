@@ -769,8 +769,7 @@ terminateApp:
 	[notesTableView makeFirstPreviouslyVisibleRowVisibleIfNecessary];
 	
 	[self updateNoteMenus];
-    
-	[notesTableView setBackgroundColor:backgrndColor];
+
 	[notesTableView setNeedsDisplay];
 }
 
@@ -2848,15 +2847,7 @@ terminateApp:
     }
     
 - (void)updateColorScheme{
-    if (!IsLionOrLater) {        
-        [window setBackgroundColor:backgrndColor];
-        [dualFieldView setBackgroundColor:backgrndColor];
-    }
     [mainView setBackgroundColor:backgrndColor];
-    [NotesTableHeaderCell setTxtColor:foregrndColor];
-    
-    [notesTableView setGridColor:foregrndColor];
-    [notesTableView setBackgroundColor:backgrndColor];
     [notationController setForegroundTextColor:foregrndColor];
     
     [textView setBackgroundColor:backgrndColor];
