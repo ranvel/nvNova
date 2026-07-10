@@ -31,6 +31,7 @@ typedef struct {
 	const char *blockCommentOpen;		//NULL if the language has none
 	const char *blockCommentClose;
 	const char *keywordExtraPattern;	//extra regex alternative for the keyword class (e.g. objc @directives)
+	const char *stringExtraPattern;		//extra regex alternative for the string class (e.g. js template literals)
 	BOOL tripleQuotedStrings;
 	BOOL caseInsensitiveKeywords;
 } NVCodeLanguageDef;
@@ -40,14 +41,54 @@ static const NVCodeLanguageDef languageDefs[] = {
 		"python", "py,python3",
 		"False None True and as assert async await break class continue def del elif else except finally "
 		"for from global if import in is lambda nonlocal not or pass raise return try while with yield self",
-		"#", NULL, NULL, NULL, YES, NO
+		"#", NULL, NULL, NULL, NULL, YES, NO
 	},
 	{
 		"bash", "sh,shell,zsh",
 		"if then else elif fi case esac for while until do done in function select break continue return "
 		"exit export local readonly declare typeset unset shift source alias eval exec set trap wait cd "
 		"echo printf read test true false",
-		"#", NULL, NULL, NULL, NO, NO
+		"#", NULL, NULL, NULL, NULL, NO, NO
+	},
+	{
+		"groovy", "gvy,gy,gradle",
+		"abstract as assert boolean break byte case catch char class const continue def default do double "
+		"else enum extends final finally float for goto if implements import in instanceof int interface "
+		"long native new null package private protected public return short static strictfp super switch "
+		"synchronized this throw throws trait transient try var void volatile while true false",
+		"//", "/*", "*/", NULL, NULL, YES, NO
+	},
+	{
+		"sql", "mysql,postgresql,tsql",
+		"select from where insert into values update set delete create table alter drop index view as and "
+		"or not null is in exists between like limit offset order by group having distinct join inner left "
+		"right full outer cross on union all case when then else end primary key foreign references default "
+		"unique check constraint database schema grant revoke begin commit rollback transaction with recursive",
+		"--", "/*", "*/", NULL, NULL, NO, YES
+	},
+	{
+		"javascript", "js,node",
+		"async await break case catch class const continue debugger default delete do else export extends "
+		"finally for function if import in instanceof let new of return static super switch this throw try "
+		"typeof var void while with yield true false null undefined",
+		"//", "/*", "*/", NULL, "(?s:`(?:\\\\.|[^`\\\\])*`)", NO, NO
+	},
+	{
+		"objc", "objective-c,c,m,h",
+		"auto break case char const continue default do double else enum extern float for goto if inline "
+		"int long register return short signed sizeof static struct switch typedef union unsigned void "
+		"volatile while BOOL Class SEL IMP id instancetype nil Nil self super YES NO",
+		"//", "/*", "*/", "@[A-Za-z_][A-Za-z0-9_]*", NULL, NO, NO
+	},
+	{
+		"json", NULL,
+		"true false null",
+		NULL, NULL, NULL, NULL, NULL, NO, NO
+	},
+	{
+		"yaml", "yml",
+		"true false null yes no on off",
+		"#", NULL, NULL, "(?m:^[ \\t]*-?[ \\t]*[A-Za-z_][A-Za-z0-9_.-]*(?=:))", NULL, NO, YES
 	},
 };
 #define kNVCodeLanguageCount (sizeof(languageDefs) / sizeof(languageDefs[0]))
@@ -96,6 +137,8 @@ static NSRegularExpression *_expressionForLanguage(NSUInteger languageID) {
 	NSMutableArray *stringAlts = [NSMutableArray array];
 	if (def->tripleQuotedStrings)
 		[stringAlts addObject:@"(?s:'''.*?'''|\"\"\".*?\"\"\")"];
+	if (def->stringExtraPattern)
+		[stringAlts addObject:[NSString stringWithUTF8String:def->stringExtraPattern]];
 	[stringAlts addObject:@"\"(?:\\\\.|[^\"\\\\\n])*\""];
 	[stringAlts addObject:@"'(?:\\\\.|[^'\\\\\n])*'"];
 
