@@ -259,7 +259,9 @@
 		B69E26F516F0B523001C6E4B /* DFCapRightInactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69E26ED16F0B523001C6E4B /* DFCapRightInactive@2x.png */; };
 		B69E26F616F0B523001C6E4B /* Pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69E26EE16F0B523001C6E4B /* Pencil@2x.png */; };
 		B69E26F716F0B523001C6E4B /* Search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B69E26EF16F0B523001C6E4B /* Search@2x.png */; };
+		CDB1F74BC7A0E4E982DAD562 /* NVCodeTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 536E5F31631911A43B01DFEC /* NVCodeTokenizer.m */; };
 		D3EECA00106F66C70023D7F8 /* NVPasswordGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = D3EEC9FE106F66C70023D7F8 /* NVPasswordGenerator.m */; };
+		E00E67EAB73063C35F021B27 /* NVFencedCodeHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEA16385A0697D184076CC /* NVFencedCodeHighlighter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -502,7 +504,9 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2AFEA16385A0697D184076CC /* NVFencedCodeHighlighter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = NVFencedCodeHighlighter.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Notation_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notation_Prefix.pch; sourceTree = "<group>"; };
+		536E5F31631911A43B01DFEC /* NVCodeTokenizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = NVCodeTokenizer.m; sourceTree = "<group>"; };
 		57F27F7A11973A7F00C63ACF /* Notation.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Notation.sdef; sourceTree = "<group>"; };
 		57F27FB71197407400C63ACF /* SearchCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCommand.h; sourceTree = "<group>"; };
 		57F27FB81197407400C63ACF /* SearchCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCommand.m; sourceTree = "<group>"; };
@@ -752,6 +756,7 @@
 		5CF96CD9132EA1970079B3FD /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = nvNova/Resources/Localizations/de.lproj/URLGetter.nib; sourceTree = SOURCE_ROOT; };
 		5CFF810713A52EE2008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
 		5CFF810913A536F7008A93A3 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = nvNova/Resources/Localizations/it.lproj/Preferences.xib; sourceTree = SOURCE_ROOT; };
+		75CB3BEB8AF3561A102AC55E /* NVCodeTokenizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = NVCodeTokenizer.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* nvNova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nvNova.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93099627138BD61000368C45 /* tp2md.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = tp2md.rb; sourceTree = "<group>"; };
@@ -777,6 +782,7 @@
 		93B90E83138601C100BEC5FB /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
 		93B90E901386072E00BEC5FB /* TemporaryFileCachePreparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFileCachePreparer.h; sourceTree = "<group>"; };
 		93B90E911386072E00BEC5FB /* TemporaryFileCachePreparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFileCachePreparer.m; sourceTree = "<group>"; };
+		9A96D60F12C437DDA1135B4F /* NVFencedCodeHighlighter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = NVFencedCodeHighlighter.h; sourceTree = "<group>"; };
 		9FB19D88C325F52EE28AE704 /* nvNova.icns */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.icns; path = nvNova.icns; sourceTree = "<group>"; };
 		B683A0C716F1CDA600564A1D /* LinkBack@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBack@2x.tif"; path = "nvNova/Resources/Images/LinkBack@2x.tif"; sourceTree = SOURCE_ROOT; };
 		B683A0C816F1CDA600564A1D /* LinkBackPressed@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "LinkBackPressed@2x.tif"; path = "nvNova/Resources/Images/LinkBackPressed@2x.tif"; sourceTree = SOURCE_ROOT; };
@@ -878,6 +884,10 @@
 				5C96F5AD131C37DF00A2E4AC /* NSString_Textile.h */,
 				5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */,
 				5CE6624913185202002039D0 /* NSTextFinder.h */,
+				75CB3BEB8AF3561A102AC55E /* NVCodeTokenizer.h */,
+				536E5F31631911A43B01DFEC /* NVCodeTokenizer.m */,
+				9A96D60F12C437DDA1135B4F /* NVFencedCodeHighlighter.h */,
+				2AFEA16385A0697D184076CC /* NVFencedCodeHighlighter.m */,
 			);
 			path = Text;
 			sourceTree = "<group>";
@@ -1837,6 +1847,8 @@
 				5C177AE7141EF95200BC0C0A /* ETClipView.m in Sources */,
 				5C38E2C414223D6900131682 /* ETOverlayScroller.m in Sources */,
 				934C3FB914FDA74F000D14BA /* NSFileManager+DirectoryLocations.m in Sources */,
+				CDB1F74BC7A0E4E982DAD562 /* NVCodeTokenizer.m in Sources */,
+				E00E67EAB73063C35F021B27 /* NVFencedCodeHighlighter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
