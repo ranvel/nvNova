@@ -18,6 +18,7 @@
 #import "LinkingEditor_Indentation.h"
 #import "NSCollection_utils.h"
 #import "AttributedPlainText.h"
+#import "NVFencedCodeHighlighter.h"
 #import "NSString_NV.h"
 #import "NVPasswordGenerator.h"
 #import "ETClipView.h"
@@ -225,9 +226,22 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 	[self setSelectedTextAttributes:[NSDictionary dictionaryWithObject:[self _selectionColorForForegroundColor:fgColor backgroundColor:bgColor] 
 																forKey:NSBackgroundColorAttributeName]];
 	[self setTypingAttributes:[prefsController noteBodyAttributes]];
+	[self recalculateFencedCodeHighlighting];
     [[self enclosingScrollView]setNeedsDisplay:YES];
 //    [[[self enclosingScrollView]contentView]setNeedsDisplay:YES];
     [self setNeedsDisplay:YES];
+}
+
+- (NVFencedCodeHighlighter*)codeHighlighter {
+	if (!codeHighlighter)
+		codeHighlighter = [[NVFencedCodeHighlighter alloc] init];
+	return codeHighlighter;
+}
+
+- (void)recalculateFencedCodeHighlighting {
+	[[self codeHighlighter] invalidateCache];
+	[[self codeHighlighter] highlightAllInTextStorage:[self textStorage] layoutManager:[self layoutManager]
+									   darkBackground:backgroundIsDark];
 }
 
 #define _CM(__ch) ((__ch) * 255.0)
@@ -1362,7 +1376,10 @@ cancelCompetion:
 	[[self textStorage] addLinkAttributesForRange:changedRange];
 	
 	[[self textStorage] addStrikethroughNearDoneTagsForRange:changedRange];
-	
+
+	[[self codeHighlighter] highlightChangedRange:changedRange inTextStorage:[self textStorage]
+									layoutManager:[self layoutManager] darkBackground:backgroundIsDark];
+
 	if (!isAutocompleting && !wasDeleting && [prefsController linksAutoSuggested] && 
 		![[self undoManager] isUndoing] && ![[self undoManager] isRedoing]) {
 		isAutocompleting = YES;
@@ -1760,7 +1777,8 @@ static long (*GetGetScriptManagerVariablePointer())(short) {
     [lastImportedFindString release];
     [stringDuringFind release];
     [noteDuringFind release];
-    
+    [codeHighlighter release];
+
 	[super dealloc];
 }
 

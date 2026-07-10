@@ -18,6 +18,7 @@
 @class NotesTableView;
 @class NoteObject;
 @class GlobalPrefs;
+@class NVFencedCodeHighlighter;
 
 @interface LinkingEditor : NSTextView
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
@@ -37,7 +38,8 @@
 	BOOL isAutocompleting, wasDeleting;
 	
 	BOOL backgroundIsDark, mouseInside;
-	
+	NVFencedCodeHighlighter *codeHighlighter;
+
 	//ludicrous ivars used to hack NSTextFinder. just write your own, damnit!
 	NSRange selectedRangeDuringFind;
 	NSString *lastImportedFindString;
@@ -112,6 +114,7 @@
 - (BOOL)cursorIsImmediatelyPastPair:(NSString *)closingCharacter;
 - (IBAction)performFindPanelAction:(id)sender;
 - (void)updateTextColors;
+- (void)recalculateFencedCodeHighlighting;
 - (IBAction)insertLink:(id)sender;
 - (void)prepareTextFinder;
 - (void)prepareTextFinderPreLion;

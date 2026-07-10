@@ -1674,6 +1674,7 @@ terminateApp:
 		
 		//restore string
 		[[textView textStorage] setAttributedString:[note contentString]];
+		[textView recalculateFencedCodeHighlighting];
 		[self postTextUpdate];
 		[self updateWordCount:(![prefsController showWordCount])];
 		//[textView setAutomaticallySelectedRange:NSMakeRange(0,0)];
@@ -2043,6 +2044,7 @@ terminateApp:
 	if (aNoteObject == currentNote) {
 		NSArray *selRanges=[textView selectedRanges];
 		[[textView textStorage] setAttributedString:[aNoteObject contentString]];
+		[textView recalculateFencedCodeHighlighting];
         if (![selRanges isEqualToArray:[textView selectedRanges]]) {
             NSRange testEnd=[[selRanges lastObject] rangeValue];
             NSUInteger test=testEnd.location+testEnd.length;
