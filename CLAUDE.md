@@ -17,10 +17,10 @@ xcodebuild -project Notation.xcodeproj -scheme "Notation Develop" -configuration
 
 There is no test target, no package manager, and no lint config — it's a plain Xcode project. Dependencies are vendored under `nvNova/Vendor/` (frameworks, static OpenSSL, Perl Markdown/Textile, a `multimarkdown` binary).
 
-### It does not currently compile, by design
-The codebase targets macOS 10.9 and is being modernized incrementally. Do **not** spend effort making it build unless explicitly asked. Known blockers, in order:
-1. **Header search paths.** Every `#import` is a bare `"Foo.h"` with no path (the project was historically flat). After the directory reorg (see below), cross-folder imports need a recursive path — add `$(SRCROOT)/nvNova/**` to `HEADER_SEARCH_PATHS` with `ALWAYS_SEARCH_USER_PATHS = YES`. The existing `HEADER_SEARCH_PATHS` and `LIBRARY_SEARCH_PATHS` still point at pre-reorg / Homebrew-era locations and are stale.
-2. **10.9-era API deprecations** — Carbon `UTCDateTime`/`FSRef`, `CFHashBytes`, deprecated AppKit, etc.
+### Build status
+The project **builds and launches** (universal arm64 + x86_64) as of NVN-6; the old "does not compile by design" era is over. Every `#import` is still a bare `"Foo.h"` with no path — `HEADER_SEARCH_PATHS` carries `$(SRCROOT)/nvNova/**` with `ALWAYS_SEARCH_USER_PATHS = YES` to make cross-folder imports resolve. Two things to watch:
+1. **Mixed deployment targets** — some configurations set `MACOSX_DEPLOYMENT_TARGET` to 15.6, others to 10.13. Avoid APIs newer than 10.13 (e.g. `monospacedSystemFontOfSize:weight:`, 10.15+) unless you check availability.
+2. **Residual 10.9-era deprecations** — deprecated AppKit calls still warn; excisions are tracked per-ticket (Carbon file I/O, `FSRef`, and directory watching are already gone via NVN-3/5/10).
 
 ## Memory management
 
