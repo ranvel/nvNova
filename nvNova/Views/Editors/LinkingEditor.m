@@ -80,7 +80,8 @@ CGFloat _perceptualDarkness(NSColor*a);
 	 @selector(setNoteBodyFont:sender:),
 	 @selector(setMakeURLsClickable:sender:),
 	 @selector(setSearchTermHighlightColor:sender:),
-	 @selector(setShouldHighlightSearchTerms:sender:), nil];
+	 @selector(setShouldHighlightSearchTerms:sender:),
+	 @selector(setUseDarkCodeBlocks:sender:), nil];
 	
     self.managesTextWidth=[prefsController managesTextWidthInWindow];
 	[self setUsesRuler:NO];
@@ -156,6 +157,41 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 			NSString *typedString = [(AppController *)[NSApp delegate] typedString];
 			if (typedString)
 				[self highlightTermsTemporarilyReturningFirstRange:typedString avoidHighlight:NO];
+		}
+	} else if ([selectorString isEqualToString:SEL_STR(setUseDarkCodeBlocks:sender:)]) {
+
+		[self recalculateFencedCodeHighlighting];
+		[self setNeedsDisplay:YES];	//covers toggling OFF, where the slabs must be erased
+	}
+}
+
+//paints the dark slab behind fenced code blocks; token/text colors draw above it
+- (void)drawViewBackgroundInRect:(NSRect)rect {
+	[super drawViewBackgroundInRect:rect];
+	if (![prefsController useDarkCodeBlocks]) return;
+
+	NSArray *blockRanges = [[self codeHighlighter] cachedBlockCharacterRanges];
+	if (![blockRanges count]) return;
+
+	NSLayoutManager *layoutManager = [self layoutManager];
+	NSTextContainer *container = [self textContainer];
+	NSPoint origin = [self textContainerOrigin];
+	NSUInteger textLength = [[self string] length];
+	static NSColor *slabColor = nil;
+	if (!slabColor)
+		slabColor = [[NSColor colorWithCalibratedWhite:0.102 alpha:1.0] retain];	//#1a1a1a
+
+	NSValue *rangeValue;
+	for (rangeValue in blockRanges) {
+		NSRange charRange = [rangeValue rangeValue];
+		if (!charRange.length || NSMaxRange(charRange) > textLength) continue;
+		NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:charRange actualCharacterRange:NULL];
+		NSRect bounding = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
+		NSRect slab = NSMakeRect(origin.x, origin.y + NSMinY(bounding),
+								 [container containerSize].width, NSHeight(bounding));
+		if (NSIntersectsRect(slab, rect)) {
+			[slabColor set];
+			NSRectFill(slab);
 		}
 	}
 }
@@ -242,6 +278,8 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 	[[self codeHighlighter] invalidateCache];
 	[[self codeHighlighter] highlightAllInTextStorage:[self textStorage] layoutManager:[self layoutManager]
 									   darkBackground:backgroundIsDark];
+	if ([prefsController useDarkCodeBlocks])
+		[self setNeedsDisplay:YES];
 }
 
 #define _CM(__ch) ((__ch) * 255.0)
@@ -1379,6 +1417,8 @@ cancelCompetion:
 
 	[[self codeHighlighter] highlightChangedRange:changedRange inTextStorage:[self textStorage]
 									layoutManager:[self layoutManager] darkBackground:backgroundIsDark];
+	if ([prefsController useDarkCodeBlocks])
+		[self setNeedsDisplay:YES];
 
 	if (!isAutocompleting && !wasDeleting && [prefsController linksAutoSuggested] && 
 		![[self undoManager] isUndoing] && ![[self undoManager] isRedoing]) {

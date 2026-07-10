@@ -57,6 +57,7 @@ static NSString *AutoFormatsListBulletsKey = @"AutoFormatsListBullets";
 static NSString *AutoSuggestLinksKey = @"AutoSuggestLinks";
 static NSString *AutoIndentsNewLinesKey = @"AutoIndentsNewLines";
 static NSString *HighlightSearchTermsKey = @"HighlightSearchTerms";
+static NSString *DarkCodeBlocksKey = @"UseDarkBackgroundForFencedCodeBlocks";
 static NSString *SearchTermHighlightColorKey = @"SearchTermHighlightColor";
 static NSString *ForegroundTextColorKey = @"ForegroundTextColor";
 static NSString *BackgroundTextColorKey = @"BackgroundTextColor";
@@ -144,7 +145,8 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 			[NSNumber numberWithBool:NO], TriedToImportBlorKey,
 			[NSNumber numberWithBool:NO], HorizontalLayoutKey,
 			[NSNumber numberWithBool:YES], MakeURLsClickableKey,
-			[NSNumber numberWithBool:YES], HighlightSearchTermsKey, 
+			[NSNumber numberWithBool:YES], HighlightSearchTermsKey,
+			[NSNumber numberWithBool:NO], DarkCodeBlocksKey,
 			[NSNumber numberWithBool:YES], TableColumnsHaveBodyPreviewKey, 
 			[NSNumber numberWithDouble:0.0], LastScrollOffsetKey,
 			@"General", LastSelectedPreferencesPaneKey, 
@@ -502,6 +504,15 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 }
 - (BOOL)highlightSearchTerms {
 	return [defaults boolForKey:HighlightSearchTermsKey];
+}
+
+- (void)setUseDarkCodeBlocks:(BOOL)useDark sender:(id)sender {
+	[defaults setBool:useDark forKey:DarkCodeBlocksKey];
+
+	SEND_CALLBACKS();
+}
+- (BOOL)useDarkCodeBlocks {
+	return [defaults boolForKey:DarkCodeBlocksKey];
 }
 
 - (void)setSearchTermHighlightColor:(NSColor*)color sender:(id)sender {

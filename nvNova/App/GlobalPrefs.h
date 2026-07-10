@@ -141,6 +141,8 @@ BOOL ColorsEqualWith8BitChannels(NSColor *c1, NSColor *c2);
 
 - (void)setShouldHighlightSearchTerms:(BOOL)shouldHighlight sender:(id)sender;
 - (BOOL)highlightSearchTerms;
+- (void)setUseDarkCodeBlocks:(BOOL)useDark sender:(id)sender;
+- (BOOL)useDarkCodeBlocks;
 - (void)setSearchTermHighlightColor:(NSColor*)color sender:(id)sender;
 - (NSDictionary*)searchTermHighlightAttributes;
 - (NSColor*)searchTermHighlightColorRaw:(BOOL)isRaw;

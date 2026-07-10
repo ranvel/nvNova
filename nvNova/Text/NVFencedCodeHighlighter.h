@@ -37,5 +37,7 @@ extern NSString *NVCodeBlockAttributeName;
 - (void)highlightAllInTextStorage:(NSTextStorage*)textStorage layoutManager:(NSLayoutManager*)layoutManager
 				   darkBackground:(BOOL)darkBackground;
 - (void)invalidateCache;
+//character ranges (NSValue) of the cached fence blocks, for background drawing
+- (NSArray*)cachedBlockCharacterRanges;
 
 @end

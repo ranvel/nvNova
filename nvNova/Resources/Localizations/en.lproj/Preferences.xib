@@ -16,6 +16,7 @@
                 <outlet property="checkSpellingButton" destination="276" id="293"/>
                 <outlet property="completeNoteTitlesButton" destination="175" id="265"/>
                 <outlet property="confirmDeletionButton" destination="172" id="266"/>
+                <outlet property="darkCodeBlocksButton" destination="600" id="603"/>
                 <outlet property="databaseView" destination="250" id="259"/>
                 <outlet property="editingView" destination="268" id="298"/>
                 <outlet property="externalEditorMenuButton" destination="561" id="567"/>
@@ -612,6 +613,17 @@
                     <connections>
                         <action selector="toggleKeepsTextWidthInWindow:" target="-2" id="469"/>
                         <binding destination="436" name="value" keyPath="values.KeepsMaxTextWidth" id="585"/>
+                    </connections>
+                </button>
+                <button id="600">
+                    <rect key="frame" x="23" y="128" width="320" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Use Dark Background for Fenced Code Blocks:" bezelStyle="regularSquare" imagePosition="right" alignment="right" inset="2" id="601">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="changedDarkCodeBlocks:" target="-2" id="602"/>
                     </connections>
                 </button>
                 <slider verticalHuggingPriority="750" id="470">

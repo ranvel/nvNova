@@ -230,6 +230,9 @@ static NSButton *NVAddPushButton(NSView *parent, NSString *title, id target, SEL
 - (IBAction)changedHighlightSearchTerms:(id)sender {
 	[prefsController setShouldHighlightSearchTerms:[highlightSearchTermsButton state] sender:self];
 }
+- (IBAction)changedDarkCodeBlocks:(id)sender {
+	[prefsController setUseDarkCodeBlocks:[darkCodeBlocksButton state] sender:self];
+}
 - (IBAction)changedStyledTextBehavior:(id)sender {
     [prefsController setPastePreservesStyle:[styledTextButton state] sender:self];
 }
@@ -491,6 +494,7 @@ static NSButton *NVAddPushButton(NSView *parent, NSString *title, id target, SEL
 	[appShortcutField setStringValue:[[prefsController appActivationKeyCombo] description]];
 	[searchHighlightColorWell setColor:[prefsController searchTermHighlightColorRaw:YES]];
 	[highlightSearchTermsButton setState:[prefsController highlightSearchTerms]];
+	[darkCodeBlocksButton setState:[prefsController useDarkCodeBlocks]];
 	[foregroundColorWell setColor:[prefsController foregroundTextColor]];
 	[backgroundColorWell setColor:[prefsController backgroundTextColor]];
     [maxWidthSlider setDoubleValue:[[NSUserDefaults standardUserDefaults] doubleForKey:@"NoteBodyMaxWidth"]];

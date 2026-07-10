@@ -98,6 +98,16 @@ static NSDictionary *_tokenAttributes(NVCodeTokenClass tokenClass, BOOL darkBack
 	return attributes[palette][tokenClass];
 }
 
+//default text color inside dark slabs: non-token code must stay readable on #1a1a1a
+static NSDictionary *_lightDefaultTextAttributes(void) {
+	static NSDictionary *attributes = nil;
+	if (!attributes) {
+		attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSColor colorWithCalibratedWhite:0.847 alpha:1.0], NSForegroundColorAttributeName, nil];
+	}
+	return attributes;
+}
+
 - (NSArray*)scanBlocksInString:(NSString*)string {
 	NSMutableArray *scanned = [NSMutableArray array];
 	NSUInteger docLength = [string length];
@@ -216,11 +226,17 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 	if (!totalRange.length || NSMaxRange(totalRange) > [textStorage length]) return;
 	[self applyBaseStyleForBlock:block inTextStorage:textStorage];
 	[layoutManager removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:totalRange];
+
+	//dark slabs force the dark palette and need light default text over the whole block
+	BOOL darkBlocks = [[GlobalPrefs defaultPrefs] useDarkCodeBlocks];
+	if (darkBlocks)
+		[layoutManager addTemporaryAttributes:_lightDefaultTextAttributes() forCharacterRange:totalRange];
 	if (block->languageID == NVCodeLanguageNone || !block->codeRange.length) return;
 
+	BOOL usesDarkPalette = darkBackground || darkBlocks;
 	[NVCodeTokenizer enumerateTokensInString:[textStorage string] range:block->codeRange languageID:block->languageID
 								  usingBlock:^(NSRange tokenRange, NVCodeTokenClass tokenClass) {
-		NSDictionary *tokenAttributes = _tokenAttributes(tokenClass, darkBackground);
+		NSDictionary *tokenAttributes = _tokenAttributes(tokenClass, usesDarkPalette);
 		if (tokenAttributes)
 			[layoutManager addTemporaryAttributes:tokenAttributes forCharacterRange:tokenRange];
 	}];
@@ -318,6 +334,16 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 	[blocks release];
 	blocks = newBlocks;
 	lastScannedLength = docLength;
+}
+
+- (NSArray*)cachedBlockCharacterRanges {
+	NSUInteger count = [blocks count];
+	if (!count) return [NSArray array];
+	NSMutableArray *ranges = [NSMutableArray arrayWithCapacity:count];
+	NSUInteger i;
+	for (i = 0; i < count; i++)
+		[ranges addObject:[NSValue valueWithRange:[(NVFencedBlock*)[blocks objectAtIndex:i] totalRange]]];
+	return ranges;
 }
 
 - (void)invalidateCache {
