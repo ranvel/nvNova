@@ -139,20 +139,20 @@
 		5C96F4FF131C2F9500A2E4AC /* TabClose_Front_Pressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F4FC131C2F9500A2E4AC /* TabClose_Front_Pressed.tif */; };
 		5C96F501131C2F9500A2E4AC /* TabClose_Front.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F4FE131C2F9500A2E4AC /* TabClose_Front.tif */; };
 		5C96F504131C2FA800A2E4AC /* BTTransparentScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F502131C2FA800A2E4AC /* BTTransparentScroller.m */; };
-		5C96F566131C35AB00A2E4AC /* __init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFB131C2A7600DE1F91 /* __init__.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F567131C35AB00A2E4AC /* BeautifulSoup.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F568131C35AB00A2E4AC /* BeautifulSoup.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F569131C35AB00A2E4AC /* html2text.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFE131C2A7600DE1F91 /* html2text.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56A131C35AB00A2E4AC /* page_parser.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFF131C2A7600DE1F91 /* page_parser.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56B131C35AB00A2E4AC /* page_parser.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11000131C2A7600DE1F91 /* page_parser.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56C131C35AB00A2E4AC /* readability.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11001131C2A7600DE1F91 /* readability.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56D131C35AB00A2E4AC /* url_helpers.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11002131C2A7600DE1F91 /* url_helpers.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5C96F56E131C35AB00A2E4AC /* url_helpers.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11003131C2A7600DE1F91 /* url_helpers.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F566131C35AB00A2E4AC /* nvNova/Vendor/readability/__init__.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFB131C2A7600DE1F91 /* nvNova/Vendor/readability/__init__.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F567131C35AB00A2E4AC /* nvNova/Vendor/readability/BeautifulSoup.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFC131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F568131C35AB00A2E4AC /* nvNova/Vendor/readability/BeautifulSoup.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFD131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F569131C35AB00A2E4AC /* nvNova/Vendor/readability/html2text.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFE131C2A7600DE1F91 /* nvNova/Vendor/readability/html2text.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F56A131C35AB00A2E4AC /* nvNova/Vendor/readability/page_parser.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA10FFF131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F56B131C35AB00A2E4AC /* nvNova/Vendor/readability/page_parser.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11000131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F56C131C35AB00A2E4AC /* nvNova/Vendor/readability/readability.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11001131C2A7600DE1F91 /* nvNova/Vendor/readability/readability.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F56D131C35AB00A2E4AC /* nvNova/Vendor/readability/url_helpers.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11002131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.py */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5C96F56E131C35AB00A2E4AC /* nvNova/Vendor/readability/url_helpers.pyc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5CA11003131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.pyc */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5C96F5AF131C37DF00A2E4AC /* NSString_MultiMarkdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AA131C37DF00A2E4AC /* NSString_MultiMarkdown.m */; };
 		5C96F5B0131C37DF00A2E4AC /* NSString_Markdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */; };
 		5C96F5B1131C37DF00A2E4AC /* NSString_Textile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */; };
-		5C96F616131C380100A2E4AC /* Textile_2.12 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F610131C380100A2E4AC /* Textile_2.12 */; };
-		5C96F61C131C380C00A2E4AC /* Markdown_1.0.1 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */; };
+		5C96F616131C380100A2E4AC /* nvNova/Vendor/Textile_2.12 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F610131C380100A2E4AC /* nvNova/Vendor/Textile_2.12 */; };
+		5C96F61C131C380C00A2E4AC /* nvNova/Vendor/Markdown_1.0.1 in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F617131C380C00A2E4AC /* nvNova/Vendor/Markdown_1.0.1 */; };
 		5C96F6DE131C488B00A2E4AC /* ETTransparentButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F6DD131C488B00A2E4AC /* ETTransparentButtonCell.m */; };
 		5C96F6E9131C48FE00A2E4AC /* ETTransparentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C96F6E8131C48FE00A2E4AC /* ETTransparentButton.m */; };
 		5C96F709131C49D400A2E4AC /* TransparentButtonFillN.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5C96F703131C49D400A2E4AC /* TransparentButtonFillN.tiff */; };
@@ -235,9 +235,9 @@
 		93B3482A1371547800658F98 /* HUDIconSave.png in Resources */ = {isa = PBXBuildFile; fileRef = 93B348261371547800658F98 /* HUDIconSave.png */; };
 		93B3482B1371547800658F98 /* HUDIconShare.png in Resources */ = {isa = PBXBuildFile; fileRef = 93B348271371547800658F98 /* HUDIconShare.png */; };
 		93B90E7A1386018200BEC5FB /* ExternalEditorListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E781386018200BEC5FB /* ExternalEditorListController.m */; };
-		93B90E84138601C100BEC5FB /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 93B90E7E138601C100BEC5FB /* LICENSE.txt */; };
-		93B90E85138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E80138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m */; };
-		93B90E86138601C100BEC5FB /* ODBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E82138601C100BEC5FB /* ODBEditor.m */; };
+		93B90E84138601C100BEC5FB /* nvNova/Vendor/ODBEditor/LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 93B90E7E138601C100BEC5FB /* nvNova/Vendor/ODBEditor/LICENSE.txt */; };
+		93B90E85138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E80138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m */; };
+		93B90E86138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E82138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.m */; };
 		93B90E921386072E00BEC5FB /* TemporaryFileCachePreparer.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B90E911386072E00BEC5FB /* TemporaryFileCachePreparer.m */; };
 		B683A0D316F1CDA600564A1D /* LinkBack@2x.tif in Resources */ = {isa = PBXBuildFile; fileRef = B683A0C716F1CDA600564A1D /* LinkBack@2x.tif */; };
 		B683A0D416F1CDA600564A1D /* LinkBackPressed@2x.tif in Resources */ = {isa = PBXBuildFile; fileRef = B683A0C816F1CDA600564A1D /* LinkBackPressed@2x.tif */; };
@@ -272,15 +272,15 @@
 			dstSubfolderSpec = 7;
 			files = (
 				93365DE11D9AD97B005A230B /* multimarkdown in CopyFiles */,
-				5C96F566131C35AB00A2E4AC /* __init__.py in CopyFiles */,
-				5C96F567131C35AB00A2E4AC /* BeautifulSoup.py in CopyFiles */,
-				5C96F568131C35AB00A2E4AC /* BeautifulSoup.pyc in CopyFiles */,
-				5C96F569131C35AB00A2E4AC /* html2text.py in CopyFiles */,
-				5C96F56A131C35AB00A2E4AC /* page_parser.py in CopyFiles */,
-				5C96F56B131C35AB00A2E4AC /* page_parser.pyc in CopyFiles */,
-				5C96F56C131C35AB00A2E4AC /* readability.py in CopyFiles */,
-				5C96F56D131C35AB00A2E4AC /* url_helpers.py in CopyFiles */,
-				5C96F56E131C35AB00A2E4AC /* url_helpers.pyc in CopyFiles */,
+				5C96F566131C35AB00A2E4AC /* nvNova/Vendor/readability/__init__.py in CopyFiles */,
+				5C96F567131C35AB00A2E4AC /* nvNova/Vendor/readability/BeautifulSoup.py in CopyFiles */,
+				5C96F568131C35AB00A2E4AC /* nvNova/Vendor/readability/BeautifulSoup.pyc in CopyFiles */,
+				5C96F569131C35AB00A2E4AC /* nvNova/Vendor/readability/html2text.py in CopyFiles */,
+				5C96F56A131C35AB00A2E4AC /* nvNova/Vendor/readability/page_parser.py in CopyFiles */,
+				5C96F56B131C35AB00A2E4AC /* nvNova/Vendor/readability/page_parser.pyc in CopyFiles */,
+				5C96F56C131C35AB00A2E4AC /* nvNova/Vendor/readability/readability.py in CopyFiles */,
+				5C96F56D131C35AB00A2E4AC /* nvNova/Vendor/readability/url_helpers.py in CopyFiles */,
+				5C96F56E131C35AB00A2E4AC /* nvNova/Vendor/readability/url_helpers.pyc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +288,7 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		12BB945FA836254278B19804 /* nvNova.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = nvNova/Resources/Supporting/nvNova.entitlements; sourceTree = SOURCE_ROOT; };
+		12BB945FA836254278B19804 /* nvNova/Resources/Supporting/nvNova.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = nvNova/Resources/Supporting/nvNova.entitlements; sourceTree = SOURCE_ROOT; };
 		210A10660B66720F005BE981 /* BookmarksTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BookmarksTable.h; sourceTree = "<group>"; };
 		210A10670B66720F005BE981 /* BookmarksTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BookmarksTable.m; sourceTree = "<group>"; };
 		210C07230B6BF0A1005D23A8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
@@ -660,8 +660,8 @@
 		5C96F5AC131C37DF00A2E4AC /* NSString_Markdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Markdown.m; sourceTree = "<group>"; };
 		5C96F5AD131C37DF00A2E4AC /* NSString_Textile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_Textile.h; sourceTree = "<group>"; };
 		5C96F5AE131C37DF00A2E4AC /* NSString_Textile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_Textile.m; sourceTree = "<group>"; };
-		5C96F610131C380100A2E4AC /* Textile_2.12 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Textile_2.12; sourceTree = SOURCE_ROOT; };
-		5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Markdown_1.0.1; sourceTree = SOURCE_ROOT; };
+		5C96F610131C380100A2E4AC /* nvNova/Vendor/Textile_2.12 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Textile_2.12; sourceTree = SOURCE_ROOT; };
+		5C96F617131C380C00A2E4AC /* nvNova/Vendor/Markdown_1.0.1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = nvNova/Vendor/Markdown_1.0.1; sourceTree = SOURCE_ROOT; };
 		5C96F6DD131C488B00A2E4AC /* ETTransparentButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETTransparentButtonCell.m; sourceTree = "<group>"; };
 		5C96F6E7131C48FE00A2E4AC /* ETTransparentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETTransparentButton.h; sourceTree = "<group>"; };
 		5C96F6E8131C48FE00A2E4AC /* ETTransparentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETTransparentButton.m; sourceTree = "<group>"; };
@@ -681,15 +681,15 @@
 		5CA10F31131C29E900DE1F91 /* AppController_Preview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController_Preview.m; sourceTree = "<group>"; };
 		5CA10F39131C2A3F00DE1F91 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAttachedWindow.h; sourceTree = "<group>"; };
 		5CA10F3A131C2A3F00DE1F91 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
-		5CA10FFB131C2A7600DE1F91 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/__init__.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/BeautifulSoup.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/BeautifulSoup.pyc; sourceTree = SOURCE_ROOT; };
-		5CA10FFE131C2A7600DE1F91 /* html2text.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/html2text.py; sourceTree = SOURCE_ROOT; };
-		5CA10FFF131C2A7600DE1F91 /* page_parser.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/page_parser.py; sourceTree = SOURCE_ROOT; };
-		5CA11000131C2A7600DE1F91 /* page_parser.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/page_parser.pyc; sourceTree = SOURCE_ROOT; };
-		5CA11001131C2A7600DE1F91 /* readability.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/readability.py; sourceTree = SOURCE_ROOT; };
-		5CA11002131C2A7600DE1F91 /* url_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/url_helpers.py; sourceTree = SOURCE_ROOT; };
-		5CA11003131C2A7600DE1F91 /* url_helpers.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/url_helpers.pyc; sourceTree = SOURCE_ROOT; };
+		5CA10FFB131C2A7600DE1F91 /* nvNova/Vendor/readability/__init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/__init__.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFC131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/BeautifulSoup.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFD131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/BeautifulSoup.pyc; sourceTree = SOURCE_ROOT; };
+		5CA10FFE131C2A7600DE1F91 /* nvNova/Vendor/readability/html2text.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/html2text.py; sourceTree = SOURCE_ROOT; };
+		5CA10FFF131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/page_parser.py; sourceTree = SOURCE_ROOT; };
+		5CA11000131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/page_parser.pyc; sourceTree = SOURCE_ROOT; };
+		5CA11001131C2A7600DE1F91 /* nvNova/Vendor/readability/readability.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/readability.py; sourceTree = SOURCE_ROOT; };
+		5CA11002131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = nvNova/Vendor/readability/url_helpers.py; sourceTree = SOURCE_ROOT; };
+		5CA11003131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.pyc */ = {isa = PBXFileReference; lastKnownFileType = file; path = nvNova/Vendor/readability/url_helpers.pyc; sourceTree = SOURCE_ROOT; };
 		5CAB2F771DC76578000AFED9 /* it */ = {isa = PBXFileReference; lastKnownFileType = text; name = it; path = nvNova/Resources/Localizations/it.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
 		5CAB2F781DC765B5000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = nvNova/Resources/Localizations/de.lproj/Contact.nvhelp; sourceTree = SOURCE_ROOT; };
 		5CAB2F7A1DC76619000AFED9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text; name = de; path = "nvNova/Resources/Localizations/de.lproj/Excruciatingly Useful Shortcuts.nvhelp"; sourceTree = SOURCE_ROOT; };
@@ -774,12 +774,12 @@
 		93B348271371547800658F98 /* HUDIconShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HUDIconShare.png; path = nvNova/Resources/Images/HUDIconShare.png; sourceTree = SOURCE_ROOT; };
 		93B90E771386018200BEC5FB /* ExternalEditorListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalEditorListController.h; sourceTree = "<group>"; };
 		93B90E781386018200BEC5FB /* ExternalEditorListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalEditorListController.m; sourceTree = "<group>"; };
-		93B90E7E138601C100BEC5FB /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nvNova/Vendor/ODBEditor/LICENSE.txt; sourceTree = SOURCE_ROOT; };
-		93B90E7F138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h"; sourceTree = SOURCE_ROOT; };
-		93B90E80138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m"; sourceTree = SOURCE_ROOT; };
-		93B90E81138601C100BEC5FB /* ODBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditor.h; sourceTree = SOURCE_ROOT; };
-		93B90E82138601C100BEC5FB /* ODBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nvNova/Vendor/ODBEditor/ODBEditor.m; sourceTree = SOURCE_ROOT; };
-		93B90E83138601C100BEC5FB /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
+		93B90E7E138601C100BEC5FB /* nvNova/Vendor/ODBEditor/LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nvNova/Vendor/ODBEditor/LICENSE.txt; sourceTree = SOURCE_ROOT; };
+		93B90E7F138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h"; sourceTree = SOURCE_ROOT; };
+		93B90E80138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m"; sourceTree = SOURCE_ROOT; };
+		93B90E81138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditor.h; sourceTree = SOURCE_ROOT; };
+		93B90E82138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nvNova/Vendor/ODBEditor/ODBEditor.m; sourceTree = SOURCE_ROOT; };
+		93B90E83138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nvNova/Vendor/ODBEditor/ODBEditorSuite.h; sourceTree = SOURCE_ROOT; };
 		93B90E901386072E00BEC5FB /* TemporaryFileCachePreparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemporaryFileCachePreparer.h; sourceTree = "<group>"; };
 		93B90E911386072E00BEC5FB /* TemporaryFileCachePreparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemporaryFileCachePreparer.m; sourceTree = "<group>"; };
 		9A96D60F12C437DDA1135B4F /* NVFencedCodeHighlighter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = NVFencedCodeHighlighter.h; sourceTree = "<group>"; };
@@ -1092,7 +1092,7 @@
 			path = Tables;
 			sourceTree = "<group>";
 		};
-		29B97314FDCFA39411CA2CEA = {
+		29B97314FDCFA39411CA2CEA /* Notation */ = {
 			isa = PBXGroup;
 			children = (
 				5C6802051DAD6CCA00713DF0 /* disabled/old classes */,
@@ -1109,9 +1109,9 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				93B90E7D138601C100BEC5FB /* ODBEditor */,
+				93B90E7D138601C100BEC5FB /* nvNova/Vendor/ODBEditor */,
 				5C96F5A8131C379200A2E4AC /* Markup */,
-				5CA10FFA131C2A7600DE1F91 /* readability */,
+				5CA10FFA131C2A7600DE1F91 /* nvNova/Vendor/readability */,
 				21F07C7010EDED87004FE56F /* BSJSON */,
 				2182B38E106B2286008641E4 /* RBSplitView */,
 				21F1CD490B3A38CB001FB5F6 /* HotKeys */,
@@ -1244,24 +1244,24 @@
 		5C96F5A8131C379200A2E4AC /* Markup */ = {
 			isa = PBXGroup;
 			children = (
-				5C96F617131C380C00A2E4AC /* Markdown_1.0.1 */,
-				5C96F610131C380100A2E4AC /* Textile_2.12 */,
+				5C96F617131C380C00A2E4AC /* nvNova/Vendor/Markdown_1.0.1 */,
+				5C96F610131C380100A2E4AC /* nvNova/Vendor/Textile_2.12 */,
 			);
 			name = Markup;
 			sourceTree = "<group>";
 		};
-		5CA10FFA131C2A7600DE1F91 /* readability */ = {
+		5CA10FFA131C2A7600DE1F91 /* nvNova/Vendor/readability */ = {
 			isa = PBXGroup;
 			children = (
-				5CA10FFB131C2A7600DE1F91 /* __init__.py */,
-				5CA10FFC131C2A7600DE1F91 /* BeautifulSoup.py */,
-				5CA10FFD131C2A7600DE1F91 /* BeautifulSoup.pyc */,
-				5CA10FFE131C2A7600DE1F91 /* html2text.py */,
-				5CA10FFF131C2A7600DE1F91 /* page_parser.py */,
-				5CA11000131C2A7600DE1F91 /* page_parser.pyc */,
-				5CA11001131C2A7600DE1F91 /* readability.py */,
-				5CA11002131C2A7600DE1F91 /* url_helpers.py */,
-				5CA11003131C2A7600DE1F91 /* url_helpers.pyc */,
+				5CA10FFB131C2A7600DE1F91 /* nvNova/Vendor/readability/__init__.py */,
+				5CA10FFC131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.py */,
+				5CA10FFD131C2A7600DE1F91 /* nvNova/Vendor/readability/BeautifulSoup.pyc */,
+				5CA10FFE131C2A7600DE1F91 /* nvNova/Vendor/readability/html2text.py */,
+				5CA10FFF131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.py */,
+				5CA11000131C2A7600DE1F91 /* nvNova/Vendor/readability/page_parser.pyc */,
+				5CA11001131C2A7600DE1F91 /* nvNova/Vendor/readability/readability.py */,
+				5CA11002131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.py */,
+				5CA11003131C2A7600DE1F91 /* nvNova/Vendor/readability/url_helpers.pyc */,
 			);
 			path = nvNova/Vendor/readability;
 			sourceTree = "<group>";
@@ -1349,15 +1349,15 @@
 			path = Security;
 			sourceTree = "<group>";
 		};
-		93B90E7D138601C100BEC5FB /* ODBEditor */ = {
+		93B90E7D138601C100BEC5FB /* nvNova/Vendor/ODBEditor */ = {
 			isa = PBXGroup;
 			children = (
-				93B90E7E138601C100BEC5FB /* LICENSE.txt */,
-				93B90E7F138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.h */,
-				93B90E80138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m */,
-				93B90E81138601C100BEC5FB /* ODBEditor.h */,
-				93B90E82138601C100BEC5FB /* ODBEditor.m */,
-				93B90E83138601C100BEC5FB /* ODBEditorSuite.h */,
+				93B90E7E138601C100BEC5FB /* nvNova/Vendor/ODBEditor/LICENSE.txt */,
+				93B90E7F138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.h */,
+				93B90E80138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m */,
+				93B90E81138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.h */,
+				93B90E82138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.m */,
+				93B90E83138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditorSuite.h */,
 			);
 			path = nvNova/Vendor/ODBEditor;
 			sourceTree = "<group>";
@@ -1445,7 +1445,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				21395BB30B7FDB85007BCFAA /* Notation.freqorder */,
 				21395BC60B7FDD35007BCFAA /* Notation.launchorder */,
-				12BB945FA836254278B19804 /* nvNova.entitlements */,
+				12BB945FA836254278B19804 /* nvNova/Resources/Supporting/nvNova.entitlements */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -1588,7 +1588,7 @@
 				en,
 				pt,
 			);
-			mainGroup = 29B97314FDCFA39411CA2CEA;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Notation */;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1636,8 +1636,8 @@
 				5C43669C1DA268500086FF84 /* How does this thing work?.nvhelp in Resources */,
 				5C96F4FF131C2F9500A2E4AC /* TabClose_Front_Pressed.tif in Resources */,
 				5C96F501131C2F9500A2E4AC /* TabClose_Front.tif in Resources */,
-				5C96F616131C380100A2E4AC /* Textile_2.12 in Resources */,
-				5C96F61C131C380C00A2E4AC /* Markdown_1.0.1 in Resources */,
+				5C96F616131C380100A2E4AC /* nvNova/Vendor/Textile_2.12 in Resources */,
+				5C96F61C131C380C00A2E4AC /* nvNova/Vendor/Markdown_1.0.1 in Resources */,
 				5C96F709131C49D400A2E4AC /* TransparentButtonFillN.tiff in Resources */,
 				5C96F70B131C49D400A2E4AC /* TransparentButtonLeftN.tiff in Resources */,
 				5C96F70D131C49D400A2E4AC /* TransparentButtonRightN.tiff in Resources */,
@@ -1702,7 +1702,7 @@
 				93B348291371547800658F98 /* HUDIconPrint.png in Resources */,
 				93B3482A1371547800658F98 /* HUDIconSave.png in Resources */,
 				93B3482B1371547800658F98 /* HUDIconShare.png in Resources */,
-				93B90E84138601C100BEC5FB /* LICENSE.txt in Resources */,
+				93B90E84138601C100BEC5FB /* nvNova/Vendor/ODBEditor/LICENSE.txt in Resources */,
 				5C43669D1DA268500086FF84 /* This is the title of a note.nvhelp in Resources */,
 				93099628138BD61000368C45 /* tp2md.rb in Resources */,
 				5C48A28213A54FBD006B73DD /* PassphraseChanger.nib in Resources */,
@@ -1841,8 +1841,8 @@
 				5CA08C2013301D5E004E3250 /* ETContentView.m in Sources */,
 				5C2FAD2B1333970200FBFD34 /* ETScrollView.m in Sources */,
 				93B90E7A1386018200BEC5FB /* ExternalEditorListController.m in Sources */,
-				93B90E85138601C100BEC5FB /* NSAppleEventDescriptor-Extensions.m in Sources */,
-				93B90E86138601C100BEC5FB /* ODBEditor.m in Sources */,
+				93B90E85138601C100BEC5FB /* nvNova/Vendor/ODBEditor/NSAppleEventDescriptor-Extensions.m in Sources */,
+				93B90E86138601C100BEC5FB /* nvNova/Vendor/ODBEditor/ODBEditor.m in Sources */,
 				93B90E921386072E00BEC5FB /* TemporaryFileCachePreparer.m in Sources */,
 				5C177AE7141EF95200BC0C0A /* ETClipView.m in Sources */,
 				5C38E2C414223D6900131682 /* ETOverlayScroller.m in Sources */,
