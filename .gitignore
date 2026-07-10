@@ -52,3 +52,4 @@ assets/*
 
 # PMJ board — local-only issue tracker (docs + generated project index)
 docs/pmj/
+.claude/settings.local.json
