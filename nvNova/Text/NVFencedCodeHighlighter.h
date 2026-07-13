@@ -40,4 +40,17 @@ extern NSString *NVCodeBlockAttributeName;
 //character ranges (NSValue) of the cached fence blocks, for background drawing
 - (NSArray*)cachedBlockCharacterRanges;
 
+//cached-block sub-ranges, indexed in cachedBlockCharacterRanges order;
+//out-of-bounds indexes return {NSNotFound, 0}
+- (NSUInteger)blockCount;
+- (NSRange)totalRangeOfBlockAtIndex:(NSUInteger)index;
+- (NSRange)codeRangeOfBlockAtIndex:(NSUInteger)index;
+- (NSRange)openFenceLineRangeOfBlockAtIndex:(NSUInteger)index;
+- (NSRange)closeFenceLineRangeOfBlockAtIndex:(NSUInteger)index;	//also {NSNotFound, 0} while unclosed
+
+//hides fence-marker lines of blocks the selection doesn't touch (clear-color temporary
+//attribute); selectedRanges holds NSValue ranges. Cheap when nothing flips state.
+- (void)updateFenceMarkerVisibilityForSelectedRanges:(NSArray*)selectedRanges
+									   layoutManager:(NSLayoutManager*)layoutManager;
+
 @end

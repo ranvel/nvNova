@@ -28,12 +28,19 @@
 
 NSString *NVCodeBlockAttributeName = @"NVCodeBlock";
 
+typedef enum {
+	NVMarkerStateUnknown = 0,	//visibility attributes not yet applied for this block object
+	NVMarkerStateVisible,
+	NVMarkerStateHidden,
+} NVMarkerState;
+
 @interface NVFencedBlock : NSObject {
 @public
 	NSRange openFenceLineRange;		//opening fence line incl. leading spaces + info string, excl. newline
 	NSRange codeRange;				//between the fence lines; may be zero-length
 	NSRange closeFenceLineRange;	//location == NSNotFound while unclosed
 	NSUInteger languageID;
+	NVMarkerState markerState;
 }
 - (NSRange)totalRange;
 @end
@@ -123,6 +130,24 @@ static NSDictionary *_lightDefaultTextAttributes(void) {
 			[NSColor colorWithCalibratedWhite:0.847 alpha:1.0], NSForegroundColorAttributeName, nil];
 	}
 	return attributes;
+}
+
+//fence-marker lines render invisible (not collapsed) while the caret is outside the block
+static NSDictionary *_invisibleMarkerAttributes(void) {
+	static NSDictionary *attributes = nil;
+	if (!attributes) {
+		attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSColor clearColor], NSForegroundColorAttributeName, nil];
+	}
+	return attributes;
+}
+
+//boundary-inclusive at both ends for carets, unlike _rangesTouch: the caret sitting
+//right after the final backtick of a block still counts as inside it
+static BOOL _selectionTouchesRange(NSRange sel, NSRange range) {
+	if (!sel.length)
+		return sel.location >= range.location && sel.location <= NSMaxRange(range);
+	return NSIntersectionRange(sel, range).length > 0;
 }
 
 - (NSArray*)scanBlocksInString:(NSString*)string {
@@ -248,6 +273,7 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 	BOOL darkBlocks = [[GlobalPrefs defaultPrefs] useDarkCodeBlocks];
 	if (darkBlocks)
 		[layoutManager addTemporaryAttributes:_lightDefaultTextAttributes() forCharacterRange:totalRange];
+	block->markerState = NVMarkerStateVisible;	//the temp-color wipe above re-showed the fences
 	if (block->languageID == NVCodeLanguageNone || !block->codeRange.length) return;
 
 	BOOL usesDarkPalette = darkBackground || darkBlocks;
@@ -317,6 +343,9 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 			for (i = 0; i < oldCount; i++) {
 				if (!overlappedEdit[i] && normalizedLangs[i] == newBlock->languageID && NSEqualRanges(normalizedRanges[i], newRange)) {
 					undisturbed = YES;
+					//an undisturbed block was not restyled: its temporary attributes (including
+					//hidden fence markers) survived and shifted with the edit, so carry the state
+					newBlock->markerState = ((NVFencedBlock*)[blocks objectAtIndex:i])->markerState;
 					break;
 				}
 			}
@@ -362,6 +391,79 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 	for (i = 0; i < count; i++)
 		[ranges addObject:[NSValue valueWithRange:[(NVFencedBlock*)[blocks objectAtIndex:i] totalRange]]];
 	return ranges;
+}
+
+- (NVFencedBlock*)_blockAtIndex:(NSUInteger)index {
+	return index < [blocks count] ? (NVFencedBlock*)[blocks objectAtIndex:index] : nil;
+}
+
+- (NSUInteger)blockCount {
+	return [blocks count];
+}
+
+- (NSRange)totalRangeOfBlockAtIndex:(NSUInteger)index {
+	NVFencedBlock *block = [self _blockAtIndex:index];
+	return block ? [block totalRange] : NSMakeRange(NSNotFound, 0);
+}
+
+- (NSRange)codeRangeOfBlockAtIndex:(NSUInteger)index {
+	NVFencedBlock *block = [self _blockAtIndex:index];
+	return block ? block->codeRange : NSMakeRange(NSNotFound, 0);
+}
+
+- (NSRange)openFenceLineRangeOfBlockAtIndex:(NSUInteger)index {
+	NVFencedBlock *block = [self _blockAtIndex:index];
+	return block ? block->openFenceLineRange : NSMakeRange(NSNotFound, 0);
+}
+
+- (NSRange)closeFenceLineRangeOfBlockAtIndex:(NSUInteger)index {
+	NVFencedBlock *block = [self _blockAtIndex:index];
+	return block ? block->closeFenceLineRange : NSMakeRange(NSNotFound, 0);
+}
+
+- (void)updateFenceMarkerVisibilityForSelectedRanges:(NSArray*)selectedRanges
+									   layoutManager:(NSLayoutManager*)layoutManager {
+	NSUInteger count = [blocks count];
+	if (!count) return;
+	NSUInteger docLength = [[layoutManager textStorage] length];
+	BOOL darkBlocks = [[GlobalPrefs defaultPrefs] useDarkCodeBlocks];
+
+	NSUInteger i;
+	for (i = 0; i < count; i++) {
+		NVFencedBlock *block = [blocks objectAtIndex:i];
+
+		//unclosed blocks keep their markers: hiding the lone fence mid-authoring is disorienting
+		NVMarkerState desired = NVMarkerStateVisible;
+		if (block->closeFenceLineRange.location != NSNotFound) {
+			NSRange totalRange = [block totalRange];
+			BOOL inside = NO;
+			NSValue *selValue;
+			for (selValue in selectedRanges) {
+				if (_selectionTouchesRange([selValue rangeValue], totalRange)) {
+					inside = YES;
+					break;
+				}
+			}
+			desired = inside ? NVMarkerStateVisible : NVMarkerStateHidden;
+		}
+		if (desired == block->markerState) continue;
+
+		NSRange lineRanges[2] = { block->openFenceLineRange, block->closeFenceLineRange };
+		NSUInteger j;
+		for (j = 0; j < 2; j++) {
+			NSRange lineRange = lineRanges[j];
+			if (lineRange.location == NSNotFound || !lineRange.length || NSMaxRange(lineRange) > docLength) continue;
+			if (desired == NVMarkerStateHidden) {
+				[layoutManager addTemporaryAttributes:_invisibleMarkerAttributes() forCharacterRange:lineRange];
+			} else {
+				[layoutManager removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:lineRange];
+				//re-shown markers inside a dark slab need the light blanket back
+				if (darkBlocks)
+					[layoutManager addTemporaryAttributes:_lightDefaultTextAttributes() forCharacterRange:lineRange];
+			}
+		}
+		block->markerState = desired;
+	}
 }
 
 - (void)invalidateCache {

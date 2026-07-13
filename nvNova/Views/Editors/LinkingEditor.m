@@ -282,8 +282,21 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 	[[self codeHighlighter] invalidateCache];
 	[[self codeHighlighter] highlightAllInTextStorage:[self textStorage] layoutManager:[self layoutManager]
 									   darkBackground:backgroundIsDark];
+	[self updateFenceMarkerVisibility];
 	if ([prefsController useDarkCodeBlocks])
 		[self setNeedsDisplay:YES];
+}
+
+- (void)updateFenceMarkerVisibility {
+	[[self codeHighlighter] updateFenceMarkerVisibilityForSelectedRanges:[self selectedRanges]
+														   layoutManager:[self layoutManager]];
+}
+
+//the funnel every selection change passes through (mouse, keyboard, and all
+//imperative setSelectedRange: call sites), so fence markers track the caret
+- (void)setSelectedRanges:(NSArray*)ranges affinity:(NSSelectionAffinity)affinity stillSelecting:(BOOL)stillSelectingFlag {
+	[super setSelectedRanges:ranges affinity:affinity stillSelecting:stillSelectingFlag];
+	[self updateFenceMarkerVisibility];
 }
 
 #define _CM(__ch) ((__ch) * 255.0)
@@ -1421,6 +1434,7 @@ cancelCompetion:
 
 	[[self codeHighlighter] highlightChangedRange:changedRange inTextStorage:[self textStorage]
 									layoutManager:[self layoutManager] darkBackground:backgroundIsDark];
+	[self updateFenceMarkerVisibility];
 	if ([prefsController useDarkCodeBlocks])
 		[self setNeedsDisplay:YES];
 

@@ -115,6 +115,7 @@
 - (IBAction)performFindPanelAction:(id)sender;
 - (void)updateTextColors;
 - (void)recalculateFencedCodeHighlighting;
+- (void)updateFenceMarkerVisibility;
 - (IBAction)insertLink:(id)sender;
 - (void)prepareTextFinder;
 - (void)prepareTextFinderPreLion;
