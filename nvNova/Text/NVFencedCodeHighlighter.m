@@ -70,32 +70,49 @@ static NSFont *_codeFont(void) {
 	return [NSFont userFixedPitchFontOfSize:[[[GlobalPrefs defaultPrefs] noteBodyFont] pointSize]];
 }
 
-//token colors as prebuilt temporary-attribute dictionaries, one palette per background
-//polarity (the editor background is user-configurable, so NSAppearance is no guide here)
-static NSDictionary *_tokenAttributes(NVCodeTokenClass tokenClass, BOOL darkBackground) {
-	static NSDictionary *attributes[2][NVCodeTokenClassCount];
-	static const CGFloat components[2][NVCodeTokenClassCount][3] = {
-		{	//light background; Xcode-default-adjacent
-			{ 0.0,   0.456, 0.0   },	//comment
-			{ 0.77,  0.102, 0.086 },	//string
-			{ 0.11,  0.0,   0.81  },	//number
-			{ 0.608, 0.137, 0.576 },	//keyword
+//token colors as prebuilt temporary-attribute dictionaries, one palette per variant and
+//background polarity (the editor background is user-configurable, so NSAppearance is no guide here)
+static NSDictionary *_tokenAttributes(NVCodeTokenClass tokenClass, BOOL darkBackground, BOOL alternatePalette) {
+	static NSDictionary *attributes[2][2][NVCodeTokenClassCount];
+	static const CGFloat components[2][2][NVCodeTokenClassCount][3] = {
+		{	//default variant
+			{	//light background; Xcode-default-adjacent
+				{ 0.0,   0.456, 0.0   },	//comment
+				{ 0.77,  0.102, 0.086 },	//string
+				{ 0.11,  0.0,   0.81  },	//number
+				{ 0.608, 0.137, 0.576 },	//keyword
+			},
+			{	//dark background
+				{ 0.424, 0.475, 0.525 },	//comment
+				{ 0.988, 0.416, 0.365 },	//string
+				{ 0.816, 0.749, 0.412 },	//number
+				{ 0.988, 0.373, 0.639 },	//keyword
+			},
 		},
-		{	//dark background
-			{ 0.424, 0.475, 0.525 },	//comment
-			{ 0.988, 0.416, 0.365 },	//string
-			{ 0.816, 0.749, 0.412 },	//number
-			{ 0.988, 0.373, 0.639 },	//keyword
+		{	//alternate variant; softer, low-saturation
+			{	//light background
+				{ 0.42,  0.48,  0.55  },	//comment (slate)
+				{ 0.13,  0.55,  0.45  },	//string (teal)
+				{ 0.72,  0.44,  0.05  },	//number (amber)
+				{ 0.42,  0.36,  0.72  },	//keyword (indigo)
+			},
+			{	//dark background
+				{ 0.55,  0.60,  0.54  },	//comment (sage)
+				{ 0.60,  0.85,  0.75  },	//string (mint)
+				{ 0.95,  0.76,  0.53  },	//number (peach)
+				{ 0.72,  0.70,  0.95  },	//keyword (lavender)
+			},
 		},
 	};
+	NSUInteger variant = alternatePalette ? 1 : 0;
 	NSUInteger palette = darkBackground ? 1 : 0;
 	if ((NSUInteger)tokenClass >= NVCodeTokenClassCount) return nil;
-	if (!attributes[palette][tokenClass]) {
-		const CGFloat *c = components[palette][tokenClass];
-		attributes[palette][tokenClass] = [[NSDictionary alloc] initWithObjectsAndKeys:
+	if (!attributes[variant][palette][tokenClass]) {
+		const CGFloat *c = components[variant][palette][tokenClass];
+		attributes[variant][palette][tokenClass] = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSColor colorWithCalibratedRed:c[0] green:c[1] blue:c[2] alpha:1.0], NSForegroundColorAttributeName, nil];
 	}
-	return attributes[palette][tokenClass];
+	return attributes[variant][palette][tokenClass];
 }
 
 //default text color inside dark slabs: non-token code must stay readable on #1a1a1a
@@ -234,9 +251,10 @@ static void _stripCodeStyle(NSTextStorage *textStorage, NSLayoutManager *layoutM
 	if (block->languageID == NVCodeLanguageNone || !block->codeRange.length) return;
 
 	BOOL usesDarkPalette = darkBackground || darkBlocks;
+	BOOL alternatePalette = [[GlobalPrefs defaultPrefs] useAlternateCodePalette];
 	[NVCodeTokenizer enumerateTokensInString:[textStorage string] range:block->codeRange languageID:block->languageID
 								  usingBlock:^(NSRange tokenRange, NVCodeTokenClass tokenClass) {
-		NSDictionary *tokenAttributes = _tokenAttributes(tokenClass, usesDarkPalette);
+		NSDictionary *tokenAttributes = _tokenAttributes(tokenClass, usesDarkPalette, alternatePalette);
 		if (tokenAttributes)
 			[layoutManager addTemporaryAttributes:tokenAttributes forCharacterRange:tokenRange];
 	}];

@@ -40,6 +40,7 @@
 	IBOutlet NSButton *makeURLsClickable;
 	IBOutlet NSButton *highlightSearchTermsButton;
 	IBOutlet NSButton *darkCodeBlocksButton;
+	IBOutlet NSButton *alternateCodePaletteButton;
 	IBOutlet NSColorWell *searchHighlightColorWell, *foregroundColorWell, *backgroundColorWell;
     IBOutlet NSButton *togDockButton;
 	IBOutlet NSTextField *togDockLabel;
@@ -76,7 +77,8 @@
 - (IBAction)changedUseETScrollbarsOnLion:(id)sender;
 - (IBAction)changedBackgroundTextColorWell:(id)sender;
 - (IBAction)changedForegroundTextColorWell:(id)sender;
-- (IBAction)changedHighlightSearchTerms:(id)sender;	
+- (IBAction)changedHighlightSearchTerms:(id)sender;
+- (IBAction)changedAlternateCodePalette:(id)sender;
 - (IBAction)changedSearchHighlightColorWell:(id)sender;
 - (IBAction)changedMakeURLsClickable:(id)sender;
 - (IBAction)changedStyledTextBehavior:(id)sender;

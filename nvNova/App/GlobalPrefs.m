@@ -58,6 +58,7 @@ static NSString *AutoSuggestLinksKey = @"AutoSuggestLinks";
 static NSString *AutoIndentsNewLinesKey = @"AutoIndentsNewLines";
 static NSString *HighlightSearchTermsKey = @"HighlightSearchTerms";
 static NSString *DarkCodeBlocksKey = @"UseDarkBackgroundForFencedCodeBlocks";
+static NSString *AltCodePaletteKey = @"UseAlternateSyntaxColorsForFencedCodeBlocks";
 static NSString *SearchTermHighlightColorKey = @"SearchTermHighlightColor";
 static NSString *ForegroundTextColorKey = @"ForegroundTextColor";
 static NSString *BackgroundTextColorKey = @"BackgroundTextColor";
@@ -147,6 +148,7 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 			[NSNumber numberWithBool:YES], MakeURLsClickableKey,
 			[NSNumber numberWithBool:YES], HighlightSearchTermsKey,
 			[NSNumber numberWithBool:NO], DarkCodeBlocksKey,
+			[NSNumber numberWithBool:NO], AltCodePaletteKey,
 			[NSNumber numberWithBool:YES], TableColumnsHaveBodyPreviewKey, 
 			[NSNumber numberWithDouble:0.0], LastScrollOffsetKey,
 			@"General", LastSelectedPreferencesPaneKey, 
@@ -513,6 +515,15 @@ static void sendCallbacksForGlobalPrefs(GlobalPrefs* self, SEL selector, id orig
 }
 - (BOOL)useDarkCodeBlocks {
 	return [defaults boolForKey:DarkCodeBlocksKey];
+}
+
+- (void)setUseAlternateCodePalette:(BOOL)useAlternate sender:(id)sender {
+	[defaults setBool:useAlternate forKey:AltCodePaletteKey];
+
+	SEND_CALLBACKS();
+}
+- (BOOL)useAlternateCodePalette {
+	return [defaults boolForKey:AltCodePaletteKey];
 }
 
 - (void)setSearchTermHighlightColor:(NSColor*)color sender:(id)sender {

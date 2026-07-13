@@ -81,7 +81,8 @@ CGFloat _perceptualDarkness(NSColor*a);
 	 @selector(setMakeURLsClickable:sender:),
 	 @selector(setSearchTermHighlightColor:sender:),
 	 @selector(setShouldHighlightSearchTerms:sender:),
-	 @selector(setUseDarkCodeBlocks:sender:), nil];
+	 @selector(setUseDarkCodeBlocks:sender:),
+	 @selector(setUseAlternateCodePalette:sender:), nil];
 	
     self.managesTextWidth=[prefsController managesTextWidthInWindow];
 	[self setUsesRuler:NO];
@@ -162,6 +163,9 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 
 		[self recalculateFencedCodeHighlighting];
 		[self setNeedsDisplay:YES];	//covers toggling OFF, where the slabs must be erased
+	} else if ([selectorString isEqualToString:SEL_STR(setUseAlternateCodePalette:sender:)]) {
+
+		[self recalculateFencedCodeHighlighting];
 	}
 }
 
