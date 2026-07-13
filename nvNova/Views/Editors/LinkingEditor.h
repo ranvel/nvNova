@@ -39,6 +39,9 @@
 	
 	BOOL backgroundIsDark, mouseInside;
 	NVFencedCodeHighlighter *codeHighlighter;
+	NSTrackingArea *codeHoverTrackingArea;
+	NSButton *codeCopyButton;
+	NSUInteger hoveredBlockIndex;
 
 	//ludicrous ivars used to hack NSTextFinder. just write your own, damnit!
 	NSRange selectedRangeDuringFind;
@@ -116,6 +119,8 @@
 - (void)updateTextColors;
 - (void)recalculateFencedCodeHighlighting;
 - (void)updateFenceMarkerVisibility;
+- (void)hideCodeCopyButton;
+- (void)copyCodeBlock:(id)sender;
 - (IBAction)insertLink:(id)sender;
 - (void)prepareTextFinder;
 - (void)prepareTextFinderPreLion;

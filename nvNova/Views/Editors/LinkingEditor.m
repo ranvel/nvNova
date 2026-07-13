@@ -99,6 +99,8 @@ CGFloat _perceptualDarkness(NSColor*a);
 	}
 	
 	didRenderFully = NO;
+	hoveredBlockIndex = NSNotFound;
+	[self updateTrackingAreas];
 	[[self layoutManager] setDelegate:self];
 
 
@@ -283,6 +285,7 @@ if ([selectorString isEqualToString:SEL_STR(setNoteBodyFont:sender:)]) {
 	[[self codeHighlighter] highlightAllInTextStorage:[self textStorage] layoutManager:[self layoutManager]
 									   darkBackground:backgroundIsDark];
 	[self updateFenceMarkerVisibility];
+	[self hideCodeCopyButton];	//covers note switches, where the old geometry is meaningless
 	if ([prefsController useDarkCodeBlocks])
 		[self setNeedsDisplay:YES];
 }
@@ -1167,9 +1170,132 @@ copyRTFType:
 - (void)mouseExited:(NSEvent*)anEvent {
 	mouseInside = NO;
 	[self fixCursorForBackgroundUpdatingMouseInside:NO];
-    
+	[self hideCodeCopyButton];
+
     //fix for tooltip hanging around
     [super mouseExited:anEvent];
+}
+
+- (void)updateTrackingAreas {
+	[super updateTrackingAreas];
+	if (codeHoverTrackingArea) {
+		[self removeTrackingArea:codeHoverTrackingArea];
+		[codeHoverTrackingArea release];
+	}
+	codeHoverTrackingArea = [[NSTrackingArea alloc] initWithRect:NSZeroRect
+		options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow | NSTrackingInVisibleRect
+		owner:self userInfo:nil];
+	[self addTrackingArea:codeHoverTrackingArea];
+	[self hideCodeCopyButton];	//geometry changed; any shown button is stale
+}
+
+//same math as the slab fill in drawViewBackgroundInRect:, full container width
+//so the hover zone includes the button itself
+- (NSRect)rectForCodeBlockAtIndex:(NSUInteger)index {
+	NSRange charRange = [[self codeHighlighter] totalRangeOfBlockAtIndex:index];
+	if (charRange.location == NSNotFound || !charRange.length || NSMaxRange(charRange) > [[self string] length])
+		return NSZeroRect;
+	NSLayoutManager *layoutManager = [self layoutManager];
+	NSTextContainer *container = [self textContainer];
+	NSPoint origin = [self textContainerOrigin];
+	NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:charRange actualCharacterRange:NULL];
+	NSRect bounding = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
+	return NSMakeRect(origin.x, origin.y + NSMinY(bounding), [container containerSize].width, NSHeight(bounding));
+}
+
+static NSImage *_codeCopyButtonImage(BOOL showsConfirmation) {
+	//imageWithSystemSymbolName: is 11.0+; callers fall back to a text glyph when nil
+	if ([NSImage respondsToSelector:@selector(imageWithSystemSymbolName:accessibilityDescription:)])
+		return [NSImage imageWithSystemSymbolName:showsConfirmation ? @"checkmark" : @"doc.on.doc"
+						 accessibilityDescription:showsConfirmation ? @"Copied" : @"Copy code block"];
+	return nil;
+}
+
+- (void)_setCodeCopyButtonShowsConfirmation:(BOOL)showsConfirmation {
+	NSImage *symbol = _codeCopyButtonImage(showsConfirmation);
+	if (symbol) {
+		[codeCopyButton setImage:symbol];
+		[codeCopyButton setImagePosition:NSImageOnly];
+	} else {
+		[codeCopyButton setTitle:showsConfirmation ? @"✓" : @"⧉"];
+	}
+}
+
+- (NSButton*)codeCopyButton {
+	if (!codeCopyButton) {
+		codeCopyButton = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 22.0, 22.0)];
+		[codeCopyButton setButtonType:NSButtonTypeMomentaryChange];
+		[codeCopyButton setBordered:NO];
+		[codeCopyButton setRefusesFirstResponder:YES];	//clicking must never steal typing focus
+		[codeCopyButton setTarget:self];
+		[codeCopyButton setAction:@selector(copyCodeBlock:)];
+		[codeCopyButton setToolTip:NSLocalizedString(@"Copy code block", nil)];
+		[self _setCodeCopyButtonShowsConfirmation:NO];
+		[codeCopyButton setHidden:YES];
+		[self addSubview:codeCopyButton];
+	}
+	return codeCopyButton;
+}
+
+- (void)hideCodeCopyButton {
+	if (codeCopyButton && ![codeCopyButton isHidden])
+		[codeCopyButton setHidden:YES];
+	hoveredBlockIndex = NSNotFound;
+}
+
+- (void)mouseMoved:(NSEvent*)anEvent {
+	[super mouseMoved:anEvent];
+
+	NVFencedCodeHighlighter *highlighter = [self codeHighlighter];
+	NSUInteger count = [highlighter blockCount];
+	NSUInteger found = NSNotFound;
+	if (count) {	//fence-free notes fall straight through
+		NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
+		NSUInteger i;
+		for (i = 0; i < count; i++) {
+			if (NSPointInRect(point, [self rectForCodeBlockAtIndex:i])) {
+				found = i;
+				break;
+			}
+		}
+	}
+	if (found == hoveredBlockIndex) return;
+
+	if (found == NSNotFound) {
+		[self hideCodeCopyButton];
+		return;
+	}
+	NSRect blockRect = [self rectForCodeBlockAtIndex:found];
+	NSButton *button = [self codeCopyButton];
+	[button setTag:(NSInteger)found];
+	[button setFrame:NSMakeRect(NSMaxX(blockRect) - 22.0 - 6.0, NSMinY(blockRect) + 3.0, 22.0, 22.0)];
+	if ([button respondsToSelector:@selector(setContentTintColor:)]) {	//10.14+
+		BOOL onDark = [prefsController useDarkCodeBlocks] || backgroundIsDark;
+		[button setContentTintColor:onDark ? [NSColor colorWithCalibratedWhite:0.847 alpha:1.0] : nil];
+	}
+	[button setHidden:NO];
+	hoveredBlockIndex = found;
+}
+
+- (void)copyCodeBlock:(id)sender {
+	NSUInteger index = (NSUInteger)[sender tag];
+	NSRange codeRange = [[self codeHighlighter] codeRangeOfBlockAtIndex:index];
+	if (codeRange.location == NSNotFound || NSMaxRange(codeRange) > [[self string] length]) {
+		[self hideCodeCopyButton];	//stale hover geometry
+		return;
+	}
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	[pb declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
+	[pb setString:[[self string] substringWithRange:codeRange] forType:NSPasteboardTypeString];
+
+	[self _setCodeCopyButtonShowsConfirmation:YES];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_restoreCodeCopyButtonIcon) object:nil];
+	[self performSelector:@selector(_restoreCodeCopyButtonIcon) withObject:nil afterDelay:0.75];
+}
+
+- (void)_restoreCodeCopyButtonIcon {
+	if (codeCopyButton)
+		[self _setCodeCopyButtonShowsConfirmation:NO];
 }
 
 - (void)_fixCursorForBackgroundUpdatingMouseInside:(NSNumber*)num {
@@ -1435,6 +1561,7 @@ cancelCompetion:
 	[[self codeHighlighter] highlightChangedRange:changedRange inTextStorage:[self textStorage]
 									layoutManager:[self layoutManager] darkBackground:backgroundIsDark];
 	[self updateFenceMarkerVisibility];
+	[self hideCodeCopyButton];	//typing can shift block geometry out from under the button
 	if ([prefsController useDarkCodeBlocks])
 		[self setNeedsDisplay:YES];
 
@@ -1836,6 +1963,9 @@ static long (*GetGetScriptManagerVariablePointer())(short) {
     [stringDuringFind release];
     [noteDuringFind release];
     [codeHighlighter release];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_restoreCodeCopyButtonIcon) object:nil];
+    [codeHoverTrackingArea release];
+    [codeCopyButton release];
 
 	[super dealloc];
 }
