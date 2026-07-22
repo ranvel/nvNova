@@ -1,6 +1,6 @@
 # nvNova (nvALT) — Project Index
 
-> Auto-maintained by Claude. Last updated: 2026-06-27
+> Auto-maintained by Claude. Last updated: 2026-07-22
 
 nvNova is a macOS note-taking app (Cocoa, Objective-C, **MRC — not ARC**), forked
 from Notational Velocity. A single search/title field drives everything: typing
@@ -12,15 +12,21 @@ filters notes live, and non-matching text becomes a new note's title. Xcode targ
 ### / (Root)
 - `project-index.md` — This file; master map of the codebase
 - `CLAUDE.md` — Root-level AI onboarding context and architecture notes
-- `README.md` — Project readme
-- `revival-status.md` — Status notes on the modernization/revival effort
+- `README.md` — Project readme; revival pitch and build warning
 - `COPYING.txt` — GPL-3.0 license (the governing license)
 - `License.txt` — Leftover BSD-3-Clause from NV's pre-2010 days
 - `Acknowledgments.txt` — Third-party acknowledgments
-- `Notation.xcodeproj` — Xcode project (edit `project.pbxproj` via the `xcodeproj` gem)
+- `.gitignore` — Ignore rules (covers `SimperiumConfig.h`, build output)
+- `Notation.xcodeproj/project.pbxproj` — Xcode project (edit via the `xcodeproj` gem)
+- `Notation.xcodeproj/xcshareddata/xcschemes/` — "Notation Develop" / "Notation Release" schemes
+- `.github/FUNDING.yml` — GitHub sponsor/donation links
+- `.claude/skills/nvnova-pmj/SKILL.md` — Claude skill encoding PMJ ticket conventions
+- `nvAlt/App/SimperiumConfig.h` — Stray untracked leftover copy of the Simperium key config
 
 ### /docs/
-- `docs/revival-status.md` — Detailed revival/build-status writeup
+- `docs/revival-status.md` — Revival health, roadmap, and prioritized P-items
+- `docs/p1-fsref-triage.md` — Working triage of the Carbon/FSRef file-I/O substrate
+- `docs/nvnova-pmj.md` — Spec for PMJ, the plaintext-markdown ticket tracker
 
 ### /nvNova/App/
 Monolithic app delegate, global prefs, and entry point.
@@ -56,7 +62,6 @@ The heart of the app: in-memory database, WAL journal, and file mirroring.
 - `nvNova/Storage/WALController.m` — Write-ahead journal for crash recovery / incremental writes
 - `nvNova/Storage/FrozenNotation.m` — Serializes the whole database blob (optionally encrypted)
 - `nvNova/Storage/DiskUUIDEntry.m` — Caches disk UUID references with timestamps
-- `nvNova/Storage/FSExchangeObjectsCompat.c` — Atomic file-swap compatibility shim for macOS
 
 ### /nvNova/Sync/
 Pluggable sync, keyed by service name (only Simplenote registered).
@@ -115,6 +120,8 @@ Markup conversion (Markdown/MultiMarkdown/Textile) and text finding.
 - `nvNova/Text/NSString-Markdown.m` — Alternate Markdown-to-HTML implementation
 - `nvNova/Text/AttributedPlainText.m` — Attributed text with formatting and link detection
 - `nvNova/Text/GGReadabilityParser.m` — Extracts readable content from web-page HTML
+- `nvNova/Text/NVFencedCodeHighlighter.m` — Finds ``` fence blocks; styles, hides markers, caches ranges
+- `nvNova/Text/NVCodeTokenizer.m` — Per-language token scanner (comment/string/number/keyword)
 - `nvNova/Text/MultiTextFinder.m` — Text search for pre-10.7 macOS
 - `nvNova/Text/NSTextFinder_LastFind.m` — Adds last-find-success tracking to NSTextFinder
 - `nvNova/Text/NSTextFinder.h` — Text finder interface declarations
@@ -211,16 +218,28 @@ Web preview templates, supporting build files, and interface/localization assets
 - `nvNova/Resources/Web/Credits.html` — Credits page shown in-app
 - `nvNova/Resources/Supporting/Info.plist` — App bundle Info.plist
 - `nvNova/Resources/Supporting/Notation_Prefix.pch` — Precompiled-header prefix
-- `nvNova/Resources/Supporting/dsa_pub.pem` — Sparkle update-feed signing public key
+- `nvNova/Resources/Supporting/nvNova.entitlements` — App sandbox/capability entitlements
 - `nvNova/Resources/Supporting/Markdownify.nvhelp` — In-app Markdown help content
 - `nvNova/Resources/Supporting/tp2md.rb` — TaskPaper-to-Markdown conversion script
 - `nvNova/Resources/Supporting/gen_sectorderfiles` — Build helper for section-order files
 - `nvNova/Resources/Supporting/Notation.freqorder` — Symbol frequency-order optimization data
 - `nvNova/Resources/Supporting/Notation.launchorder` — Launch-order optimization data
 - `nvNova/Resources/Interface/MarkupPreview.xib` — Markup preview interface
+- `nvNova/Resources/Interface/SaveHTMLPreview.nib` — "Save HTML preview" panel
 - `nvNova/Resources/Interface/Notation.sdef` — AppleScript scripting-definition file
+- `nvNova/Resources/Images/` — Scroller/button `.tif` assets (plus `.acorn` sources)
 - `nvNova/Resources/Localizations/` — `.lproj` nib localizations (de, en, fr, it, pt-PT, zh)
 
 ### /nvNova/Vendor/
-Vendored dependencies — frameworks, static OpenSSL, Perl Markdown/Textile, and a
-`multimarkdown` binary. Raw vendored source; not individually indexed.
+Vendored dependencies. Raw vendored source is listed by directory, not per file.
+
+- `nvNova/Vendor/RBSplitView/` — Split-view library driving the horizontal/vertical layouts
+- `nvNova/Vendor/PTHotKeys/` — Global hotkey registration and key-combo picker panel
+- `nvNova/Vendor/ODBEditor/` — ODB Editor Suite protocol for round-tripping to external editors
+- `nvNova/Vendor/JSON/` — BSJSONAdditions encoder/parser used by the sync layer
+- `nvNova/Vendor/hashcash/` — SHA-1 implementation (`libsha1.c`)
+- `nvNova/Vendor/library/openssl/` — Static OpenSSL headers for the crypto primitives
+- `nvNova/Vendor/Markdown_1.0.1/` — Gruber's original Perl `Markdown.pl`
+- `nvNova/Vendor/Textile_2.12/` — Perl Textile module and `textilize.pl` driver
+- `nvNova/Vendor/readability/` — Python Readability/BeautifulSoup web-content extractor
+- `nvNova/Vendor/multimarkdown` — Prebuilt MultiMarkdown binary
