@@ -439,7 +439,9 @@ terminate:
     NSString *uniqueFilename = title;
 	
 	//remove illegal characters
-	NSMutableString *sanitizedName = [[[uniqueFilename stringByReplacingOccurrencesOfString:@":" withString:@"-"] mutableCopy] autorelease];
+	//'/' is the POSIX path separator; store it as U+FF0F FULLWIDTH SOLIDUS so titles keep a slash-like glyph on disk
+	NSMutableString *sanitizedName = [[[[uniqueFilename stringByReplacingOccurrencesOfString:@":" withString:@"-"]
+			stringByReplacingOccurrencesOfString:@"/" withString:@"\uFF0F"] mutableCopy] autorelease];
 	if ([sanitizedName characterAtIndex:0] == (unichar)'.')	[sanitizedName replaceCharactersInRange:NSMakeRange(0, 1) withString:@"_"];
 	uniqueFilename = [[sanitizedName copy] autorelease];
 	
